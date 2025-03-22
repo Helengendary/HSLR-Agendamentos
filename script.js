@@ -11,6 +11,8 @@ document.getElementById('cadastroForm').addEventListener('submit', function (eve
     const dataNascimentoValida = validarDataNascimento();
     const telefoneValido = validarTelefone();
     const generoValido = validarGenero();
+    const senhaValida = validarSenha();
+    const confirmarSenhaValida = validarSenha();
 
     //vai permitir o envio apenas se todas as validações passarem
     if (nomeValido && sobrenomeValido && cpfValido 
@@ -125,6 +127,60 @@ function validarGenero() {
     return true;
 }
 
+function mostrarOcultarSenhaCadastro() {
+    var senha = document.getElementById("Senha");
+    var confirmarSenha = document.getElementById("ConfirmarSenha");
+  
+    if (senha.type == "password"){
+      confirmarSenha.type = "text";
+      confirmarSenha.type = "text";
+    } else {
+      senha.type = "password";
+      senha.type = "password";
+    }
+  }
+  
+  //validar senha 
+  function validarSenha() {
+    var senha  = document.getElementById("Senha");
+    var confirmarSenha = document.getElementById("ConfirmarSenha");
+   
+    //ve se a senha e confirmar senha possuem valores iguais
+    if (senha.value != confirmarSenha.value) {
+      confirmarSenha.setCustomValidity("Senhas diferentes!");
+      confirmarSenha.reportValidity();
+      return false; //retorna falso se tiver diferente
+    } else {
+    
+     //verifica se a senha é segura
+     if (senha.length < 8) {
+        alert("A senha deve ter pelo menos 8 caracteres!");
+        return false; //retorna falso se n tiver pelo menos 8 caracteres
+    }
+
+    if (!/[A-Z]/.test(senha)) {
+        alert("A senha deve conter pelo menos uma letra maiúscula!");
+        return false; //retorna falso se n tiver pelo menos 1 maiuscula
+    }
+
+    if (!/[a-z]/.test(senha)) {
+        alert("A senha deve conter pelo menos uma letra minúscula!");
+        return false; //retorna falso se n tiver pelo menos 1 minuscula
+    }
+
+    if (!/[0-9]/.test(senha)) { 
+        alert("A senha deve conter pelo menos um número!");
+        return false; //retorna falso se n tiver pelo menos 1 número
+    }
+
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(senha)) {
+        alert("A senha deve conter pelo menos um caractere especial!");
+        return false; //retorna falso se n tiver pelo menos 1 caracter especial
+    }
+    return true; //se a senha for segura, vai retornar true. 
+  }
+  
+//mostra onde tem erro para o usuário
 function showError(id, message) {
     const errorElement = document.getElementById(id);
     errorElement.textContent = message;
@@ -132,9 +188,12 @@ function showError(id, message) {
 }
 
 function clearErrors() {
+     //vai seleiconar todos os elementos com a classe 'error-message'
     const errors = document.querySelectorAll('.error-message');
     errors.forEach(error => {
+        //limpa o texto do elemento de erro
         error.textContent = '';
+        //define o display como 'none'
         error.style.display = 'none';
     });
 }
