@@ -44,16 +44,19 @@
                         <i class="fas fa-user icon-modify"></i>
                         <input id="nome-cadastro" type="text" placeholder="Nome" required>
                     </label>
+                    <div id="nomeError" class="error-message"></div>
                     
                     <label class="label-input" for="sobrenome-cadastro">
                         <i class="fas fa-user icon-modify"></i>
                         <input id="sobrenome-cadastro" type="text" placeholder="Sobrenome" required>
                     </label>
+                    <div id="sobrenomeError" class="error-message"></div>
 
                     <label class="label-input"  for="nascimento-cadastro">
                         <i class="fas fa-calendar icon-modify"></i>
                         <input type="date" id="nascimento-cadastro" placeholder="Data de Nascimento" required>
                     </label>
+                    <div id="dataNascimentoError" class="error-message"></div>
                     
                     <label class="label-input" for="email-cadastro">
                         <i class="fas fa-envelope icon-modify"></i>
@@ -70,6 +73,7 @@
                         <i class="fas fa-phone icon-modify"></i>
                         <input id="telefone-cadastro" type="tel" oninput="formatarTel(this)" placeholder="Telefone" required>
                     </label>
+                    <div id="telefoneError" class="error-message"></div>
                     
                     <label class="label-input" for="senha-cadastro">
                         <i class="fas fa-lock icon-modify"></i>
