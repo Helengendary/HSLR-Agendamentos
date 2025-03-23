@@ -27,7 +27,7 @@ body {
     content: "";
     position: absolute;
     background-image: url("../img/logo.jpeg");
-    background-size: cover; 
+    background-size: cover;
     width: 40%;
     height: 100%;
     border-top-left-radius: 15px;
@@ -51,7 +51,6 @@ body {
 .title-second {
     color: #3b270e;
 }
-
 .title-tertiary{
     color: #3b270e;
     font-size: 28px;
@@ -60,7 +59,6 @@ body {
     top: 8%;
     left: 20%;
     transform: translate(-50%, -50%);
-
 }
 .description {
     font-size: 14px;
@@ -80,8 +78,6 @@ body {
     color: #3b270e;
     font-weight: bold;  
 }
-
-
 .description-tertiary{
     color: #3b270e;
     font-size: 18px;
@@ -90,9 +86,7 @@ body {
     top: 77%;
     left: 20%;
     transform: translate(-50%, -50%);
-
 }
-
 .description-quartary{
     color: #3b270e;
     font-size: 12px;
@@ -103,7 +97,6 @@ body {
     transform: translate(-50%, -50%);
     white-space: nowrap;
 }
-
 .btn {
     border-radius: 15px;
     text-transform: uppercase;
@@ -125,7 +118,6 @@ body {
     top: 81%;
     left: 19%;
     transform: translate(-50%, -50%);
-    align-self: center;
 }
 .btn-primary:hover {
     background-color: #c6a18a;
@@ -141,7 +133,6 @@ body {
     border: 1px solid #3b270e;
     color: #fff;
 }
-
 .btn-tertiary{
     background-color: #a3775f;
     border: 1px solid #3b270e;
@@ -247,8 +238,6 @@ input:-webkit-autofill
     text-transform: capitalize;
 }
 
-
-
 .sign-in-js .first-content .first-column {
     z-index: -1;
 }
@@ -290,7 +279,6 @@ input:-webkit-autofill
     z-index: 13;    
 }
 
-
 .sign-in-js .first-content .second-column {
 
     z-index: -1;
@@ -303,7 +291,6 @@ input:-webkit-autofill
     z-index: -1;
     animation: deslocamentoDir 1.3s;
 }
-
 
 @keyframes deslocamentoEsq {
 
@@ -330,7 +317,6 @@ input:-webkit-autofill
     }
 }
 
-
 @keyframes deslocamentoDir {
 
     from {
@@ -352,9 +338,6 @@ input:-webkit-autofill
         z-index: -1;
     }
 }
-
-
-/*ANIMAÇÃO CSS*/
 
 @keyframes slidein {
 
@@ -412,4 +395,48 @@ input:-webkit-autofill
     }
 }
 
+/* Responsividade para Tablets */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
 
+    .content {
+        width: 90%;
+        height: auto;
+    }
+
+    .first-column, .second-column {
+        width: 100%;
+        text-align: center;
+    }
+
+    .title, .title-primary, .title-tertiary, .description, .description-primary {
+        font-size: 20px;
+    }
+
+    .btn {
+        width: 130px;
+        padding: 8px 40px;
+        font-size: 9px;
+    }
+
+    .btn-primary, .btn-tertiary {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: translate(0, 0);
+    }
+
+    .social-media {
+        margin: 0.5rem 0;
+    }
+
+    .form {
+        width: 80%;
+    }
+
+    .form input {
+        font-size: 14px;
+    }
+}

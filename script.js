@@ -10,20 +10,18 @@ document.getElementById('cadastroForm').addEventListener('submit', function (eve
     const cpfValido = validarCPF();
     const dataNascimentoValida = validarDataNascimento();
     const telefoneValido = validarTelefone();
-    const generoValido = validarGenero();
     const senhaValida = validarSenha();
-    const confirmarSenhaValida = validarSenha();
 
     //vai permitir o envio apenas se todas as validações passarem
     if (nomeValido && sobrenomeValido && cpfValido 
-        && dataNascimentoValida && telefoneValido && generoValido) {
+        && dataNascimentoValida && telefoneValido && senhaValida) {
         alert('Formulário enviado com sucesso!');
         //implementar o envio para o BACKEND
     }
 });
 
 function validarNome() {
-    const nome = document.getElementById('nome').value.trim();
+    const nome = document.getElementById('nome-cadastro').value.trim();
     if (nome === '') {
         showError('nomeError', 'O nome é obrigatório.');
         return false;
@@ -35,7 +33,7 @@ function validarNome() {
 }
 
 function validarSobrenome() {
-    const sobrenome = document.getElementById('sobrenome').value.trim();
+    const sobrenome = document.getElementById('sobrenome-cadastro').value.trim();
     if (sobrenome === '') {
         showError('sobrenomeError', 'O sobrenome é obrigatório.');
         return false;
@@ -44,7 +42,7 @@ function validarSobrenome() {
 }
 
 function validarCPF() {
-    const cpf = document.getElementById('cpf').value.trim();
+    const cpf = document.getElementById('cpf-cadastro').value.trim();
     const strCPF = String(cpf).replace(/[^\d]/g, ''); //vai remover caracteres não numéricos
 
     if (strCPF.length !== 11) {
@@ -90,7 +88,7 @@ function validarCPF() {
 }
 
 function validarDataNascimento() {
-    const dataNascimento = document.getElementById('dataNascimento').value;
+    const dataNascimento = document.getElementById('nascimento-cadastro').value;
     const hoje = new Date();
     const dataNasc = new Date(dataNascimento);
 
@@ -105,7 +103,7 @@ function validarDataNascimento() {
 }
 
 function validarTelefone() {
-    const telefone = document.getElementById('telefone').value.trim();
+    const telefone = document.getElementById('telefone-cadastro').value.trim();
     const regexTelefone = /^\(\d{2}\) \d{5}-\d{4}$/; // Formato (XX) XXXXX-XXXX
 
     if (telefone === '') {
@@ -113,15 +111,6 @@ function validarTelefone() {
         return false;
     } else if (!regexTelefone.test(telefone)) {
         showError('telefoneError', 'Telefone inválido. Use o formato (XX) XXXXX-XXXX.');
-        return false;
-    }
-    return true;
-}
-
-function validarGenero() {
-    const genero = document.getElementById('genero').value.trim();
-    if (genero === '') {
-        showError('generoError', 'O gênero é obrigatório.');
         return false;
     }
     return true;
@@ -142,18 +131,11 @@ function mostrarOcultarSenhaCadastro() {
   
   //validar senha 
   function validarSenha() {
-    var senha  = document.getElementById("Senha");
-    var confirmarSenha = document.getElementById("ConfirmarSenha");
-   
-    //ve se a senha e confirmar senha possuem valores iguais
-    if (senha.value != confirmarSenha.value) {
-      confirmarSenha.setCustomValidity("Senhas diferentes!");
-      confirmarSenha.reportValidity();
-      return false; //retorna falso se tiver diferente
-    } else {
+    var senha  = document.getElementById("senha-cadastro").value;
+    var confirmarSenha = document.getElementById("confimar-senha-cadastro").value;
     
      //verifica se a senha é segura
-     if (senha.length < 8) {
+    if (senha.length < 8) {
         alert("A senha deve ter pelo menos 8 caracteres!");
         return false; //retorna falso se n tiver pelo menos 8 caracteres
     }
@@ -177,6 +159,14 @@ function mostrarOcultarSenhaCadastro() {
         alert("A senha deve conter pelo menos um caractere especial!");
         return false; //retorna falso se n tiver pelo menos 1 caracter especial
     }
+
+    //ve se a senha e confirmar senha possuem valores iguais
+    if (senha != confirmarSenha) {
+        confirmarSenha.setCustomValidity("Senhas diferentes!");
+        confirmarSenha.reportValidity();
+        return false; //retorna falso se tiver diferente
+    }
+
     return true; //se a senha for segura, vai retornar true. 
   }
   
@@ -196,4 +186,43 @@ function clearErrors() {
         //define o display como 'none'
         error.style.display = 'none';
     });
+}
+
+function formatarTel(campo) {
+    let num = campo.value.replace(/\D/g, ""); // Remove tudo que não for número
+
+    if (num.length > 2) {
+        num = `(${num.substring(0, 2)}) ${num.substring(2)}`;
+    }
+    if (num.length > 10) {
+        num = `${num.substring(0, 10)}-${num.substring(10, 14)}`;
+    }
+
+    campo.value = num;
+}
+
+function formatarCPF(input) {
+    let num = input.value.replace(/\D/g, ""); // Remove tudo que não for número
+
+    if (num.length > 11) num = num.substring(0, 11); // Limita a 11 números
+
+    let formatado = "";
+    if (num.length > 3) {
+        formatado = num.substring(0, 3) + ".";
+        if (num.length > 6) {
+            formatado += num.substring(3, 6) + ".";
+            if (num.length > 9) {
+                formatado += num.substring(6, 9) + "-";
+                formatado += num.substring(9, 11);
+            } else {
+                formatado += num.substring(6);
+            }
+        } else {
+            formatado += num.substring(3);
+        }
+    } else {
+        formatado = num;
+    }
+
+    input.value = formatado;
 }

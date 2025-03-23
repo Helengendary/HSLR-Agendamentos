@@ -39,26 +39,53 @@
                     </ul>
                 </div>
                 <p class="description description-second">Ou use seu e-mail para registro:</p>
-                <form class="form">
-                    <label class="label-input" for="">
-                        <i class="far fa-user icon-modify"></i>
-                        <input type="text" placeholder="Nome" required>
+                <form class="form" id="cadastroForm">
+                    <label class="label-input" for="nome-cadastro">
+                        <i class="fas fa-user icon-modify"></i>
+                        <input id="nome-cadastro" type="text" placeholder="Nome" required>
                     </label>
                     
-                    <label class="label-input" for="">
-                        <i class="far fa-envelope icon-modify"></i>
-                        <input type="email" placeholder="E-mail" required>
+                    <label class="label-input" for="sobrenome-cadastro">
+                        <i class="fas fa-user icon-modify"></i>
+                        <input id="sobrenome-cadastro" type="text" placeholder="Sobrenome" required>
+                    </label>
+
+                    <label class="label-input"  for="nascimento-cadastro">
+                        <i class="fas fa-calendar icon-modify"></i>
+                        <input type="date" id="nascimento-cadastro" placeholder="Data de Nascimento" required>
                     </label>
                     
-                    <label class="label-input" for="">
+                    <label class="label-input" for="email-cadastro">
+                        <i class="fas fa-envelope icon-modify"></i>
+                        <input id="email-cadastro" type="email" placeholder="E-mail" required>
+                    </label>
+
+                    <label class="label-input" for="cpf-cadastro">
+                        <i class="fas fa-id-card icon-modify"></i>
+                        <input id="cpf-cadastro" type="text" oninput="formatarCPF(this)" placeholder="CPF" required>
+                    </label>
+                    <div id="cpfError" class="error-message"></div>
+
+                    <label class="label-input" for="telefone-cadastro">
+                        <i class="fas fa-phone icon-modify"></i>
+                        <input id="telefone-cadastro" type="tel" oninput="formatarTel(this)" placeholder="Telefone" required>
+                    </label>
+                    
+                    <label class="label-input" for="senha-cadastro">
                         <i class="fas fa-lock icon-modify"></i>
-                        <input type="password" placeholder="Senha" required>
+                        <input id="senha-cadastro" type="password" placeholder="Senha" required>
                     </label>
                     
-                    <button class="btn btn-second">Cadastrar</button>        
+                    <label class="label-input" for="confimar-senha-cadastro">
+                        <i class="fas fa-lock icon-modify"></i>
+                        <input id="confimar-senha-cadastro" type="password" placeholder="Confirmar Senha" required>
+                    </label>
+                    
+                    <button class="btn btn-second" type="submit">Cadastrar</button>        
                 </form>
             </div>
         </div>
+        <div id="nomeError" class="error-message"></div> 
         <div class="content second-content">
             <div class="first-column">
                 <p class="description description-quartary">Nossa missão é cuidar da sua saúde com carinho e dedicação.</p>
@@ -105,5 +132,6 @@
         </div>
     </div>
     <script src="js/app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
