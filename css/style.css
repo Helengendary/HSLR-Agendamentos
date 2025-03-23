@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
 * {
     margin: 0;
@@ -22,6 +23,10 @@ body {
     justify-content: space-between;
     align-items: center;
     position: relative;
+    width: 1024px;
+    min-height: 480px;
+    display: flex;
+    overflow: hidden;
 }
 .content::before {
     content: "";
@@ -340,27 +345,10 @@ input:-webkit-autofill
 }
 
 @keyframes slidein {
-
     from {
         left: 0;
         width: 40%;
     }
-
-    25% {
-        left: 5%;
-        width: 50%;
-    }
-
-    50% {
-        left: 25%;
-        width: 60%;
-    }
-
-    75% {
-        left: 45%;
-        width: 50%;
-    }
-
     to {
         left: 60%;
         width: 40%;
@@ -368,27 +356,10 @@ input:-webkit-autofill
 }
 
 @keyframes slideout {
-
     from {
         left: 60%;
         width: 40%;
     }
-
-    25% {
-        left: 45%;
-        width: 50%;
-    }
-
-    50% {
-        left: 25%;
-        width: 60%;
-    }
-
-    75% {
-        left: 5%;
-        width: 50%;
-    }
-
     to {
         left: 0;
         width: 40%;
