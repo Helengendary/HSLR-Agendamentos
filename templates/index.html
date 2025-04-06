@@ -117,11 +117,11 @@
                     </ul>
                 </div>
                 <p class="description description-second">ou use sua conta de e-mail:</p>
-                <form class="form">
+                <form class="form" action="/login" method="post">
                 
                     <label class="label-input" for="">
                         <i class="far fa-envelope icon-modify"></i>
-                        <input type="email" placeholder="Email" required>
+                        <input type="email" placeholder="Email" required name="emailcadastro">
                     </label>
                 
                     <label class="label-input" for="">
@@ -130,7 +130,7 @@
                     </label>
                 
                     <a class="password" href="#">Esqueceu sua senha?</a>
-                    <button class="btn btn-second">Entrar</button>
+                    <input class="btn btn-second" type="submit" value="Entrar"></input>
                 </form>
             </div>
         </div>

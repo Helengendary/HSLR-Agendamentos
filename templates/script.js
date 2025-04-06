@@ -13,11 +13,11 @@ document.getElementById('cadastroForm').addEventListener('submit', function (eve
     const senhaValida = validarSenha();
 
     //vai permitir o envio apenas se todas as validações passarem
-    if (nomeValido && sobrenomeValido && cpfValido 
-        && dataNascimentoValida && telefoneValido && senhaValida) {
-        alert('Formulário enviado com sucesso!');
-        //implementar o envio para o BACKEND
-    }
+    // if (nomeValido && sobrenomeValido && cpfValido 
+    //     && dataNascimentoValida && telefoneValido && senhaValida) {
+    //     // alert('Formulário enviado com sucesso!');
+    //     //implementar o envio para o BACKEND
+    // }
 });
 
 function validarNome() {
