@@ -17,10 +17,10 @@ body {
 .content {
     background-color: #fff;
     border-radius: 15px;
-    width: 960px;
+    width: 70%;
     height: 80%;
     justify-content: space-between;
-    align-items: center;
+    align-items:center;
     position: relative;
     min-height: 480px;
     display: flex;
@@ -29,6 +29,8 @@ body {
 .content::before {
     content: "";
     position: absolute;
+    background-image: url("../img/logo.jpg");
+    background-size: 100%;
     background-color: #a3775f;
     width: 40%;
     height: 100%;
@@ -42,10 +44,10 @@ body {
     text-transform: capitalize;
 }
 .title-primary {
-    color: #3b270e; /* Marrom escuro */
+    color: #3b270e;
 }
 .title-second {
-    color: #3b270e; /* Marrom escuro */
+    color: #3b270e;
 }
 .description {
     font-size: 14px;
@@ -53,19 +55,19 @@ body {
     line-height: 30px;
 }
 .description-primary {
-    color: #3b270e; /* Marrom escuro */
+    color: #3b270e;
 }
 .description-second {
-    color: #3b270e; /* Marrom escuro */
+    color: #3b270e;
     font-weight: bold;
 }
 .description-tertiary {
-    color: #3b270e; /* Marrom escuro */
+    color: #3b270e;
     font-size: 18px;
     font-weight: bold;
 }
 .description-quartary {
-    color: #3b270e; /* Marrom escuro */
+    color: #3b270e;
     font-size: 12px;
     font-weight: bold;
 }
@@ -83,27 +85,27 @@ body {
     margin-top: 1rem;
 }
 .btn-primary {
-    background-color: #a3775f; /* Marrom médio */
-    border: 1px solid #3b270e; /* Marrom escuro */
+    background-color: #a3775f;
+    border: 1px solid #3b270e;
     transition: background-color .5s;
 }
 .btn-primary:hover {
-    background-color: #c6a18a; /* Marrom claro */
+    background-color: #c6a18a;
     color: #fff;
 }
 .btn-second {
-    background-color: #a3775f; /* Marrom médio */
-    border: 1px solid #3b270e; /* Marrom escuro */
+    background-color: #a3775f;
+    border: 1px solid #3b270e;
     transition: background-color .5s;
 }
 .btn-second:hover {
-    background-color: #c6a18a; /* Marrom claro */
+    background-color: #c6a18a;
     border: 1px solid #3b270e;
     color: #fff;
 }
 .btn-tertiary {
-    background-color: #a3775f; /* Marrom médio */
-    border: 1px solid #3b270e; /* Marrom escuro */
+    background-color: #a3775f;
+    border: 1px solid #3b270e;
     transition: background-color .5s;
 }
 .first-content {
@@ -149,22 +151,21 @@ input:focus, select:focus {
     transition: background-color .5s;
 }
 .link-social-media:hover .item-social-media{
-    background-color: #ead2ba; /* Bege claro */
-    color: #fff;
-    border-color: #7c4425; /* Marrom escuro */
+    background-color: #ead2ba;
+    border-color: #7c4425;
 }
 .list-social-media {
     display: flex;
     list-style-type: none;
 }
 .item-social-media {
-    border: 1px solid #7c4425; /* Marrom escuro */
+    border: 1px solid #7c4425;
     border-radius: 50%;
     width: 35px;
     height: 35px;
     line-height: 35px;
     text-align: center;
-    color: #a3775f; /* Marrom médio */
+    color: #a3775f;
 }
 .form {
     display: flex;
@@ -175,7 +176,7 @@ input:focus, select:focus {
     height: 45px;
     width: 100%;
     border: none;
-    background-color: #fcf6f0; /* Bege claro */
+    background-color: #fcf6f0;
     padding: 0 15px;
 }
 input:-webkit-autofill, select:-webkit-autofill {    
@@ -183,7 +184,7 @@ input:-webkit-autofill, select:-webkit-autofill {
     -webkit-text-fill-color: #000 !important;
 }
 .label-input {
-    background-color: #fcf6f0; /* Bege claro */
+    background-color: #fcf6f0;
     display: flex;
     align-items: center;
     margin: 8px;
@@ -191,11 +192,11 @@ input:-webkit-autofill, select:-webkit-autofill {
     padding-left: 10px;
 }
 .icon-modify {
-    color: #7c4425; /* Marrom escuro */
+    color: #7c4425;
     padding: 0 5px;
 }
 .password {
-    color: #7c4425; /* Marrom escuro */
+    color: #7c4425;
     font-size: 14px;
     margin: 15px 0;
     text-align: center;
