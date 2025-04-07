@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Clínica Santa Luzia</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -51,6 +51,17 @@
                         <input id="sobrenome-cadastro" type="text" placeholder="Sobrenome" required>
                     </label>
                     <div id="sobrenomeError" class="error-message"></div>
+                    <label class="label-input" for="genero-cadastro">
+                        <i class="fas fa-venus-mars icon-modify"></i>
+                        <select id="genero-cadastro" required>
+                            <option value="" disabled selected>Gênero</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                            <option value="outro">Outro</option>
+                            <option value="nao_informar">Prefiro não informar</option>
+                        </select>
+                    </label>
+                    <div id="generoError" class="error-message"></div>
 
                     <label class="label-input"  for="nascimento-cadastro">
                         <i class="fas fa-calendar icon-modify"></i>
@@ -62,6 +73,7 @@
                         <i class="fas fa-envelope icon-modify"></i>
                         <input id="email-cadastro" type="email" placeholder="E-mail" required>
                     </label>
+                    <div id="emailError" class="error-message"></div>
 
                     <label class="label-input" for="cpf-cadastro">
                         <i class="fas fa-id-card icon-modify"></i>
@@ -71,25 +83,33 @@
 
                     <label class="label-input" for="telefone-cadastro">
                         <i class="fas fa-phone icon-modify"></i>
-                        <input id="telefone-cadastro" type="tel" oninput="formatarTel(this)" placeholder="Telefone" required>
+                        <input id="telefone-cadastro" type="tel" 
+                        oninput="formatarTelefone(this)"
+                        placeholder="(XX) XXXXX-XXXX"
+                        required>
                     </label>
                     <div id="telefoneError" class="error-message"></div>
                     
                     <label class="label-input" for="senha-cadastro">
                         <i class="fas fa-lock icon-modify"></i>
-                        <input id="senha-cadastro" type="password" placeholder="Senha" required>
+                        <input id="senha-cadastro" type="password" placeholder="Senha" required oninput="verificarForcaSenha()">
+                        <div class="password-strength">
+                            <div class="strength-section" id="strength-1"></div>
+                            <div class="strength-section" id="strength-2"></div>
+                            <div class="strength-section" id="strength-3"></div>
+                            <div class="strength-section" id="strength-4"></div>
+                        </div>
                     </label>
-                    
-                    <label class="label-input" for="confimar-senha-cadastro">
+                    <span id="senhaError" class="error-message"></span>
+                   <label class="label-input" for="confirmar-senha-cadastro">
                         <i class="fas fa-lock icon-modify"></i>
-                        <input id="confimar-senha-cadastro" type="password" placeholder="Confirmar Senha" required>
+                        <input id="confirmar-senha-cadastro" type="password" placeholder="Confirmar Senha" required>
                     </label>
-                    
+                    <span id="confirmarSenhaError" class="error-message"></span>
                     <button class="btn btn-second" type="submit">Cadastrar</button>        
                 </form>
             </div>
         </div>
-        <div id="nomeError" class="error-message"></div> 
         <div class="content second-content">
             <div class="first-column">
                 <p class="description description-quartary">Nossa missão é cuidar da sua saúde com carinho e dedicação.</p>
@@ -118,19 +138,16 @@
                 </div>
                 <p class="description description-second">ou use sua conta de e-mail:</p>
                 <form class="form" action="/login" method="post">
-                
                     <label class="label-input" for="">
                         <i class="far fa-envelope icon-modify"></i>
                         <input type="email" placeholder="Email" required name="emailcadastro">
                     </label>
-                
                     <label class="label-input" for="">
                         <i class="fas fa-lock icon-modify"></i>
                         <input type="password" placeholder="Password" required>
                     </label>
-                
                     <a class="password" href="#">Esqueceu sua senha?</a>
-                    <input class="btn btn-second" type="submit" value="Entrar"></input>
+                    <button class="btn btn-second" type="submit">Entrar</button>
                 </form>
             </div>
         </div>
