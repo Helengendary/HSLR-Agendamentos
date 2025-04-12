@@ -1,24 +1,3 @@
-document.getElementById('cadastroForm').addEventListener('submit', function (event) {
-    event.preventDefault(); //impede o envio do formulário se n houver nada preenchido
-
-    //limpa mensagens de erro anteriores
-    clearErrors();
-
-    //validações
-    const nomeValido = validarNome();
-    const sobrenomeValido = validarSobrenome();
-    const cpfValido = validarCPF();
-    const dataNascimentoValida = validarDataNascimento();
-    const telefoneValido = validarTelefone();
-    const senhaValida = validarSenha();
-
-    //vai permitir o envio apenas se todas as validações passarem
-    // if (nomeValido && sobrenomeValido && cpfValido 
-    //     && dataNascimentoValida && telefoneValido && senhaValida) {
-    //     // alert('Formulário enviado com sucesso!');
-    //     //implementar o envio para o BACKEND
-    // }
-});
 
 function validarNome() {
     const nome = document.getElementById('nome-cadastro').value.trim();
