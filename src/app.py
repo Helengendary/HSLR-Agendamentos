@@ -57,7 +57,7 @@ def cadastro(
     try:
         with db.cursor() as cursor:
             sql = """INSERT INTO Usuário (CPF, Email, Nome, Sobrenome, DataDeNascimento, Genero, Telefone, Senha, Papel)
-                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                     VALUES (%s, %s, %s, %s, %s, %s, %s, MD5(%s), %s)"""
             cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, 'genero', telefone, senha, 3))
             db.commit()
     finally:
