@@ -5,6 +5,7 @@ class UserForm(BaseModel):
     cpf: str
     email:str
     nome: str
+    genero: str
     sobrenome: str
     dataNascimento: date
     telefone: str
