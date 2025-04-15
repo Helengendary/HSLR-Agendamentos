@@ -203,8 +203,14 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: 70%;
 }
+
+.alinhamento-form {
+    display: flex;
+    flex-direction: row;
+}
+
 .form input, .form select {
     height: 45px;
     width: 100%;

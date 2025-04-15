@@ -1,4 +1,5 @@
 create database hslr;
+drop database hslr;
 use hslr;
 
 create table Papel (
@@ -7,7 +8,7 @@ create table Papel (
     Nome varchar(100) not null
 );
 
-create table Usuário (
+create table Usuario (
 	ID_usuario int auto_increment not null,
     primary key (ID_usuario),
     CPF varchar(50) not null unique,
@@ -15,7 +16,7 @@ create table Usuário (
     Nome varchar(100) not null,
     Sobrenome varchar(200) not null,
     DataDeNascimento date not null,
-    Genero varchar(50) not null,
+    # Genero varchar(50) not null,
     Telefone varchar(50) not null,
     Senha varchar (255) not null,
     Papel int not null,
@@ -30,8 +31,8 @@ create table Consulta (
     Hora time not null,
     ID_medico int not null,
     ID_paciente int not null,
-    foreign key (ID_medico) references Usuário(ID_usuario),
-    foreign key (ID_paciente) references Usuário(ID_usuario)
+    foreign key (ID_medico) references Usuario(ID_usuario),
+    foreign key (ID_paciente) references Usuario(ID_usuario)
 );
 
 create table MedicoSecretaria (
@@ -39,12 +40,13 @@ create table MedicoSecretaria (
     primary key (ID_medicosecretaria),
     ID_medico int not null,
     ID_secretaria int not null,
-    foreign key (ID_medico) references Usuário(ID_usuario),
-    foreign key (ID_secretaria) references Usuário(ID_usuario)
+    foreign key (ID_medico) references Usuario(ID_usuario),
+    foreign key (ID_secretaria) references Usuario(ID_usuario)
 );
 
 insert into Papel (Nome) values ('Secretária'),
 ('Médico'),
 ('Paciente');
 
-select * from Usuário;
+select * from Usuario;
+select * from Papel;
