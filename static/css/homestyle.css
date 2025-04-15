@@ -14,9 +14,10 @@ ul{
 }
 /*hero section*/
 #hero{
-    background-color: #a3775f;
+    background-color: #f5ebd6;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     min-height: 600px;
 }
 /*nav bar*/
@@ -43,10 +44,144 @@ ul{
 }
 .menu li a{
     margin: 0px 20px;
-    color: #303030;
+    color: #3b270e;
     font-weight: 600;
     transition: all ease 0.3s;
 }
 .menu li a:hover{
      color: antiquewhite;
+}
+.nav-btn-login{
+    height: 40px;
+    padding: 10px, 20px;
+    border-radius: 4px;
+    background-color: #3b270e;
+    color: antiquewhite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+/*hero content*/
+.hero-content{
+    max-width: 1200px;
+    width: 90%;
+    margin: 0px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start;
+    margin-top: auto;
+}
+.hero-img{
+    display: flex;
+}
+.hero-img img{
+    width: 100%;
+    height: 100%;
+    max-height: 450px;
+    object-fit: contain;
+    object-position: center bottom;
+}
+.hero-text{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+.hero-text h1{
+    font-size: 3.2rem;
+    color: #3b270e;
+    line-height: 3.6rem;
+}
+.hero-text p{
+    color: #654a27;
+    margin: 15px, 0px;
+    max-width: 500px;
+    letter-spacing: 0.3px;
+    line-height: 1.8rem;
+}
+.hero-text-btns{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.hero-text-btns a{
+    height: 45px;
+    padding: 0px, 15px;
+    background-color:#3b270e ;
+    color: antiquewhite;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin-right: 10px;
+    
+}
+.hero-text-btns a i{
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content:  center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #654a27;
+    margin-right: 8px;
+    font-size: 0.5rem;
+    padding-bottom: 1pxs;
+}
+/*pesquisar/procurar/search*/
+.appointment-search-container{
+    max-width: 1000px;
+    width: 90%;
+    background-color: #ffffff;
+    padding: 20px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 2px 16px 30px rgba(0, 0, 0, 0.12);
+    z-index: 3;
+    position: relative;
+    margin-top: -60px;
+}
+.appointment-search-container h3{
+    color: #3b270e;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+.appointment-search{
+    display: grid;
+    grid-template-columns: 1fr 1fr 60px;
+    grid-gap: 10px;
+}
+.appo-search-box{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5ebd6;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #745631;
+}
+.appo-search-box i{
+    color: #3b270e;
+    margin-right: 10px;
+}
+.appo-search-box input{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.appointment-search button{
+    background-color: antiquewhite;
+    color: #654a27;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
 }
