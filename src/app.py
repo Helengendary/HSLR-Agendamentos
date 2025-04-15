@@ -1,6 +1,10 @@
 # Instalar o arquivo txt: pip install --upgrade -r requirements.txt
 # Rodar o backend: python -m uvicorn app:app --app-dir ./src
 # pip install mysql-connector-python
+# python -m venv .venv
+# .\.venv\Scripts\activate.bat
+# pip install pymysql
+# Não está na ordem
 
 # user md5 (criptografar senha)
 # aparecer o nome e poder deslogar
@@ -21,7 +25,7 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "root",
+    "password": "PUC@1234",
     "database": "hslr"
 }
 
@@ -46,7 +50,7 @@ def cadastro(
     cpf: str = Form(...),
     email: str = Form(...),
     nome: str = Form(...),
-    genero: str = Form(...),
+    # genero: str = Form(...),
     sobrenome: str = Form(...),
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
@@ -56,34 +60,40 @@ def cadastro(
       
     try:
         with db.cursor() as cursor:
-            sql = """INSERT INTO Usuário (CPF, Email, Nome, Sobrenome, DataDeNascimento, Genero, Telefone, Senha, Papel)
-                     VALUES (%s, %s, %s, %s, %s, %s, %s, MD5(%s), %s)"""
-            cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, genero, telefone, senha, 3))
+            # sql = """INSERT INTO Usuário (CPF, Email, Nome, Sobrenome, DataDeNascimento, Genero, Telefone, Senha, Papel)
+            #          VALUES (%s, %s, %s, %s, %s, %s, %s, MD5(%s), %s)"""
+            # cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, genero, telefone, senha, 3))
+
+            sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Papel)
+                     VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), %s)"""
+            cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, 3))
             db.commit()
-    except pymysql.err.IntegrityError as e:
-        
-        erro = str(e)
-        if "Duplicate entry" in erro:
-            if "CPF" in erro:
+            
+    except pymysql.MySQLError as e:
+
+        if "Duplicate entry" in str(e):
+            if "CPF" in str(e):
                 msg = "Este CPF já está cadastrado."
-            elif "Email" in erro:
+            elif "Email" in str(e):
                 msg = "Este e-mail já está cadastrado."
             else:
                 msg = "Dados duplicados detectados."
         else:
             msg = "Erro ao cadastrar. Tente novamente."
-
+            
         return pages.TemplateResponse("index.html", {
             "request": req,
             "error": msg
         })
+
     finally:
         with db.cursor() as cursor:
-            cursor.execute("SELECT * FROM Usuário WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
+            cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
             user = cursor.fetchone()
 
-            req.session["nome_usuario"] = user[3] + ' ' + user[4]  
-            return pages.TemplateResponse("success.html", {"request": req})
+            if user:
+                req.session["nome_usuario"] = user[3] + ' ' + user[4]  
+                return pages.TemplateResponse("success.html", {"request": req})
 
         db.close()
 
@@ -99,7 +109,7 @@ async def login(
     try:
         with db.cursor() as cursor:
 
-            cursor.execute("SELECT * FROM Usuário WHERE Email = %s AND Senha = MD5(%s)", (Login, SenhaLogin))
+            cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (Login, SenhaLogin))
             user = cursor.fetchone()
 
             if user:
