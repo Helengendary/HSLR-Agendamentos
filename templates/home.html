@@ -24,7 +24,8 @@
                 <li><a href="#">Quem Somos</a></li>
                 <li><a href="#">Valores</a></li>
             </ul>
-            <a href="#" class="nav-btn-login">Login</a>
+
+            <h1>Welcome, {{request.session.get("nome_usuario")}}!</h1>
         </nav> <!--nav end-->
         <!--content-->
         <div class="hero-content">
