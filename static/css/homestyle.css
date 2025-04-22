@@ -230,3 +230,58 @@ ul{
     font-size: 0.9rem;
     letter-spacing: 0.3px;
 }
+/*quem somos*/
+#quem-somos{
+    background-color: #f5ebd6;
+    max-width: 1200px;
+    width: 90%;
+    margin: 80px auto;
+    border: 10px solid #ffffff;
+    box-shadow: 2px 2px 30px black;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.quem-somos-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.quem-somos-text{
+    padding: 50px;
+}
+.quem-somos-text h2{
+    font-size: 2.8rem;
+    color: #3b270e;
+    line-height: 3rem;
+}
+.quem-somos-text p{
+    font-size: 0.9rem;
+    color: black;
+    margin: 10px 0px;
+    line-height: 1.4rem;
+    letter-spacing: 0.3px; 
+}
+.story-number-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    margin-top: 20px;
+}
+.story-number-box{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #e0d1b1;
+}
+.story-number-box strong{
+    color: #3b270e;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+.story-number-box span{
+    font-size: 0.9rem;
+}

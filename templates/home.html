@@ -24,8 +24,7 @@
                 <li><a href="#">Quem Somos</a></li>
                 <li><a href="#">Valores</a></li>
             </ul>
-
-            <h1>Welcome, {{request.session.get("nome_usuario")}}!</h1>
+            <a href="#" class="nav-btn-login">Login</a>
         </nav> <!--nav end-->
         <!--content-->
         <div class="hero-content">
@@ -110,4 +109,31 @@
             </div>
         </div>
     </section><!--fim servicos-->
+
+    <!--quem somos-->
+    <section id="quem-somos">
+        <!--imagem-->
+        <div class="quem-somos-img">
+            <img src="../static/img/quem-somos-img.png" alt="">
+        </div>
+        <!--texto-->
+        <div class="quem-somos-text">
+            <h2>Um Pouco Sobre a Nossa Tragetória</h2>
+            <p>A Clínica Hospitalar Santa Luzia nasceu em 2012 com o sonho de oferecer um atendimento humanizado, acessível e de qualidade para todas as mulheres. Começamos com um pequeno consultório e, com o passar dos anos, crescemos ao lado da comunidade, investindo em tecnologia, estrutura moderna e uma equipe dedicada.</p>
+            <p>Hoje, somos referência em ginecologia e saúde da mulher, sempre com foco na prevenção, no cuidado e no bem-estar das nossas pacientes.</p>
+        <!--numero clientes happyyyy :) -->
+        <div class="story-number-container">
+            <!--box 1 pacientes-->
+            <div class="story-number-box">
+                <strong>500+</strong>
+                <span>Pacientes Indicam</span>
+            </div>
+            <!--box 2 doutores-->
+            <div class="story-number-box">
+                <strong>25+</strong>
+                <span>Doutores Especializados</span>
+            </div>
+        </div>
+        </div>
+    </section><!--fim quem somos-->
 </body>
