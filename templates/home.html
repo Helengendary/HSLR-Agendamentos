@@ -10,7 +10,9 @@
       integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!--font awesome ícones-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    </head>
+     <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />    
+</head>
 <body>
     <!--HERO SECTION-->
     <section id="hero">
@@ -20,8 +22,8 @@
             <a href="#" class="logo">Clínica Hospitalar Santa Luzia</a>
             <!--menu-->
             <ul class="menu">
-                <li><a href="#">Serviços</a></li>
                 <li><a href="#">Quem Somos</a></li>
+                <li><a href="#">Serviços</a></li>
                 <li><a href="#">Valores</a></li>
             </ul>
             
@@ -73,7 +75,7 @@
         </div>
     </div><!--final pesquisar-->
     <!--serviços-->
-    <section class="servicos">
+    <section class="info">
         <!--box 1 -->
         <div class="w-info-box w-info-box1">
             <!--icone-->
@@ -121,8 +123,8 @@
         <!--texto-->
         <div class="quem-somos-text">
             <h2>Um Pouco Sobre a Nossa Tragetória</h2>
-            <p>A Clínica Hospitalar Santa Luzia nasceu em 2012 com o sonho de oferecer um atendimento humanizado, acessível e de qualidade para todas as mulheres. Começamos com um pequeno consultório e, com o passar dos anos, crescemos ao lado da comunidade, investindo em tecnologia, estrutura moderna e uma equipe dedicada.</p>
-            <p>Hoje, somos referência em ginecologia e saúde da mulher, sempre com foco na prevenção, no cuidado e no bem-estar das nossas pacientes.</p>
+            <p>A Clínica Hospitalar Santa Luzia nasceu em 2012 com o sonho de oferecer um atendimento humanizado, acessível e de qualidade para todos. Começamos com um pequeno consultório e, com o passar dos anos, crescemos ao lado da comunidade, investindo em tecnologia, estrutura moderna e uma equipe dedicada.</p>
+            <p>Hoje, além de sermos referência em ginecologia e saúde da mulher, também acompanhamos gestantes em todas as fases da gravidez, oferecendo exames obstétricos, pré-natal e um cuidado especial para esse momento tão importante. Nosso compromisso é estar presente em todas as etapas da vida da mulher — do cuidado preventivo ao nascimento de uma nova vida — sempre com carinho, segurança e acolhimento.</p>
         <!--numero clientes happyyyy :) -->
         <div class="story-number-container">
             <!--box 1 pacientes-->
@@ -138,4 +140,116 @@
         </div>
         </div>
     </section><!--fim quem somos-->
+
+    <!--servicos-->
+    <section id="servicos">
+        <!--heading-->
+        <div class="servicos-heading">
+            <!--texto-->
+            <div class="servicos-heading-text">
+                <strong>Serviços</strong>
+                <h2>Serviços que oferecemos para nossos pacientes</h2>
+            </div>
+        </div>
+        <!--container box-->
+        <div class="servicos-box-container">
+            <!-- Swiper -->
+            <div class="swiper mySwiperservicos">
+            <div class="swiper-wrapper">
+                <!--slide 1-->
+                <div class="swiper-slide">
+                <!--box-->
+                    <div class="servicos-box">
+                        <!--icone-->
+                        <i class="fa-solid fa-person-dress"></i>
+                        <!--titulo-->
+                        <strong>Exames preventivos</strong>
+                        <!--descricao-->
+                        <p>Para acompanhar a saúde da mulher e detectar alterações precocemente</p>
+                        <!--btn-->
+                        <a href="#">Clique aqui para mais informações</a>
+                    </div>
+                </div>
+                <!--slide 2-->
+                <div class="swiper-slide">
+                    <!--box-->
+                        <div class="servicos-box">
+                            <!--icone-->
+                            <i class="fa-solid fa-person-pregnant"></i>
+                            <strong>Exames Obstétricos</strong>
+                            <p>Para o acompanhamento da saúde da gestante e do bebê</p>
+                            <!--btn-->
+                            <a href="#">Clique aqui para mais informações</a>
+                        </div>
+                    </div>
+                    <!--slide 3-->
+                    <div class="swiper-slide">
+                    <!--box-->
+                        <div class="servicos-box">
+                            <!--icone-->
+                            <i class="fa-solid fa-venus"></i>
+                            <strong>Exames por Imagem</strong>
+                            <p>Avaliações com tecnologia de imagem para diagnóstico preciso</p>
+                            <!--btn-->
+                            <a href="#">Clique aqui para mais informações</a>
+                        </div>
+                    </div>
+                    <!--slide 4-->
+                    <div class="swiper-slide">
+                        <!--box-->
+                            <div class="servicos-box">
+                                <!--icone-->
+                                <i class="fa-solid fa-microscope"></i>
+                                <strong>Exames Hormonais</strong>
+                                <p>Para investigar alterações hormonais, fertilidade e outras condições</p>
+                                <!--btn-->
+                                <a href="#">Clique aqui para mais informações</a>
+                            </div>
+                        </div>
+                    <!--slide 5-->
+                    <div class="swiper-slide">
+                        <!--box-->
+                            <div class="servicos-box">
+                                <!--icone-->
+                                <i class="fa-solid fa-hand-holding-heart"></i>
+                                <strong> Saúde da Mulher na Menopausa</strong>
+                                <p>Acompanhamento e prevenção de doenças relacionadas à menopausa</p>
+                                <!--btn-->
+                                <a href="#">Clique aqui para mais informações</a>
+                            </div>
+                        </div>
+                </div> <!--fim wrapper-->
+            </div> <!--fim swiper-->
+        </div>
+    </div>
+            
+        </div>
+    </section>
+
+    <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiperservicos", {
+          slidesPerView: 1,
+          spaceBetween: 10,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          breakpoints: {
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+          },
+        });
+    </script>
 </body>

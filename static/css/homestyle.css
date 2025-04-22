@@ -52,6 +52,7 @@ ul{
      color: rgb(155, 88, 110);
 }
 .nav-btn-login{
+    width: 60px;
     height: 40px;
     padding: 10px, 20px;
     border-radius: 4px;
@@ -107,8 +108,9 @@ ul{
     align-items: center;
 }
 .hero-text-btns a{
+    width: 90px;
     height: 45px;
-    padding: 0px, 15px;
+    padding: 10px, 20px;
     background-color:#3b270e ;
     color: antiquewhite;
     border-radius: 5px;
@@ -118,6 +120,7 @@ ul{
     font-size: 0.9rem;
     letter-spacing: 0.5px;
     font-weight: 500;
+    margin-left: 20px;
     margin-right: 10px;
     
 }
@@ -185,8 +188,8 @@ ul{
     font-size: 1.1rem;
     cursor: pointer;
 }
-/*servicos*/
-.servicos{
+/*informacoes sla*/
+.info{
     max-width: 1200px;
     width: 90%;
     margin: 50px auto;
@@ -237,7 +240,7 @@ ul{
     width: 90%;
     margin: 80px auto;
     border: 10px solid #ffffff;
-    box-shadow: 2px 2px 30px black;
+    box-shadow: 2px 2px 30px rgb(116, 102, 87);
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -284,4 +287,92 @@ ul{
 }
 .story-number-box span{
     font-size: 0.9rem;
+}
+/*servicos*/
+#servicos{
+    width: 100%;
+    background-color: #f5ebd6;
+    margin: 50px auto 0px auto;
+    padding: 50px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.servicos-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    width: 90%;
+    margin: auto;
+}
+.servicos-heading-text strong{
+    color: #654a27;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.servicos-heading-text h2{
+    color: #3b270e
+    font-size: 2.2rem;
+    font-weight: 700;
+    max-width: 600px;
+}
+.servicos-box-container{
+    max-width: 1200px;
+    width: 90%;
+    margin: 40px auto;
+}
+.servicos-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 100%;
+    border: 5px solid #9b8367;
+    padding: 30px;
+    background-color: #b6a189;
+}
+.servicos-box:hover{
+    border: 5px solid rgb(155, 88, 110);
+}
+.servicos-box i{
+    font-size: 2rem;
+    color: #ffffff;
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #654a27;
+}
+.servicos-box strong{
+    color: #3b270e;
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+.servicos-box p{
+    color: #654a27;
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.servicos-box a{
+    height: 45px;
+    background-color: #9b8367;
+    color: #f5ebd6;
+    padding: 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 5PX;
+    margin-top: 30px;
 }
