@@ -49,7 +49,7 @@ ul{
     transition: all ease 0.3s;
 }
 .menu li a:hover{
-     color: antiquewhite;
+     color: rgb(155, 88, 110);
 }
 .nav-btn-login{
     height: 40px;
@@ -184,4 +184,49 @@ ul{
     border-radius: 5px;
     font-size: 1.1rem;
     cursor: pointer;
+}
+/*servicos*/
+.servicos{
+    max-width: 1200px;
+    width: 90%;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.w-info-box{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.w-info-icon{
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    font-size: 1.4rem;
+    border-radius: 5px;
+}
+.w-info-box1 .w-info-icon{
+    background-color: rgb(149, 206, 163);
+}
+.w-info-box2 .w-info-icon{
+    background-color: rgb(162, 203, 214);
+}
+.w-info-box3 .w-info-icon{
+    background-color: rgb(212, 160, 169);
+}
+.w-info-text{
+    display: flex;
+    flex-direction: column;
+}
+.w-info-text strong{
+    color: #3b270e;
+    font-weight: 700; 
+}
+.w-info-text p{
+    color: #654a27;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
 }
