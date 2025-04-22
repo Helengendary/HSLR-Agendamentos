@@ -121,13 +121,15 @@ async def login(
 
             if user:
                 req.session["nome_usuario"] = user[3] + ' ' + user[4]  
-                return pages.TemplateResponse("success.html", {"request": req})
             else:
                 req.session["errorLogin"] = "Usuário ou senha inválidos."
                 req.session["errorLoginStatus"] = True
                 return RedirectResponse(url="/", status_code=303)
+            
     finally:
         db.close()
+        
+    return RedirectResponse(url="/home", status_code=303)
 
 
 
