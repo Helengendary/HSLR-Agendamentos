@@ -25,7 +25,7 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "PUC@1234",
+    "password": "root",
     "database": "hslr"
 }
 
@@ -43,6 +43,14 @@ pages = Jinja2Templates(directory='templates')
 @app.get('/')
 def home(req: Request):
     return pages.TemplateResponse(request=req, name='index.html')
+
+@app.get('/login')
+def home(req: Request):
+    return pages.TemplateResponse(request=req, name='login.html')
+
+@app.get('/home')
+def home(req: Request):
+    return pages.TemplateResponse(request=req, name='home.html')
 
 @app.post('/cadastro/paciente')
 def cadastro(
@@ -80,11 +88,11 @@ def cadastro(
                 msg = "Dados duplicados detectados."
         else:
             msg = "Erro ao cadastrar. Tente novamente."
-            
-        return pages.TemplateResponse("index.html", {
-            "request": req,
-            "error": msg
-        })
+
+        req.session["error"] = msg
+        req.session["errorStatus"] = True
+
+        return RedirectResponse(url='/login', status_code=303)
 
     finally:
         with db.cursor() as cursor:
@@ -93,11 +101,10 @@ def cadastro(
 
             if user:
                 req.session["nome_usuario"] = user[3] + ' ' + user[4]  
-                return pages.TemplateResponse("success.html", {"request": req})
 
         db.close()
 
-    return pages.TemplateResponse("success.html", {"request": req, "emailcadastro": email})
+    return RedirectResponse(url='/home', status_code=303)
 
 @app.post("/login")
 async def login(
