@@ -85,11 +85,13 @@ ul{
     object-fit: contain;
     object-position: center bottom;
 }
-.hero-text{
+.hero-text {
     display: flex;
-    flex-direction: column;
-    margin-top: 30px;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    height: 100vh;            /* Garantindo que ocupe a altura total da tela */
 }
+
 .hero-text h1{
     font-size: 3.2rem;
     color: #3b270e;
@@ -97,33 +99,30 @@ ul{
 }
 .hero-text p{
     color: #654a27;
-    margin: 15px, 0px;
+    margin: 15px 0px;
     max-width: 500px;
     letter-spacing: 0.3px;
     line-height: 1.8rem;
 }
-.hero-text-btns{
+.hero-text-btns {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: center;  /* Centraliza os botões dentro da div */
+    align-items: center;      /* Alinha verticalmente os botões, se necessário */
 }
-.hero-text-btns a{
-    width: 90px;
+
+.hero-text-btns a {
+    width: 120px;
     height: 45px;
-    padding: 10px, 20px;
-    background-color:#3b270e ;
-    color: antiquewhite;
+    background-color: #007BFF;
+    color: white;
+    text-align: center;
+    line-height: 45px;
+    text-decoration: none;
+    margin: 0 10px; /* Espaço entre os botões */
     border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
-    font-weight: 500;
-    margin-left: 20px;
-    margin-right: 10px;
-    
+    display: inline-block;
 }
+
 .hero-text-btns a i{
     width: 18px;
     height: 18px;
@@ -376,3 +375,315 @@ ul{
     border-radius: 5PX;
     margin-top: 30px;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+    text-align: center;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
+  }
+  
+  .modal-content h2 {
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #654a27;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+  }
+  
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    grid-template-rows: auto;
+  }
+  
+  form input {
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  form input[name="name"],
+  form input[name="surname"],
+  form input[name="email"],
+  form input[name="phone"] {
+    background-color: #f5ebd6;
+    border: 1px solid #745631;
+  }
+  
+  form input[name="cpf"],
+  form input[name="dob"] {
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
+  
+  form input::placeholder {
+    color: #888;
+    font-style: italic;
+  }
+  
+  .form-buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  button.delete-account {
+    background-color: #d93025;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button.delete-account:hover {
+    background-color: #b0251a;
+  }
+  
+  button.submit-btn {
+    background-color: #34a853;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button.submit-btn:hover {
+    background-color: #2e8b47;
+  }
+  
+  .user-dropdown {
+    position: relative;
+    display: inline-block;
+    font-family: sans-serif;
+  }
+  
+  .user-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-box:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .user-box img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%; 
+    object-fit: cover;
+  }
+  
+  .user-box span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Menu suspenso */
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 8px;
+    border-radius: 6px;
+    min-width: 100px;
+    z-index: 999;
+  }
+  
+  .dropdown-menu a {
+    display: block;
+    padding: 6px 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+  
+  .dropdown-menu a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Mostrar dropdown ao hover */
+  .user-dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+    text-align: center;
+  }
+  
+  .modal-content {
+    background-color: #faf4e7;
+    margin: 5% auto;
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
+  }
+  
+  .modal-content h2 {
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #654a27;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+  }
+  
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    grid-template-rows: auto;
+  }
+  
+  form input {
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  form input[name="name"],
+  form input[name="surname"],
+  form input[name="email"],
+  form input[name="phone"] {
+    background-color: #f5ebd6;
+    border: 1px solid #745631;
+  }
+  
+  form input[name="cpf"],
+  form input[name="dob"] {
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
+  
+  form input::placeholder {
+    color: #888;
+    font-style: italic;
+  }
+  
+  .form-buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    align-items: center;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%; /* Garante que ocupa todo o espaço horizontal */
+  }
+  
+  button.delete-account {
+    background-color: #d93025;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button.delete-account:hover {
+    background-color: #dd3b30;
+  }
+  
+  button.submit-btn {
+    background-color: #20B2AA;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button.submit-btn:hover {
+    background-color: #23c0b8;
+  }
+  

@@ -100,7 +100,7 @@ def cadastro(
             user = cursor.fetchone()
 
             if user:
-                req.session["nome_usuario"] = user[3] + ' ' + user[4]  
+                req.session["nome_usuario"] = user[3]
 
         db.close()
 
@@ -120,7 +120,7 @@ async def login(
             user = cursor.fetchone()
 
             if user:
-                req.session["nome_usuario"] = user[3] + ' ' + user[4]  
+                req.session["nome_usuario"] = user[3]
             else:
                 req.session["errorLogin"] = "Usuário ou senha inválidos."
                 req.session["errorLoginStatus"] = True
