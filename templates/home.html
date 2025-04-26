@@ -29,6 +29,11 @@
             
             <h1>Welcome, {{request.session.get("nome_usuario")}}!</h1>
 
+            <!--botao de logout da conta-->
+            <form action="/logout" method="get">    
+                <button href="#" class="nav-btn-login" type="submit">logout</button>
+            </form>
+
         </nav> <!--nav end-->
         <!--content-->
         <div class="hero-content">

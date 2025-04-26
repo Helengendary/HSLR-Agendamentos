@@ -131,6 +131,14 @@ async def login(
         
     return RedirectResponse(url="/home", status_code=303)
 
+@app.get("/logout")
+async def logout(request: Request):
+    
+    request.session.clear()  # remove os dados de sessão atual
+    
+    #volta pra página inicial
+    return RedirectResponse(url="/", status_code=303)
+
 
 
 handler = Mangum(app)
