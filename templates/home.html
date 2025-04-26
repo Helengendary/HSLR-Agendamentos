@@ -30,9 +30,22 @@
             <h1>Welcome, {{request.session.get("nome_usuario")}}!</h1>
 
             <!--botao de logout da conta-->
+            <a href='index.html'>
+                <button class="nav-btn-login" type="submit">logout</button>
+            </a>
+
+            <!--botao de logout da conta-->
+            <a href='excluir.html'>
+                <button class="nav-btn-login" type="submit">excluir user</button>
+            </a>
+
+
+            <!-- se o de cima não funcionar só usar esse
             <form action="/logout" method="get">    
                 <button href="#" class="nav-btn-login" type="submit">logout</button>
             </form>
+
+            -->
 
         </nav> <!--nav end-->
         <!--content-->
