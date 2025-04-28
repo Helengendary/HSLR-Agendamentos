@@ -113,13 +113,13 @@ body {
     text-transform: uppercase;
     color: #fff;
     font-size: 10px;
-    padding: 10px 50px;
+    padding: 10px 20px;
     cursor: pointer;
     font-weight: bold;
-    width: 160px;
     align-self: center;
     border: none;
     margin-top: 1rem;
+    display: inline-block;
 }
 .btn-primary {
     background-color: #a3775f;
@@ -431,3 +431,4 @@ input.invalid, select.invalid {
         width: 40%;
     }
 }
+

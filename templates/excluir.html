@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Usuário - Hospital Santa Luzia</title>
+    <link rel="stylesheet" href="../static/css/homestyle.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+
+<body>
+    <!--HERO SECTION-->
+    <section id="hero">
+        <!--navbar-->
+        <nav class="navigation">
+            <!--logo-->
+            <a href="#" class="logo">Clínica Hospitalar Santa Luzia</a>
+            <!--menu-->
+            <ul class="menu">
+                <li><a href="#">Quem Somos</a></li>
+                <li><a href="#">Serviços</a></li>
+                <li><a href="#">Valores</a></li>
+            </ul>
+        </nav> <!--nav end-->
+
+        <div class="telaExcluir">
+            <!--texto-->
+            <div class="hero-text">
+                <h1>Exclusão de usuário</h1>
+                <form class="w3-container" action="/excluir_exe" method="post">
+                    <!-- Campo oculto com o ID do médico para exclusão -->
+                    <input type="hidden" name="id" value="{{ ID_Usuario }}">
+
+                    <div class="user-info">
+                        <p><label class="w3-text-IE"><b>Nome:</b></label> {{ user.Nome }}</p>
+                        <p><label class="w3-text-IE"><b>Email:</b></label> {{ user.Email }}</p>
+                        <p><label class="w3-text-IE"><b>CPF:</b></label> {{ user.CPF }}</p>
+                    </div>
+
+                    <div class="boxBotoesExcluir">
+                        <input type="submit" value="Confirmar exclusão" class="nav-btn-login" onclick="window.location.href='index.html'">
+                        <input type="button" value="Cancelar" class="nav-btn-login" onclick="window.location.href='home.html'">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section> <!--hero end-->
+</body>
+</html>

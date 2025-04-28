@@ -131,6 +131,67 @@ async def login(
         
     return RedirectResponse(url="/home", status_code=303)
 
+@app.get("/logout")
+async def logout(request: Request):
+    
+    request.session.clear()  # remove os dados de sessão atual
+    
+    #volta pra página inicial
+    return RedirectResponse(url="/", status_code=303)
+
+
+
+
+@app.get("/excluir")
+
+async def excluir(request: Request, 
+                  ID_usuario: int, 
+                  db=Depends(get_db)):
+
+    if not request.session.get("user_logged_in"):
+        return RedirectResponse(url="/", status_code=303)
+
+    with db.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = ("CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Papel"
+               "FROM Usuario"
+               "WHERE ID_Usuario = %s"
+               )
+        
+        cursor.execute(sql, (ID_usuario,))
+        user = cursor.fetchone()
+    db.close()
+
+    nome_usuario = request.session.get("nome_usuario", None)
+
+    return templates.TemplateResponse("excluir.html", {
+        "request": request,
+        "nome_usuario": nome_usuario,
+        "user": user
+    })
+
+@app.post("/excluir_exe")
+async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(get_db)):
+
+    if not request.session.get("user_logged_in"):
+        return RedirectResponse(url="/", status_code=303)
+
+    try:
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+
+            sql_delete = "DELETE FROM Usuarios WHERE ID_Usuario = %s"
+            cursor.execute(sql_delete, (ID_Usuario,))
+            db.commit()
+
+            request.session["mensagem_header"] = "Exclusão do usuário"
+            request.session["mensagem"] = f"Médico excluído com sucesso."
+
+    except Exception as e:
+        request.session["mensagem_header"] = "Erro ao excluir"
+        request.session["mensagem"] = str(e)
+    finally:
+        db.close()
+
+
 
 
 handler = Mangum(app)

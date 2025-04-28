@@ -376,6 +376,31 @@ ul{
     border-radius: 5PX;
     margin-top: 30px;
 }
+
+.telaExcluir {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+    height: 80vh; 
+}
+
+.boxBotoesExcluir {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+    margin-top: 20px;
+}
+
+.boxBotoesExcluir input[type="submit"],
+.boxBotoesExcluir input[type="button"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    min-width: 180px; 
+    cursor: pointer;
+    border-radius: 5px;
+}
 .swiper-button-next, 
 .swiper-button-prev{
     position: static !important;
