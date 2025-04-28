@@ -18,12 +18,17 @@
     <section id="hero">
         <!--navbar-->
         <nav class="navigation">
+            <!--menu btn-->
+            <input type="checkbox" class="menu-btn" id="menu-btn">
+            <label for="menu-btn" class="menu-icon">
+                <span class="nav-icon"></span>
+            </label>
             <!--logo-->
-            <a href="#" class="logo">Clínica Hospitalar Santa Luzia</a>
+            <a href="#" class="logo">Hospital Santa Luzia Agendamentos</a>
             <!--menu-->
             <ul class="menu">
-                <li><a href="#">Quem Somos</a></li>
-                <li><a href="#">Serviços</a></li>
+                <li><a href="#quem-somos">Quem Somos</a></li>
+                <li><a href="#servicos">Serviços</a></li>
                 <li><a href="#">Valores</a></li>
             </ul>
             
@@ -92,6 +97,7 @@
             </button>
         </div>
     </div><!--final pesquisar-->
+
     <!--serviços-->
     <section class="info">
         <!--box 1 -->
@@ -272,15 +278,6 @@
                     <li><a href="#">Valores</a></li>
                 </ul>
             </div>
-            <div class="footer-link-box">
-                <strong>Links</strong>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Quem somos</a></li>
-                    <li><a href="#">Servicos</a></li>
-                    <li><a href="#">Valores</a></li>
-                </ul>
-            </div>
         </div>
         <!--bottom-->
         <div class="footer-bottom">
@@ -304,13 +301,9 @@
             prevEl: ".swiper-button-prev",
         },
           breakpoints: {
-            640: {
+            700: {
               slidesPerView: 2,
-              spaceBetween: 20,
-            },
-            768: {
-              slidesPerView: 4,
-              spaceBetween: 20,
+              spaceBetween: 40,
             },
             1024: {
               slidesPerView: 3,
