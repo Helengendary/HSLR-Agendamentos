@@ -314,7 +314,7 @@ ul{
     letter-spacing: 1px;
 }
 .servicos-heading-text h2{
-    color: #3b270e
+    color: #3b270e;
     font-size: 2.2rem;
     font-weight: 700;
     max-width: 600px;
@@ -375,4 +375,100 @@ ul{
     font-weight: 500;
     border-radius: 5PX;
     margin-top: 30px;
+}
+.swiper-button-next, 
+.swiper-button-prev{
+    position: static !important;
+    transform: translate(0,0);
+    margin: 10px !important;
+}
+.service-slide-btns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.swiper-button-next::after, 
+.swiper-button-prev::after{
+    font-size: 25px !important;
+    font-weight: 800;
+    color: #3b270e;
+}
+/*footer*/
+footer{
+    width: 100%;
+    background-color:#634a29;
+}
+.footer-container{
+    padding:  50px 0px;
+    max-width: 1200px;
+    width: 90%;
+    padding: 50px 0px;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.footer-company-box{
+    max-width: 330px;
+}
+.footer-company-box p{
+    color: rgb(240, 200, 213);
+    margin: 5px 0px;
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+    letter-spacing: 0.3px;
+}
+.footer-company-box a{
+    color: antiquewhite;
+}
+.footer-social{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.footer-social a{
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid antiquewhite;
+    color: antiquewhite;
+    font-size: 0.9rem;
+    transition: all ease 0.3s;
+}
+.footer-social a:hover{
+    background-color: #3b270e;
+    color: antiquewhite;
+}
+.footer-link-box strong{
+    color: antiquewhite;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.footer-link-box ul{
+    margin-top: 5px;
+}
+.footer-link-box ul li a{
+    color: rgb(240, 200, 213);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+.footer-bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    grid-gap: 10px;
+    border-top: 1px solid #3b270e;
+    padding: 20px 0px;
+    max-width: 1200px;
+    width: 90%;
+    margin: auto;
+}
+.footer-bottom span{
+    color: antiquewhite;
+    font-size: 0.9rem;
 }
