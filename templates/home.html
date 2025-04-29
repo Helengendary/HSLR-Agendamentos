@@ -48,31 +48,38 @@
                 <div class="modal-content">
                     <span class="close-btn" id="closeModal">&times;</span>
                     <h2>Editar Informações</h2>
-                    <form id="editForm">
-                        <div class="form-row">
-                            <input type="text" id="name" name="name" placeholder="Nome">
+                    <form id="editForm" >
+                        <div class="form-row" action="/atualizar" method="post">
+                            <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
                         </div>
                         <div class="form-row">
-                            <input type="text" id="surname" name="surname" placeholder="Sobrenome">
+                            <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
                         </div>
                         <div class="form-row">
-                            <input type="email" id="email" name="email" placeholder="E-mail">
+                            <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
                         </div>
                         <div class="form-row">
-                            <input type="text" id="phone" name="phone" placeholder="Número">
+                            <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
                         </div>
                         <div class="form-row">
-                            <input type="text" id="cpf" name="cpf" placeholder="CPF" disabled>
+                            <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
                         </div>
                         <div class="form-row">
-                            <input type="date" id="dob" name="dob" placeholder="Data de Nascimento" disabled>
+                            <input type="date" id="dob" name="dob" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
                         </div>
                         <div class="form-actions">
-                            <button type="button" class="delete-account">Excluir Conta</button>
-
+                            
                             <button type="submit" class="submit-btn">Alterar Dados</button>
                         </div>
                     </form>
+                    
+                    <form action="/excluir" method="post">
+                        <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
+                        <button type="submit" class="delete-account">Excluir Conta</button>
+                    </form>
+                    
+                    
+                    
                 </div>
             </div>
             

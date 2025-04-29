@@ -1,14 +1,11 @@
 # Instalar o arquivo txt: pip install --upgrade -r requirements.txt
-# Rodar o backend: python -m uvicorn app:app --app-dir ./src
-# pip install mysql-connector-python
-# python -m venv .venv
-# .\.venv\Scripts\activate.bat
 # pip install pymysql
+# pip install mysql-connector-python
+# .\.venv\Scripts\activate.bat
+# python -m venv .venv
+# Rodar o backend: python -m uvicorn app:app --app-dir ./src
 # Não está na ordem
 
-# user md5 (criptografar senha)
-# aparecer o nome e poder deslogar
-# cadastro
 # subir imagem do usuário (usar blob) (mediumblob) (sprint 3)
 
 import pymysql
@@ -25,7 +22,7 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "root",
+    "password": "1106",
     "database": "hslr"
 }
 
@@ -100,7 +97,7 @@ def cadastro(
             user = cursor.fetchone()
 
             if user:
-                req.session["nome_usuario"] = user[3] + ' ' + user[4]  
+                req.session["nome_usuario"] = user[3]
 
         db.close()
 
@@ -120,7 +117,13 @@ async def login(
             user = cursor.fetchone()
 
             if user:
-                req.session["nome_usuario"] = user[3] + ' ' + user[4]  
+                req.session["nome_usuario"] = user[3] 
+                req.session["sobrenome_usuario"] = user[4] 
+                req.session["email_usuario"] = user[2] 
+                req.session["numero_usuario"] = user[6] 
+                req.session["cpf_usuario"] = user[1] 
+                req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
+                req.session["id_usuario"] = user[0]
             else:
                 req.session["errorLogin"] = "Usuário ou senha inválidos."
                 req.session["errorLoginStatus"] = True
@@ -140,45 +143,13 @@ async def logout(request: Request):
     return RedirectResponse(url="/", status_code=303)
 
 
-
-
-@app.get("/excluir")
-
-async def excluir(request: Request, 
-                  ID_usuario: int, 
-                  db=Depends(get_db)):
-
-    if not request.session.get("user_logged_in"):
-        return RedirectResponse(url="/", status_code=303)
-
-    with db.cursor(pymysql.cursors.DictCursor) as cursor:
-        sql = ("CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Papel"
-               "FROM Usuario"
-               "WHERE ID_Usuario = %s"
-               )
-        
-        cursor.execute(sql, (ID_usuario,))
-        user = cursor.fetchone()
-    db.close()
-
-    nome_usuario = request.session.get("nome_usuario", None)
-
-    return templates.TemplateResponse("excluir.html", {
-        "request": request,
-        "nome_usuario": nome_usuario,
-        "user": user
-    })
-
-@app.post("/excluir_exe")
+@app.post("/excluir")
 async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(get_db)):
-
-    if not request.session.get("user_logged_in"):
-        return RedirectResponse(url="/", status_code=303)
 
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
 
-            sql_delete = "DELETE FROM Usuarios WHERE ID_Usuario = %s"
+            sql_delete = "DELETE FROM Usuario WHERE ID_Usuario = %s"
             cursor.execute(sql_delete, (ID_Usuario,))
             db.commit()
 
@@ -191,7 +162,41 @@ async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(
     finally:
         db.close()
 
+    return RedirectResponse(url="/", status_code=303)
 
 
+@app.post("/atualizar")
+async def atualizar_usuario(
+    req: Request,
+    ID_Usuario: int = Form(...),
+    nome: str = Form(...),
+    email: str = Form(...),
+    surname: str = Form(...),
+    telefone: str = Form(...),
+    db=Depends(get_db)
+):
+    try:
+        # Atualizar os dados do usuário
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+        
+            sql_update = """
+                UPDATE Usuario 
+                SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s 
+                WHERE ID_Usuario = %s
+            """
+            cursor.execute(sql_update, (nome, surname, email, telefone, ID_Usuario))
+        
+            db.commit()
+            request.session["mensagem_header"] = "Atualização realizada com sucesso"
+            request.session["mensagem"] = "Os dados foram atualizados com sucesso."
+
+    except Exception as e:
+        request.session["mensagem_header"] = "Erro ao atualizar"
+        request.session["mensagem"] = str(e)
+
+    finally:
+        db.close()
+
+    return RedirectResponse(url="/home", status_code=303)
 
 handler = Mangum(app)
