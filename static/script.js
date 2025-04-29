@@ -291,4 +291,3 @@ function formatarCPF(input) {
       modal.style.display = "none";
     }
   });
-
