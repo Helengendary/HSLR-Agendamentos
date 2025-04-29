@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exames</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: antiquewhite;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #5c4327;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      color: white;
+      font-size: 24px;
+    }
+    .search-filter {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .search-filter input[type="text"],
+    .search-filter select {
+      padding: 0.8rem;
+      border: 1px solid #745631;
+      border-radius: 4px;
+      width: 250px;
+      background-color: #f5ebd6;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .card-content h2 {
+      font-size: 20px;
+      color: #5c4327;
+      margin: 0;
+    }
+    .card-content p {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #8b5e3c;
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+    .btn:hover {
+      background-color: #a06b40;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Hospital Santa Luzia - Exames</h1>
+</header>
+
+<section class="search-filter">
+  <input type="text" id="searchInput" placeholder="Pesquisar exame..." />
+  <select id="categoryFilter">
+    <option value="">Filtrar por categoria</option>
+    <option value="Hormonal">Hormonal</option>
+    <option value="Obstétrico">Obstétrico</option>
+    <option value="Imagem">Imagem</option>
+    <option value="Preventivo">Preventivo</option>
+    <option value="Menopausa">Menopausa</option>
+    <option value="Laboratorial">Laboratorial</option>
+  </select>
+</section>
+
+<section class="cards-container" id="cardsContainer">
+    <div class="card" data-title="Papanicolau" data-category="Preventivo">
+      <img src="../static/img/utero_img.webp" alt="Imagem Papanicolau">
+      <div class="card-content">
+        <h2>Papanicolau</h2>
+        <p><strong>Categoria:</strong> Preventivo. Coleta de células do colo do útero.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Colposcopia" data-category="Preventivo">
+      <img src="../static/img/Colposcopia_img.jpg" alt="Imagem Colposcopia">
+      <div class="card-content">
+        <h2>Colposcopia</h2>
+        <p><strong>Categoria:</strong> Preventivo. Avaliação com aparelho óptico.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Ultrassonografia Obstétrica" data-category="Obstétrico">
+      <img src="../static/img/ultrassom_obstétrico_img.jpg" alt="Imagem Obstétrica">
+      <div class="card-content">
+        <h2>Ultrassonografia Obstétrica</h2>
+        <p><strong>Categoria:</strong> Obstétrico. Avaliação da gestação.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Ultrassonografia Transvaginal" data-category="Imagem">
+      <img src="../static/img/ultrassom-transvaginal_img.webp" alt="Imagem Transvaginal">
+      <div class="card-content">
+        <h2>Ultrassonografia Transvaginal</h2>
+        <p><strong>Categoria:</strong> Por Imagem. Avaliação interna do útero.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Mamografia" data-category="Imagem">
+      <img src="../static/img/mamografia_img.jpg" alt="Imagem Mamografia">
+      <div class="card-content">
+        <h2>Mamografia</h2>
+        <p><strong>Categoria:</strong> Por Imagem. Exame das mamas.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Beta hCG" data-category="Laboratorial">
+      <img src="../static/img/beta_img.webp" alt="Imagem Beta">
+      <div class="card-content">
+        <h2>Beta hCG</h2>
+        <p><strong>Categoria:</strong> Laboratorial. Confirmação de gravidez.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Densitometria Óssea" data-category="Menopausa">
+      <img src="../static/img/densiometria_img.webp" alt="Imagem Densitometria">
+      <div class="card-content">
+        <h2>Densitometria Óssea</h2>
+        <p><strong>Categoria:</strong> Menopausa. Avaliação óssea.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Ultrassonografia das Mamas" data-category="Imagem">
+      <img src="../static/img/ultrassom_mamas_img.png" alt="Imagem Ultrassom Mamas">
+      <div class="card-content">
+        <h2>Ultrassonografia das Mamas</h2>
+        <p><strong>Categoria:</strong> Por Imagem. Dosagem de hormônios.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Perfil Hormonal" data-category="Hormonal">
+      <img src="../static/img/exame_hormonal_img.jpg" alt="Imagem Hormonal">
+      <div class="card-content">
+        <h2>Perfil Hormonal</h2>
+        <p><strong>Categoria:</strong> Hormonal. Dosagem de hormônios.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Doppler Fetal" data-category="Obstétrico">
+      <img src="../static/img/doppler_fetal.webp" alt="Imagem Doppler Fetal">
+      <div class="card-content">
+        <h2>Doppler Fetal</h2>
+        <p><strong>Categoria:</strong> Obstétrico. Avaliação do fluxo sanguíneo fetal.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Teste de Streptococcus B" data-category="Obstétrico">
+      <img src="../static/img/streptococcus-b.webp" alt="Imagem Streptococcus B">
+      <div class="card-content">
+        <h2>Teste de Streptococcus B</h2>
+        <p><strong>Categoria:</strong> Obstétrico. Detecção de infecção bacteriana.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Teste de HPV" data-category="Preventivo">
+      <img src="../static/img/teste_hpv.jpg" alt="Imagem Teste HPV">
+      <div class="card-content">
+        <h2>Teste de HPV</h2>
+        <p><strong>Categoria:</strong> Preventivo. Identificação do vírus HPV.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Glicemia e Colesterol" data-category="Laboratorial">
+      <img src="../static/img/glicemia_colesterol.jpg" alt="Imagem Glicemia e Colesterol">
+      <div class="card-content">
+        <h2>Glicemia e Colesterol</h2>
+        <p><strong>Categoria:</strong> Laboratorial. Avaliação metabólica geral.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Exame de Fertilidade" data-category="Fertilidade">
+      <img src="../static/img/fertilidade_img.webp" alt="Imagem Fertilidade">
+      <div class="card-content">
+        <h2>Exame de Fertilidade</h2>
+        <p><strong>Categoria:</strong> Fertilidade. Avaliação hormonal e ovariana.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Dosagem de Hormônios" data-category="Hormonal">
+      <img src="../static/img/exame_hormonal_img.jpg" alt="Imagem Hormônios">
+      <div class="card-content">
+        <h2>Dosagem de Hormônios</h2>
+        <p><strong>Categoria:</strong> Hormonal. Avaliação hormonal geral.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" data-title="Exame de Mioma" data-category="Menopausa">
+      <img src="../static/img/miomas_img.jpg" alt="Imagem Mioma">
+      <div class="card-content">
+        <h2>Exame de Mioma</h2>
+        <p><strong>Categoria:</strong> Por Imagem. Avaliação de miomas uterinos.</p>
+        <div class="buttons">
+          <a href="#" class="btn">Ver mais detalhes</a>
+          <a href="#" class="btn">Agendar Exame</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const cards = document.querySelectorAll('.card');
+
+  function filterCards() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedCategory = categoryFilter.value;
+
+    cards.forEach(card => {
+      const title = card.dataset.title.toLowerCase();
+      const category = card.dataset.category;
+
+      const matchesSearch = title.includes(searchTerm);
+      const matchesCategory = !selectedCategory || category === selectedCategory;
+
+      if (matchesSearch && matchesCategory) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  searchInput.addEventListener('input', filterCards);
+  categoryFilter.addEventListener('change', filterCards);
+</script>
+
+</body>
+</html>
