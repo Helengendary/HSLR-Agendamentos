@@ -432,3 +432,52 @@ input.invalid, select.invalid {
     }
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+    text-align: center;
+  }
+  
+  .modal-content {
+    background-color: #faf4e7;
+    margin: 5% auto;
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
+  }
+  
+  .modal-content h2 {
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #654a27;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+  }
+  

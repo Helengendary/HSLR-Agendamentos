@@ -292,3 +292,22 @@ function formatarCPF(input) {
     }
   });
 
+  // Abrir o modal Logout
+  document.getElementById("openAlerta").addEventListener("click", function(event) {
+    event.preventDefault(); // evita o comportamento padrão do link
+    document.getElementById("alertaModal").style.display = "block";
+  });
+
+  // Fechar o modal Logout
+  document.getElementById("closeAlertaModal").addEventListener("click", function() {
+    document.getElementById("alertaModal").style.display = "none";
+  });
+
+  // Fechar ao clicar fora do modal Logout
+  window.addEventListener("click", function(event) {
+    var modal = document.getElementById("alertaModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+

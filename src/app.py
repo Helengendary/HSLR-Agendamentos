@@ -1,10 +1,12 @@
-# Instalar o arquivo txt: pip install --upgrade -r requirements.txt
-# pip install pymysql
-# pip install mysql-connector-python
-# .\.venv\Scripts\activate.bat
+# Instalar o arquivo txt: 
 # python -m venv .venv
-# Rodar o backend: python -m uvicorn app:app --app-dir ./src
-# Não está na ordem
+# .\.venv\Scripts\activate.bat
+# pip install --upgrade -r requirements.txt
+# pip install pymysql
+
+# Rodar o backend:
+#  python -m uvicorn app:app --app-dir ./src
+
 
 # subir imagem do usuário (usar blob) (mediumblob) (sprint 3)
 
@@ -22,7 +24,7 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "1106",
+    "password": "root",
     "database": "hslr"
 }
 
@@ -169,14 +171,19 @@ async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(
 async def atualizar_usuario(
     req: Request,
     ID_Usuario: int = Form(...),
-    nome: str = Form(...),
+    name: str = Form(...),
     email: str = Form(...),
     surname: str = Form(...),
-    telefone: str = Form(...),
-    db=Depends(get_db)
+    phone: str = Form(...),
+    db = Depends(get_db)
 ):
     try:
         # Atualizar os dados do usuário
+
+        print("ID:", ID_Usuario)
+        print("Nome:", name)
+        print("Email:", email)
+
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
         
             sql_update = """
@@ -184,19 +191,54 @@ async def atualizar_usuario(
                 SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s 
                 WHERE ID_Usuario = %s
             """
-            cursor.execute(sql_update, (nome, surname, email, telefone, ID_Usuario))
+            cursor.execute(sql_update, (name, surname, email, phone, ID_Usuario))
         
             db.commit()
-            request.session["mensagem_header"] = "Atualização realizada com sucesso"
-            request.session["mensagem"] = "Os dados foram atualizados com sucesso."
+
+            req.session["nome_usuario"] = name 
+            req.session["sobrenome_usuario"] = surname 
+            req.session["email_usuario"] = email 
+            req.session["numero_usuario"] = phone
+            req.session["mensagem_header"] = "Atualização realizada com sucesso"
+            req.session["mensagem"] = "Os dados foram atualizados com sucesso."
 
     except Exception as e:
-        request.session["mensagem_header"] = "Erro ao atualizar"
-        request.session["mensagem"] = str(e)
+        req.session["mensagem_header"] = "Erro ao atualizar"
+        req.session["mensagem"] = str(e)
 
     finally:
         db.close()
 
     return RedirectResponse(url="/home", status_code=303)
+
+@app.post("/novaSenha")
+async def atualizar_usuario(
+    req: Request,
+    cpfconfir: int = Form(...),
+    novasenha: str = Form(...),
+    novaconfirmarsenhacadastro: str = Form(...),
+    db = Depends(get_db)
+):
+    try:
+
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+        
+            sql_update = """
+                UPDATE Usuario 
+                SET Senha = %s
+                WHERE CPF = %s
+            """
+            cursor.execute(sql_update, (novasenha, cpfconfir))
+        
+            db.commit()
+
+    except Exception as e:
+        req.session["mensagem_header"] = "Erro ao atualizar"
+        req.session["mensagem"] = str(e)
+
+    finally:
+        db.close()
+
+    return RedirectResponse(url="/", status_code=303)
 
 handler = Mangum(app)
