@@ -20,6 +20,7 @@ from mangum import Mangum
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
+from datetime import date, datetime
 
 DB_CONFIG = {
     "host": "localhost",
@@ -34,7 +35,19 @@ def get_db():
 
 app = FastAPI()
 
-app.add_middleware(SessionMiddleware, secret_key="clinica")
+
+#expiração da sessão por inatividade
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="hslr",
+    session_cookie="clinica_session",
+    max_age = 30,  #sessao expira apos 30s
+    same_site="lax",
+    https_only=False
+)
+
+
+#app.add_middleware(SessionMiddleware, secret_key="clinica")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 pages = Jinja2Templates(directory='templates')
@@ -43,12 +56,21 @@ pages = Jinja2Templates(directory='templates')
 def home(req: Request):
     return pages.TemplateResponse(request=req, name='index.html')
 
+
+
+#aqui tira o aviso que a sessao expirou
 @app.get('/login')
 def home(req: Request):
-    return pages.TemplateResponse(request=req, name='login.html')
+    expirado = req.session.pop("expirado", False)
+    return pages.TemplateResponse(request=req, name='login.html', context={"expirado": expirado})
 
+
+#quando a sessao expira, nome_usuario vira None, redirecionando para a pagina de login
 @app.get('/home')
 def home(req: Request):
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True  # Marcar que expirou
+        return RedirectResponse(url="/login", status_code=303)
     return pages.TemplateResponse(request=req, name='home.html')
 
 @app.post('/cadastro/paciente')
@@ -147,6 +169,10 @@ async def logout(request: Request):
 
 @app.post("/excluir")
 async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(get_db)):
+    if not request.session.get("nome_usuario"):
+        request.session["expirado"] = True
+        return RedirectResponse(url="/login", status_code=303)
+
 
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -177,6 +203,11 @@ async def atualizar_usuario(
     phone: str = Form(...),
     db = Depends(get_db)
 ):
+     
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True
+        return RedirectResponse(url="/login", status_code=303)
+
     try:
         # Atualizar os dados do usuário
 
@@ -240,5 +271,12 @@ async def atualizar_usuario(
         db.close()
 
     return RedirectResponse(url="/", status_code=303)
+
+
+@app.post("/reset_session")
+async def reset_session(request: Request):
+    request.session.pop("mensagem_header", None)
+    request.session.pop("mensagem", None)
+    return {"status": "ok"}
 
 handler = Mangum(app)

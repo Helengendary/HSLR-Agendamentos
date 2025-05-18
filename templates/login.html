@@ -12,6 +12,12 @@
 
 </head>
 <body>
+
+    {% if expirado %}
+    <div class="aviso-expirado">
+         Sua sessão expirou. Faça login novamente. 
+    </div>
+    {% endif %}
     
     <div class="container">
         <div class="content first-content">
