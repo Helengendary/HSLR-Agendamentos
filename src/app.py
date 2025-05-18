@@ -11,7 +11,6 @@
 # subir imagem do usuário (usar blob) (mediumblob) (sprint 3)
 
 import pymysql
-import base64
 
 from fastapi.responses import RedirectResponse
 from fastapi import FastAPI, Form, Depends
@@ -21,35 +20,42 @@ from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 
+
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
     "password": "root",
     "database": "hslr"
 }
-
 def get_db():
     return pymysql.connect(**DB_CONFIG)
 
-
 app = FastAPI()
-
-app.add_middleware(SessionMiddleware, secret_key="clinica")
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="clinica", 
+    max_age = 50
+ )
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
 pages = Jinja2Templates(directory='templates')
 
+
 @app.get('/')
-def home(req: Request):
+def index(req: Request):
     return pages.TemplateResponse(request=req, name='index.html')
 
 @app.get('/login')
-def home(req: Request):
+def login(req: Request):
     return pages.TemplateResponse(request=req, name='login.html')
 
 @app.get('/home')
 def home(req: Request):
     return pages.TemplateResponse(request=req, name='home.html')
+
+@app.get('/exames')
+def exames(req: Request):
+    return pages.TemplateResponse(request=req, name='exames.html')
+
 
 @app.post('/cadastro/paciente')
 def cadastro(
@@ -57,7 +63,7 @@ def cadastro(
     cpf: str = Form(...),
     email: str = Form(...),
     nome: str = Form(...),
-    # genero: str = Form(...),
+    idade: str = Form(...),
     sobrenome: str = Form(...),
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
@@ -67,13 +73,10 @@ def cadastro(
       
     try:
         with db.cursor() as cursor:
-            # sql = """INSERT INTO Usuário (CPF, Email, Nome, Sobrenome, DataDeNascimento, Genero, Telefone, Senha, Papel)
-            #          VALUES (%s, %s, %s, %s, %s, %s, %s, MD5(%s), %s)"""
-            # cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, genero, telefone, senha, 3))
 
-            sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Papel)
-                     VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), %s)"""
-            cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, 3))
+            sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Idade, Telefone, Senha, Papel)
+                     VALUES (%s, %s, %s, %s, %s, %s,  %s, MD5(%s), %s)"""
+            cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, idade, telefone, senha, 3))
             db.commit()
             
     except pymysql.MySQLError as e:
@@ -225,7 +228,7 @@ async def atualizar_usuario(
         
             sql_update = """
                 UPDATE Usuario 
-                SET Senha = %s
+                SET Senha = MD5(%s)
                 WHERE CPF = %s
             """
             cursor.execute(sql_update, (novasenha, cpfconfir))

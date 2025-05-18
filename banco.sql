@@ -16,7 +16,7 @@ create table Usuario (
     Nome varchar(100) not null,
     Sobrenome varchar(200) not null,
     DataDeNascimento date not null,
-    # Genero varchar(50) not null,
+    Idade int not null,
     Telefone varchar(50) not null,
     Senha varchar (255) not null,
     Papel int not null,

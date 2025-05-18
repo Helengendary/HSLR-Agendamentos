@@ -13,10 +13,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const dataNascimentoValida = validarDataNascimento();
         const telefoneValido = validarTelefone();
         const senhaValida = validarSenha();
+        const idadeValida = validarIdade();
 
         // vai permitir o envio apenas se todas as validações passarem
         if (nomeValido && sobrenomeValido && cpfValido 
-            && dataNascimentoValida && telefoneValido && senhaValida) {
+            && dataNascimentoValida && telefoneValido && senhaValida && idadeValida) {
                 document.getElementById('cadastroForm').submit();
         }
     });
@@ -31,6 +32,13 @@ function validarNome() {
         showError('nomeError', 'O nome deve ter no mínimo 3 caracteres.');
         return false;
     }return true;}
+function validarIdade() {
+    const idade = document.getElementById('idade-cadastro').value;
+    if (idade < 9) {
+        showError('idadeError', 'Muito jovem.');
+        console.log("é menidfnvjfvkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        return false;
+    } else {return true;}}
 function validarSobrenome() {
     const sobrenome = document.getElementById('sobrenome-cadastro').value.trim();
     if (sobrenome === '') {
@@ -292,18 +300,37 @@ function formatarCPF(input) {
     }
   });
 
-  // Abrir o modal Logout
+  // Abrir o modal Alerta
   document.getElementById("openAlerta").addEventListener("click", function(event) {
     event.preventDefault(); // evita o comportamento padrão do link
     document.getElementById("alertaModal").style.display = "block";
   });
 
-  // Fechar o modal Logout
+  // Fechar o modal Alerta
   document.getElementById("closeAlertaModal").addEventListener("click", function() {
     document.getElementById("alertaModal").style.display = "none";
   });
 
-  // Fechar ao clicar fora do modal Logout
+  // Fechar ao clicar fora do modal Alerta
+  window.addEventListener("click", function(event) {
+    var modal = document.getElementById("alertaModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  // Abrir o modal delete
+  document.getElementById("opendelete").addEventListener("click", function(event) {
+    event.preventDefault(); // evita o comportamento padrão do link
+    document.getElementById("deleteModal").style.display = "block";
+  });
+
+  // Fechar o modal delete
+  document.getElementById("closedeleteModal").addEventListener("click", function() {
+    document.getElementById("deleteModal").style.display = "none";
+  });
+
+  // Fechar ao clicar fora do modal delete
   window.addEventListener("click", function(event) {
     var modal = document.getElementById("alertaModal");
     if (event.target === modal) {
