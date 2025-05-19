@@ -1,0 +1,68 @@
+/* Identidade visual da Clínica HSLR - Médicos */
+
+:root {
+    --cor-fundo: #fcf6f0;
+    --cor-texto: #3b270e;
+    --cor-input: #ffffff;
+    --cor-borda: #d9b99b;
+    --cor-botao: #6e4e2e;
+    --cor-botao-hover: #5a3f24;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: var(--cor-input);
+    border-radius: 10px;
+    padding: 40px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: var(--cor-texto);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin: 12px 0 6px;
+    color: var(--cor-texto);
+}
+
+form input[type="text"],
+form input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 5px;
+    background-color: var(--cor-input);
+    box-sizing: border-box;
+}
+
+form input[type="submit"] {
+    margin-top: 20px;
+    background-color: var(--cor-botao);
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: var(--cor-botao-hover);
+}

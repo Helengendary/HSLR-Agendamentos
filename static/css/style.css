@@ -232,7 +232,7 @@ input:-webkit-autofill
     color: #7f8c8d;
     padding: 0 5px;
 }
-/* Estilo para inputs inválidos */
+/* Estilo para inputs inválidos ****************************/
 input.invalid, select.invalid {
     border: 1px solid #ff0000 !important;
 }
@@ -480,4 +480,91 @@ input.invalid, select.invalid {
   .close-btn:focus {
     color: black;
   }
-  
+  /*STYLE DO CREATE MEDICO**********************************************************/
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+    width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: #2c7edb;
+    outline: none;
+    box-shadow: 0 0 5px rgba(44, 126, 219, 0.5);
+}
+
+input[type="submit"],
+input[type="button"],
+.w3-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s ease-in-out;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.w3-btn:hover {
+    background-color: #135ba1 !important;
+    color: #fff !important;
+}
+
+label {
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.w3-theme {
+    background-color: #2c7edb !important;
+    color: white !important;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.w3-card-4 {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.w3-table-all tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+img#w3-image-preview {
+    max-width: 200px;
+    height: auto;
+    margin: auto;
+    display: block;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal */
+.w3-modal-content {
+    border-radius: 10px;
+}
+
+/* Mensagem */
+.w3-modal h2 {
+    color: #2c7edb;
+    margin-bottom: 10px;
+}
