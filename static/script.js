@@ -13,11 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const dataNascimentoValida = validarDataNascimento();
         const telefoneValido = validarTelefone();
         const senhaValida = validarSenha();
-        const idadeValida = validarIdade();
 
         // vai permitir o envio apenas se todas as validações passarem
         if (nomeValido && sobrenomeValido && cpfValido 
-            && dataNascimentoValida && telefoneValido && senhaValida && idadeValida) {
+            && dataNascimentoValida && telefoneValido && senhaValida ) {
                 document.getElementById('cadastroForm').submit();
         }
     });
@@ -32,13 +31,6 @@ function validarNome() {
         showError('nomeError', 'O nome deve ter no mínimo 3 caracteres.');
         return false;
     }return true;}
-function validarIdade() {
-    const idade = document.getElementById('idade-cadastro').value;
-    if (idade < 9) {
-        showError('idadeError', 'Muito jovem.');
-        console.log("é menidfnvjfvkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        return false;
-    } else {return true;}}
 function validarSobrenome() {
     const sobrenome = document.getElementById('sobrenome-cadastro').value.trim();
     if (sobrenome === '') {

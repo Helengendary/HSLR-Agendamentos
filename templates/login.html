@@ -57,7 +57,7 @@
                 <p style="color: red;">{{ error }}</p>
                 {% endif %}
 
-                <form class="form" id="cadastroForm" action="/cadastro/paciente" method="post">
+                <form class="form" id="cadastroForm" action="/cadastro" method="post">
                     <div class="alinhamento-form">
                         <div>
                             <label class="label-input" for="nome-cadastro">
@@ -78,12 +78,6 @@
                                 <input name="dataNascimento" type="date" id="nascimento-cadastro" placeholder="Data de Nascimento" required>
                             </label>
                             <div id="dataNascimentoError" class="error-message"></div>
-                           
-                            <label class="label-input"  for="idade-cadastro">
-                                <i class="fas fa-calendar icon-modify"></i>
-                                <input name="idade" type="number" id="idade-cadastro" placeholder="Idade" required>
-                            </label>
-                            <div id="idadeError" class="error-message"></div> 
                             
                             <label class="label-input" for="email-cadastro">
                                 <i class="fas fa-envelope icon-modify"></i>

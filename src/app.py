@@ -11,15 +11,15 @@
 # subir imagem do usuário (usar blob) (mediumblob) (sprint 3)
 
 import pymysql
+import base64
 
 from fastapi.responses import RedirectResponse
-from fastapi import FastAPI, Form, Depends
+from fastapi import FastAPI, Form, Depends, Query, UploadFile, File 
 from fastapi.staticfiles import StaticFiles
 from mangum import Mangum
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
-from datetime import date, datetime
 
 
 DB_CONFIG = {
@@ -39,7 +39,7 @@ app.add_middleware(
     SessionMiddleware,
     secret_key="hslr",
     session_cookie="clinica_session",
-    max_age = 30,  #sessao expira apos 30s
+    max_age = 300000000000000000000000000000000000000000000000,  #sessao expira apos 30s
     same_site="lax",
     https_only=False
 )
@@ -54,11 +54,11 @@ pages = Jinja2Templates(directory='templates')
 def index(req: Request):
     return pages.TemplateResponse(request=req, name='index.html')
 
-
-
 #aqui tira o aviso que a sessao expirou
 @app.get('/login')
-def home(req: Request):
+def login(req: Request):
+    req.session.clear()
+
     expirado = req.session.pop("expirado", False)
     return pages.TemplateResponse(request=req, name='login.html', context={"expirado": expirado})
 
@@ -71,62 +71,184 @@ def home(req: Request):
         return RedirectResponse(url="/login", status_code=303)
     return pages.TemplateResponse(request=req, name='home.html')
 
+#quando a sessao expira, nome_usuario vira None, redirecionando para a pagina de login
+@app.get('/homeMedico')
+def homeMedico(req: Request):
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True  # Marcar que expirou
+        return RedirectResponse(url="/login", status_code=303)
+    if req.session.get("papel") != 2:
+        return RedirectResponse(url="/home", status_code=303)
+    
+    return pages.TemplateResponse(request=req, name='homeMedico.html')
+
 @app.get('/exames')
-def exames(req: Request):
-    return pages.TemplateResponse(request=req, name='exames.html')
+def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True  # Marcar que expirou
+        return RedirectResponse(url="/login", status_code=303)
+    elif req.session.get("papel") != 3:
+        return RedirectResponse(url="/home", status_code=303)
+
+    try:
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+
+            cursor.execute("SELECT * FROM CategoriaExame")
+            categorias = cursor.fetchall()
+
+            if cate:                                          
+                sql = """
+                    SELECT E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
+                    FROM Exame E
+                    INNER JOIN CategoriaExame C ON C.ID_categoriaExame = E.ID_categoria
+                    WHERE C.Nome = %s
+                """
+                cursor.execute(sql, (cate,))
+            else:
+                sql = """
+                    SELECT E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
+                    FROM Exame E
+                    INNER JOIN CategoriaExame C ON C.ID_categoriaExame = E.ID_categoria
+                """
+                cursor.execute(sql)
+
+            exames = cursor.fetchall()
+            for ex in exames:
+                if ex['Imagem']:
+                    ex['Imagem'] = base64.b64encode(ex['Imagem']).decode('utf-8')
+    finally:
+        db.close()
+
+    return pages.TemplateResponse(
+        'exames.html',
+        {
+            'request': req,
+            'categorias': categorias,
+            'exames': exames,
+            'cate': cate       
+        }
+    )
 
 
-@app.post('/cadastro/paciente')
+
+@app.post('/cadastro')
 def cadastro(
     req: Request,
     cpf: str = Form(...),
     email: str = Form(...),
     nome: str = Form(...),
-    idade: str = Form(...),
     sobrenome: str = Form(...),
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
     senha: str = Form(...),
     db=Depends(get_db)
 ):
-      
-    try:
-        with db.cursor() as cursor:
+    passouArroba = False
+    dominioEmail = ''
+    for char in email:
+        if char == '@':
+            passouArroba = True
+        elif passouArroba:
+            dominioEmail += char
 
-            sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Idade, Telefone, Senha, Papel)
-                     VALUES (%s, %s, %s, %s, %s, %s,  %s, MD5(%s), %s)"""
-            cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, idade, telefone, senha, 3))
-            db.commit()
-            
-    except pymysql.MySQLError as e:
+    if dominioEmail != 'hsrl.saude.br':
+# --------------------------------------------------- CADASTRO PACIENTE --------------------------------------------------------------------------
+        try:
+            with db.cursor() as cursor:
 
-        if "Duplicate entry" in str(e):
-            if "CPF" in str(e):
-                msg = "Este CPF já está cadastrado."
-            elif "Email" in str(e):
-                msg = "Este e-mail já está cadastrado."
+                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel)
+                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s)"""
+                caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.webp'
+                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 3))
+                db.commit()
+                
+        except pymysql.MySQLError as e:
+
+            print(e)
+
+            if "Duplicate entry" in str(e):
+                if "CPF" in str(e):
+                    msg = "Este CPF já está cadastrado."
+                elif "Email" in str(e):
+                    msg = "Este e-mail já está cadastrado."
+                else:
+                    msg = "Dados duplicados detectados."
             else:
-                msg = "Dados duplicados detectados."
-        else:
-            msg = "Erro ao cadastrar. Tente novamente."
+                msg = "Erro ao cadastrar. Tente novamente."
 
-        req.session["error"] = msg
-        req.session["errorStatus"] = True
+            req.session["error"] = msg
+            req.session["errorStatus"] = True
 
-        return RedirectResponse(url='/login', status_code=303)
+            return RedirectResponse(url='/login', status_code=303)
 
-    finally:
-        with db.cursor() as cursor:
-            cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
-            user = cursor.fetchone()
+        finally:
+            with db.cursor() as cursor:
+                cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
+                user = cursor.fetchone()
 
-            if user:
-                req.session["nome_usuario"] = user[3]
+                if user:
+                    req.session["nome_usuario"] = user[3] 
+                    req.session["sobrenome_usuario"] = user[4] 
+                    req.session["email_usuario"] = user[2] 
+                    req.session["numero_usuario"] = user[6] 
+                    req.session["cpf_usuario"] = user[1] 
+                    req.session["foto_usuario"] = base64.b64encode(user[8]).decode("utf-8") 
+                    req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
+                    req.session["id_usuario"] = user[0]
+                    req.session["papel"] = user[9]
 
-        db.close()
+            db.close()
 
-    return RedirectResponse(url='/home', status_code=303)
+        return RedirectResponse(url='/home', status_code=303)
 
+# --------------------------------------------- CADASTRO MÈDICO --------------------------------------------------------------------------------------
+    else: 
+        try:
+            with db.cursor() as cursor:
+
+                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Papel)
+                        VALUES (%s, %s, %s, %s, %s, %s,  %s, MD5(%s), %s)"""
+                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, 2))
+                db.commit()
+                
+        except pymysql.MySQLError as e:
+
+            if "Duplicate entry" in str(e):
+                if "CPF" in str(e):
+                    msg = "Este CPF já está cadastrado."
+                elif "Email" in str(e):
+                    msg = "Este e-mail já está cadastrado."
+                else:
+                    msg = "Dados duplicados detectados."
+            else:
+                msg = "Erro ao cadastrar. Tente novamente."
+
+            req.session["error"] = msg
+            req.session["errorStatus"] = True
+
+            return RedirectResponse(url='/login', status_code=303)
+
+        finally:
+            with db.cursor() as cursor:
+                cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
+                user = cursor.fetchone()
+
+                if user:
+                    req.session["nome_usuario"] = user[3] 
+                    req.session["sobrenome_usuario"] = user[4] 
+                    req.session["email_usuario"] = user[2] 
+                    req.session["numero_usuario"] = user[6] 
+                    req.session["cpf_usuario"] = user[1] 
+                    req.session["foto_usuario"] = base64.b64encode(user[8]).decode("utf-8") 
+                    req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
+                    req.session["id_usuario"] = user[0]
+                    req.session["papel"] = user[9]
+
+            db.close()
+
+        return RedirectResponse(url='/homeMedico', status_code=303)
+    
+# ------------------------------------------------------------- LOGIN -----------------------------------------------------------------------------------
 @app.post("/login")
 async def login(
     req: Request,
@@ -148,16 +270,24 @@ async def login(
                 req.session["cpf_usuario"] = user[1] 
                 req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                 req.session["id_usuario"] = user[0]
+                req.session["papel"] = user[9]
+
+                if user[8]:
+                    foto = base64.b64encode(user[8]).decode("utf-8")
+                    req.session["foto_usuario"] = foto
             else:
                 req.session["errorLogin"] = "Usuário ou senha inválidos."
                 req.session["errorLoginStatus"] = True
                 return RedirectResponse(url="/", status_code=303)
             
+    except pymysql.MySQLError as e:
+        print(e)
     finally:
         db.close()
         
     return RedirectResponse(url="/home", status_code=303)
 
+# ---------------------------------------------------------- LOGOUT -----------------------------------------------------------------------------------
 @app.get("/logout")
 async def logout(request: Request):
     
@@ -166,7 +296,7 @@ async def logout(request: Request):
     #volta pra página inicial
     return RedirectResponse(url="/", status_code=303)
 
-
+# -------------------------------------------------------------------------EXCLUIR ----------------------------------------------------------
 @app.post("/excluir")
 async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(get_db)):
     if not request.session.get("nome_usuario"):
@@ -192,13 +322,15 @@ async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(
 
     return RedirectResponse(url="/", status_code=303)
 
+# -------------------------------------------------------------------------- UPDATE USER ------------------------------------------------------------
 
-@app.post("/atualizar")
+@app.post("/atualizarUser")
 async def atualizar_usuario(
     req: Request,
     ID_Usuario: int = Form(...),
     name: str = Form(...),
     email: str = Form(...),
+    imagem: UploadFile = File(...),
     surname: str = Form(...),
     phone: str = Form(...),
     db = Depends(get_db)
@@ -209,20 +341,16 @@ async def atualizar_usuario(
         return RedirectResponse(url="/login", status_code=303)
 
     try:
-        # Atualizar os dados do usuário
-
-        print("ID:", ID_Usuario)
-        print("Nome:", name)
-        print("Email:", email)
+        imagem_data = await imagem.read() 
 
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
         
             sql_update = """
                 UPDATE Usuario 
-                SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s 
+                SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s, Imagem = %s
                 WHERE ID_Usuario = %s
             """
-            cursor.execute(sql_update, (name, surname, email, phone, ID_Usuario))
+            cursor.execute(sql_update, (name, surname, email, phone, imagem_data, ID_Usuario))
         
             db.commit()
 
@@ -230,6 +358,7 @@ async def atualizar_usuario(
             req.session["sobrenome_usuario"] = surname 
             req.session["email_usuario"] = email 
             req.session["numero_usuario"] = phone
+            req.session["foto_usuario"] = base64.b64encode(imagem_data).decode('utf-8')
             req.session["mensagem_header"] = "Atualização realizada com sucesso"
             req.session["mensagem"] = "Os dados foram atualizados com sucesso."
 
@@ -242,6 +371,7 @@ async def atualizar_usuario(
 
     return RedirectResponse(url="/home", status_code=303)
 
+# -------------------------------------------------------------------- UPDATE SENHA ---------------------------------------------------------------------------
 @app.post("/novaSenha")
 async def atualizar_usuario(
     req: Request,
@@ -272,7 +402,7 @@ async def atualizar_usuario(
 
     return RedirectResponse(url="/", status_code=303)
 
-
+# ------------------------------------------------------------ FIM DE SESSÃO -----------------------------------------------------------------------------------
 @app.post("/reset_session")
 async def reset_session(request: Request):
     request.session.pop("mensagem_header", None)
