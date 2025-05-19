@@ -12,6 +12,12 @@
 
 </head>
 <body>
+
+    {% if expirado %}
+    <div class="aviso-expirado">
+         Sua sessão expirou. Faça login novamente. 
+    </div>
+    {% endif %}
     
     <div class="container">
         <div class="content first-content">
@@ -51,7 +57,7 @@
                 <p style="color: red;">{{ error }}</p>
                 {% endif %}
 
-                <form class="form" id="cadastroForm" action="/cadastro/paciente" method="post">
+                <form class="form" id="cadastroForm" action="/cadastro" method="post">
                     <div class="alinhamento-form">
                         <div>
                             <label class="label-input" for="nome-cadastro">
@@ -66,18 +72,6 @@
                             </label>
                             <div id="sobrenomeError" class="error-message"></div>
                             <div id="nomeError" class="error-message"></div>
-<!--     
-                            <label class="label-input" for="genero-cadastro">
-                                <i class="fas fa-venus-mars icon-modify"></i>
-                                <select name="genero" id="genero-cadastro" required>
-                                    <option value="" disabled selected>Gênero</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                    <option value="outro">Outro</option>
-                                    <option value="nao_informar">Prefiro não informar</option>
-                                </select>
-                            </label>
-                            <div id="generoError" class="error-message"></div> -->
     
                             <label class="label-input"  for="nascimento-cadastro">
                                 <i class="fas fa-calendar icon-modify"></i>
@@ -179,35 +173,6 @@
                     <button class="btn btn-second" type="submit">Entrar</button>
                 </form>
                 <a class="password" id="openModal" href="#">Esqueceu sua senha?</a>
-
-                <div id="editModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" id="closeSenhaModal">&times;</span>
-                    <h2>Esqueceu sua senha?</h2>
-
-                    <form action="/novaSenha" method="post">
-                    <label class="label-input" for="cpfconfir">
-                        <i class="fas fa-id-card icon-modify"></i>
-                        <input name="cpfconfir" type="text" oninput="formatarCPF(this)" placeholder="CPF" required>
-                    </label>
-
-                    <label class="label-input" for="novasenha">
-                        <i class="fas fa-lock icon-modify"></i>
-                        <input name="novasenha" type="password" placeholder="Nova Senha" required>
-                    </label>
-
-                    <label class="label-input" for="novaconfirmarsenhacadastro">
-                        <i class="fas fa-lock icon-modify"></i>
-                        <input name="novaconfirmarsenhacadastro" type="password" placeholder="Confirmar Senha" required>
-                    </label>
-
-                    <div class="form-actions">
-                        <button class="submit-btn" type="submit">Mudar Senha</button>
-                    </div>
-                    </form>
-                </div>
-                </div>
-
             </div>
         </div>
     </div>

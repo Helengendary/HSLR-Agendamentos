@@ -17,6 +17,15 @@
       padding: 1rem 2rem;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+
+    .navigation{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0px auto;
+      padding: 30px 0px;
+      }
+
     header h1 {
       color: white;
       font-size: 24px;
@@ -96,239 +105,385 @@
     .btn:hover {
       background-color: #a06b40;
     }
+
+    
+/* Estilo do botão principal */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Container do dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Menu suspenso (inicialmente escondido) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+/* Links dentro do dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Efeito ao passar o mouse */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Mostrar o menu ao passar o mouse (ou você pode usar JS pra clique) */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.user-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+    text-align: center;
+  }
+  
+  .modal-content {
+    background-color: #faf4e7;
+    margin: 5% auto;
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
+  }
+  
+  .modal-content h2 {
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #654a27;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+  }
+  
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    grid-template-rows: auto;
+  }
+  
+  form input {
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  form input[name="name"],
+  form input[name="surname"],
+  form input[name="email"],
+  form input[name="phone"] {
+    background-color: #f5ebd6;
+    border: 1px solid #745631;
+  }
+  
+  form input[name="cpf"],
+  form input[name="dob"] {
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
+  
+  form input::placeholder {
+    color: #888;
+    font-style: italic;
+  }
+  
+  .form-buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    align-items: center;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%; /* Garante que ocupa todo o espaço horizontal */
+  }
+  
+  button.delete-account {
+    background-color: #d93025;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button.delete-account:hover {
+    background-color: #dd3b30;
+  }
+  
+  button.submit-btn {
+    background-color: #20B2AA;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button.submit-btn:hover {
+    background-color: #23c0b8;
+  }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Hospital Santa Luzia - Exames</h1>
+  <nav class="navigation">
+    <div style="display: flex; flex-direction: row; align-items: center;">
+      <form action="/home" method="get" id="voltarForm">
+        <span onclick="document.getElementById('voltarForm').submit();"  style="cursor: pointer; font-size: 3rem; color: white; padding-right: 20px;">‹</span>
+      </form>
+      <h1>Hospital Santa Luzia - Exames</h1>
+    </div>
+
+
+    <div class="dropdown">
+        <button class="dropbtn">
+            <img src="../static/img/hero-image.png" alt="Foto do usuário" class="user-img">
+        </button>                <div class="dropdown-content">
+            <a id="openModal">Editar Informações</a>
+            <a id="openLogoutModal">Log out</a>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Editar Informações</h2>
+            <form id="editForm" action="/atualizarUser" method="post">
+                <div class="form-row">
+                    <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
+                </div>
+                <div class="form-row">
+                    <input type="file" name="foto">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
+                </div>
+                <div class="form-row">
+                    <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
+                </div>
+                <div class="form-row">
+                    <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
+                </div>
+
+                <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
+                
+                <div class="form-actions"> 
+                    <button type="submit"  class="submit-btn">Alterar Dados</button>
+                </div>
+            </form>
+            
+            <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
+            
+        </div>
+    </div>
+    
+
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeLogoutModal">&times;</span>
+            <h2>Certeza que deseja deslogar?</h2>
+            <div>
+                <form action="/logout" method="get">  
+                    <button href="#" class="delete-account" type="submit">Logout</button>
+                </form>
+                <form action="/home" method="get">  
+                    <button href="#" class="submit-btn" type="submit">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="alertaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeAlertaModal">&times;</span>
+            <h2>{{ request.session.get('mensagem_header') }}</h2>
+        </div>
+    </div>
+    
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closedeleteModal">&times;</span>
+            <h2>Certeza que deseja excluir a conta?</h2>
+            <div>
+                <form action="/excluir" method="post">
+                    <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
+                    <button type="submit" class="delete-account">Confirmar</button>
+                </form>
+
+                <form action="/home" method="get">  
+                    <button href="#" class="submit-btn" type="submit">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+  </nav>
 </header>
 
 <section class="search-filter">
   <input type="text" id="searchInput" placeholder="Pesquisar exame..." />
-  <select id="categoryFilter">
-    <option value="">Filtrar por categoria</option>
-    <option value="Hormonal">Hormonal</option>
-    <option value="Obstétrico">Obstétrico</option>
-    <option value="Imagem">Imagem</option>
-    <option value="Preventivo">Preventivo</option>
-    <option value="Menopausa">Menopausa</option>
-    <option value="Laboratorial">Laboratorial</option>
-  </select>
+
+  <form action="/exames" method="get">
+    <select name="cate" onchange="this.form.submit()">
+      <option value="">Filtrar por categoria</option>
+      {% for cat in categorias %}
+      <option value="{{ cat.Nome }}"
+              {% if cat.Nome == cate %}selected{% endif %}>
+        {{ cat.Nome }}
+      </option>
+      {% endfor %}
+    </select>
+  </form>
 </section>
 
+
 <section class="cards-container" id="cardsContainer">
-    <div class="card" data-title="Papanicolau" data-category="Preventivo">
-      <img src="../static/img/utero_img.webp" alt="Imagem Papanicolau">
-      <div class="card-content">
-        <h2>Papanicolau</h2>
-        <p><strong>Categoria:</strong> Preventivo. Coleta de células do colo do útero.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
+  {% for ex in exames %}
+  <div class="card" data-title='{{ex.Nome}}' data-category='{{ex.Categoria}}'>
+    
+    {% if ex.Imagem is not none %}
+    <img class="w3-circle w3-margin-top"
+    src="data:image/png;base64,{{ ex.Imagem }}" alt="Foto" width="50">
+    {% else %}
+    <img class="w3-circle w3-margin-top"
+    src="../static/img/perfil.jpeg" alt="Sem foto" width="50">
+    {% endif %}
+    
+    <div class="card-content">
+      <h2>{{ ex.Nome }}</h2>
+      <p><strong>Categoria:</strong> {{ ex.Categoria }}. {{ ex.Descricao }}.</p>
+      <div class="buttons">
+        <a href="#" class="btn">Ver mais detalhes</a>
+        <a href="#" class="btn">Agendar Exame</a>
       </div>
     </div>
-  
-    <div class="card" data-title="Colposcopia" data-category="Preventivo">
-      <img src="../static/img/Colposcopia_img.jpg" alt="Imagem Colposcopia">
-      <div class="card-content">
-        <h2>Colposcopia</h2>
-        <p><strong>Categoria:</strong> Preventivo. Avaliação com aparelho óptico.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Ultrassonografia Obstétrica" data-category="Obstétrico">
-      <img src="../static/img/ultrassom_obstétrico_img.jpg" alt="Imagem Obstétrica">
-      <div class="card-content">
-        <h2>Ultrassonografia Obstétrica</h2>
-        <p><strong>Categoria:</strong> Obstétrico. Avaliação da gestação.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Ultrassonografia Transvaginal" data-category="Imagem">
-      <img src="../static/img/ultrassom-transvaginal_img.webp" alt="Imagem Transvaginal">
-      <div class="card-content">
-        <h2>Ultrassonografia Transvaginal</h2>
-        <p><strong>Categoria:</strong> Por Imagem. Avaliação interna do útero.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Mamografia" data-category="Imagem">
-      <img src="../static/img/mamografia_img.jpg" alt="Imagem Mamografia">
-      <div class="card-content">
-        <h2>Mamografia</h2>
-        <p><strong>Categoria:</strong> Por Imagem. Exame das mamas.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Beta hCG" data-category="Laboratorial">
-      <img src="../static/img/beta_img.webp" alt="Imagem Beta">
-      <div class="card-content">
-        <h2>Beta hCG</h2>
-        <p><strong>Categoria:</strong> Laboratorial. Confirmação de gravidez.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Densitometria Óssea" data-category="Menopausa">
-      <img src="../static/img/densiometria_img.webp" alt="Imagem Densitometria">
-      <div class="card-content">
-        <h2>Densitometria Óssea</h2>
-        <p><strong>Categoria:</strong> Menopausa. Avaliação óssea.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Ultrassonografia das Mamas" data-category="Imagem">
-      <img src="../static/img/ultrassom_mamas_img.png" alt="Imagem Ultrassom Mamas">
-      <div class="card-content">
-        <h2>Ultrassonografia das Mamas</h2>
-        <p><strong>Categoria:</strong> Por Imagem. Dosagem de hormônios.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Perfil Hormonal" data-category="Hormonal">
-      <img src="../static/img/exame_hormonal_img.jpg" alt="Imagem Hormonal">
-      <div class="card-content">
-        <h2>Perfil Hormonal</h2>
-        <p><strong>Categoria:</strong> Hormonal. Dosagem de hormônios.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Doppler Fetal" data-category="Obstétrico">
-      <img src="../static/img/doppler_fetal.webp" alt="Imagem Doppler Fetal">
-      <div class="card-content">
-        <h2>Doppler Fetal</h2>
-        <p><strong>Categoria:</strong> Obstétrico. Avaliação do fluxo sanguíneo fetal.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Teste de Streptococcus B" data-category="Obstétrico">
-      <img src="../static/img/streptococcus-b.webp" alt="Imagem Streptococcus B">
-      <div class="card-content">
-        <h2>Teste de Streptococcus B</h2>
-        <p><strong>Categoria:</strong> Obstétrico. Detecção de infecção bacteriana.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Teste de HPV" data-category="Preventivo">
-      <img src="../static/img/teste_hpv.jpg" alt="Imagem Teste HPV">
-      <div class="card-content">
-        <h2>Teste de HPV</h2>
-        <p><strong>Categoria:</strong> Preventivo. Identificação do vírus HPV.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Glicemia e Colesterol" data-category="Laboratorial">
-      <img src="../static/img/glicemia_colesterol.jpg" alt="Imagem Glicemia e Colesterol">
-      <div class="card-content">
-        <h2>Glicemia e Colesterol</h2>
-        <p><strong>Categoria:</strong> Laboratorial. Avaliação metabólica geral.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Exame de Fertilidade" data-category="Fertilidade">
-      <img src="../static/img/fertilidade_img.webp" alt="Imagem Fertilidade">
-      <div class="card-content">
-        <h2>Exame de Fertilidade</h2>
-        <p><strong>Categoria:</strong> Fertilidade. Avaliação hormonal e ovariana.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Dosagem de Hormônios" data-category="Hormonal">
-      <img src="../static/img/exame_hormonal_img.jpg" alt="Imagem Hormônios">
-      <div class="card-content">
-        <h2>Dosagem de Hormônios</h2>
-        <p><strong>Categoria:</strong> Hormonal. Avaliação hormonal geral.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card" data-title="Exame de Mioma" data-category="Menopausa">
-      <img src="../static/img/miomas_img.jpg" alt="Imagem Mioma">
-      <div class="card-content">
-        <h2>Exame de Mioma</h2>
-        <p><strong>Categoria:</strong> Por Imagem. Avaliação de miomas uterinos.</p>
-        <div class="buttons">
-          <a href="#" class="btn">Ver mais detalhes</a>
-          <a href="#" class="btn">Agendar Exame</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
+  {% endfor %}
+</section>
   
 
 <script>
   const searchInput = document.getElementById('searchInput');
-  const categoryFilter = document.getElementById('categoryFilter');
   const cards = document.querySelectorAll('.card');
 
   function filterCards() {
     const searchTerm = searchInput.value.toLowerCase();
-    const selectedCategory = categoryFilter.value;
 
     cards.forEach(card => {
       const title = card.dataset.title.toLowerCase();
-      const category = card.dataset.category;
 
       const matchesSearch = title.includes(searchTerm);
-      const matchesCategory = !selectedCategory || category === selectedCategory;
-
-      if (matchesSearch && matchesCategory) {
+      if (matchesSearch ) {
         card.style.display = 'block';
       } else {
         card.style.display = 'none';

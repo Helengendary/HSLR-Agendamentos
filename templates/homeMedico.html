@@ -37,9 +37,8 @@
 
             <div class="dropdown">
                 <button class="dropbtn">
-                    <img src="data:image/webp;base64,{{request.session.get("foto_usuario")}}" alt="Foto do usuário" class="user-img">
-                </button>               
-                 <div class="dropdown-content">
+                    <img src="../static/img/hero-image.png" alt="Foto do usuário" class="user-img">
+                </button>                <div class="dropdown-content">
                     <a id="openModal">Editar Informações</a>
                     <a id="openLogoutModal">Log out</a>
                 </div>
@@ -50,34 +49,21 @@
                     <span class="close-btn" id="closeModal">&times;</span>
                     <h2>Editar Informações</h2>
                     <form id="editForm" action="/atualizarUser" method="post">
-                        <!-- <label for="fotoInput" style="cursor: pointer;">
-                            <img src="data:image/png;base64,{{ request.session.get('foto_usuario') }}" 
-                                alt="Imagem Atual" 
-                                id="previewImage"
-                                style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
-                        </label>
-                        <input type="file" id="fotoInput" name="imagem" accept="image/*" style="display: none;"> -->
-
-                        <div class="form-row">
+                        <div class="form-row" >
                             <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
                         </div>
-
                         <div class="form-row">
                             <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
                         </div>
-
                         <div class="form-row">
                             <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
                         </div>
-
                         <div class="form-row">
                             <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
                         </div>
-
                         <div class="form-row">
                             <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
                         </div>
-
                         <div class="form-row">
                             <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
                         </div>
@@ -404,15 +390,5 @@
             },
         },
         });
-
-
-        document.getElementById("fotoInput").addEventListener("change", function(event) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-            document.getElementById("previewImage").src = e.target.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        });
-
     </script>
 </body>

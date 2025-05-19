@@ -894,3 +894,11 @@ footer{
   button.submit-btn:hover {
     background-color: #23c0b8;
   }
+
+  .exames button {
+    background-color: #95754d;
+    color: antiquewhite;
+    border: none;
+    padding: 2px;
+    border-radius: 3px;
+  }
