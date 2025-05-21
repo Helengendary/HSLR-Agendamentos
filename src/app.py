@@ -5,7 +5,7 @@
 # pip install pymysql
 
 # Rodar o backend:
-#  python -m uvicorn app:app --app-dir ./src
+# python -m uvicorn app:app --app-dir ./src
 
 
 # subir imagem do usuário (usar blob) (mediumblob) (sprint 3)
