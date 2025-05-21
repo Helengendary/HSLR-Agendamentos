@@ -65,7 +65,7 @@ ul{
     letter-spacing: 1px;
     font-size: 0.9rem;
 }
-/*estilo botao excluir no local certo***************/
+/*estilo botao excluir no local certo*/
 .telaExcluir {
     display: flex;
     flex-direction: column;
@@ -678,6 +678,7 @@ footer{
 
 /* Estilo do botão principal */
 .dropbtn {
+    width: 60px;
     background-color: #4CAF50;
     color: white;
     padding: 10px 16px;

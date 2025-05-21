@@ -13,6 +13,8 @@
 import pymysql
 import base64
 
+from io import BytesIO
+
 from fastapi.responses import RedirectResponse
 from fastapi import FastAPI, Form, Depends, Query, UploadFile, File 
 from fastapi.staticfiles import StaticFiles
@@ -65,22 +67,68 @@ def login(req: Request):
 
 #quando a sessao expira, nome_usuario vira None, redirecionando para a pagina de login
 @app.get('/home')
-def home(req: Request):
+def home(req: Request, db=Depends(get_db)):
     if not req.session.get("nome_usuario"):
         req.session["expirado"] = True  # Marcar que expirou
         return RedirectResponse(url="/login", status_code=303)
-    return pages.TemplateResponse(request=req, name='home.html')
+    
+
+    try:
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:               
+            sql = """
+                SELECT Imagem
+                FROM Usuario 
+                WHERE ID_usuario = %s
+            """
+            cursor.execute(sql, (req.session.get("id_usuario")))
+
+            foto = cursor.fetchone()
+            print(foto)
+            print(foto['Imagem'])
+
+            foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
+    finally:
+        db.close()
+
+    return pages.TemplateResponse(
+        'home.html',
+        {
+            'request': req,
+            'foto': foto,     
+        }
+    )
 
 #quando a sessao expira, nome_usuario vira None, redirecionando para a pagina de login
 @app.get('/homeMedico')
-def homeMedico(req: Request):
+def homeMedico(req: Request, db=Depends(get_db)):
     if not req.session.get("nome_usuario"):
         req.session["expirado"] = True  # Marcar que expirou
         return RedirectResponse(url="/login", status_code=303)
     if req.session.get("papel") != 2:
         return RedirectResponse(url="/home", status_code=303)
     
-    return pages.TemplateResponse(request=req, name='homeMedico.html')
+    try:
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:                              
+            sql = """
+                SELECT Imagem
+                FROM Usuario 
+                WHERE ID_usuario = %s
+            """
+            cursor.execute(sql, (req.session.get("id_usuario")))
+
+            foto = cursor.fetchone()
+            foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
+    finally:
+        db.close()
+
+    return pages.TemplateResponse(
+        'homeMedico.html',
+        {
+            'request': req,
+            'foto': foto,     
+        }
+    )
+
 
 @app.get('/exames')
 def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
@@ -93,9 +141,17 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
 
+            # Categorias para selecionar
             cursor.execute("SELECT * FROM CategoriaExame")
             categorias = cursor.fetchall()
 
+            # Imagem do usuário
+            sql = " SELECT Imagem FROM Usuario WHERE ID_usuario = %s"
+            cursor.execute(sql, (req.session.get("id_usuario")))
+            foto = cursor.fetchone()
+            foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
+
+            # Buscar exames
             if cate:                                          
                 sql = """
                     SELECT E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
@@ -116,6 +172,8 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
             for ex in exames:
                 if ex['Imagem']:
                     ex['Imagem'] = base64.b64encode(ex['Imagem']).decode('utf-8')
+
+            
     finally:
         db.close()
 
@@ -125,7 +183,8 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
             'request': req,
             'categorias': categorias,
             'exames': exames,
-            'cate': cate       
+            'cate': cate,
+            'foto': foto       
         }
     )
 
@@ -192,7 +251,6 @@ def cadastro(
                     req.session["email_usuario"] = user[2] 
                     req.session["numero_usuario"] = user[6] 
                     req.session["cpf_usuario"] = user[1] 
-                    req.session["foto_usuario"] = base64.b64encode(user[8]).decode("utf-8") 
                     req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                     req.session["id_usuario"] = user[0]
                     req.session["papel"] = user[9]
@@ -239,7 +297,6 @@ def cadastro(
                     req.session["email_usuario"] = user[2] 
                     req.session["numero_usuario"] = user[6] 
                     req.session["cpf_usuario"] = user[1] 
-                    req.session["foto_usuario"] = base64.b64encode(user[8]).decode("utf-8") 
                     req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                     req.session["id_usuario"] = user[0]
                     req.session["papel"] = user[9]
@@ -271,10 +328,8 @@ async def login(
                 req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                 req.session["id_usuario"] = user[0]
                 req.session["papel"] = user[9]
+                req.session["foto_usuario"] = f"/usuario/foto/{user[2]}"
 
-                if user[8]:
-                    foto = base64.b64encode(user[8]).decode("utf-8")
-                    req.session["foto_usuario"] = foto
             else:
                 req.session["errorLogin"] = "Usuário ou senha inválidos."
                 req.session["errorLoginStatus"] = True

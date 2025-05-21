@@ -37,7 +37,7 @@
 
             <div class="dropdown">
                 <button class="dropbtn">
-                    <img src="data:image/webp;base64,{{request.session.get("foto_usuario")}}" alt="Foto do usuário" class="user-img">
+                    <img id="avatar" src="data:image/png;base64,{{ foto.Imagem }}" alt="Foto do usuário" class="avatar" style="width: 60px; border-radius: 100%; margin-left: 20px;">
                 </button>               
                  <div class="dropdown-content">
                     <a id="openModal">Editar Informações</a>
@@ -50,13 +50,13 @@
                     <span class="close-btn" id="closeModal">&times;</span>
                     <h2>Editar Informações</h2>
                     <form id="editForm" action="/atualizarUser" method="post">
-                        <!-- <label for="fotoInput" style="cursor: pointer;">
-                            <img src="data:image/png;base64,{{ request.session.get('foto_usuario') }}" 
+                        <label for="fotoInput" style="cursor: pointer;">
+                            <img src="data:image/png;base64,{{ foto.Imagem }}" 
                                 alt="Imagem Atual" 
                                 id="previewImage"
                                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
                         </label>
-                        <input type="file" id="fotoInput" name="imagem" accept="image/*" style="display: none;"> -->
+                        <input type="file" id="fotoInput" name="imagem" accept="image/*" style="display: none;">
 
                         <div class="form-row">
                             <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
