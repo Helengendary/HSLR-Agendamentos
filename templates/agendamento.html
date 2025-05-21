@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agendamentos</title>
+  <link rel="stylesheet" href="../static/css/styleAgendamentos.css">
+</head>
+<body>
+  <header>
+    <h1>Agenda Médica</h1>
+    <button id="openModal">Agendar Consulta</button>
+  </header>
+
+  <main>
+    <section class="calendario">
+    <h2>Exames Agendados</h2>
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <button id="prevMonth">&lt;</button>
+        <span id="monthYear"></span>
+        <button id="nextMonth">&gt;</button>
+      </div>
+      <table id="calendar">
+        <thead>
+          <tr>
+            <th>Su</th><th>Mo</th><th>Tu</th><th>We</th>
+            <th>Th</th><th>Fr</th><th>Sa</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="info-dia">
+      <h3 id="selectedDateTitle">Selecione uma data</h3>
+      <div id="detalhesConsulta"></div>
+    </div>
+  </section>
+<script>
+  const agendamentos = {{ agendamentos_json | safe }};
+</script>
+<script src="{{ url_for('static', filename='calendar.js') }}"></script>
+  </main>
+
+  <!-- Modal de agendamento -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Agendar Consulta</h2>
+      <form method="POST" action="/agendar">
+        <label>Nome:
+          <input type="text" name="nome" required />
+        </label>
+        <label>Especialidade:
+          <input type="text" name="especialidade" required />
+        </label>
+        <label>Data:
+          <input type="date" name="data" required />
+        </label>
+        <label>Hora:
+          <input type="time" name="hora" required />
+        </label>
+        <button type="submit">Agendar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='modal.js') }}"></script>
+</body>
+</html>

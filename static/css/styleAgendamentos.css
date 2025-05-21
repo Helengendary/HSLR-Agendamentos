@@ -1,0 +1,111 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 20px;
+}
+
+header {
+  background: #a3775f;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  background: #3b270e;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: white;
+  padding: 10px;
+  margin: 5px 0;
+  border-left: 5px solid #3b270e;
+}
+.calendario {
+  display: flex;
+  gap: 2rem;
+  margin-top: 20px;
+}
+
+.calendar-container {
+  width: 60%;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-header button {
+  padding: 5px 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  text-align: center;
+}
+
+table td, table th {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+td.has-agendamento {
+  background-color: #ffe0b2;
+  font-weight: bold;
+}
+
+td.today {
+  border: 2px solid #a3775f;
+}
+
+.info-dia {
+  flex: 1;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+  background: white;
+  margin: 10% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
