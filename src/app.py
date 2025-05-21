@@ -141,17 +141,17 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
 
-            # Categorias para selecionar
+            #categorias para selecionar
             cursor.execute("SELECT * FROM CategoriaExame")
             categorias = cursor.fetchall()
 
-            # Imagem do usuário
+            #busca img do usario
             sql = " SELECT Imagem FROM Usuario WHERE ID_usuario = %s"
             cursor.execute(sql, (req.session.get("id_usuario")))
             foto = cursor.fetchone()
             foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
 
-            # Buscar exames
+            #busca exames
             if cate:                                          
                 sql = """
                     SELECT E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
@@ -188,7 +188,79 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
         }
     )
 
+@app.get('/agendamentos')
+def agendamentos(req: Request, db=Depends(get_db)):
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True
+        return RedirectResponse(url="/login", status_code=303)
+    elif req.session.get("papel") != 3:
+        return RedirectResponse(url="/home", status_code=303)
 
+    try:
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+            #busca img do usuario
+            cursor.execute("SELECT Imagem FROM Usuario WHERE ID_usuario = %s", (req.session.get("id_usuario"),))
+            foto = cursor.fetchone()
+            if foto and foto['Imagem']:
+                foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
+
+            #busca os agendamentos do usuario
+            sql = """
+                SELECT Nome, Especialidade, Data, Hora
+                FROM Agendamento
+                WHERE ID_usuario = %s
+            """
+            cursor.execute(sql, (req.session.get("id_usuario"),))
+            agendamentos = cursor.fetchall()
+
+            #converte datas para string
+            for ag in agendamentos:
+                ag['Data'] = ag['Data'].strftime('%Y-%m-%d')
+
+            agendamentos_json = json.dumps(agendamentos)
+
+    finally:
+        db.close()
+
+    return templates.TemplateResponse(
+        'agendamentos.html',
+        {
+            'request': req,
+            'agendamentos_json': agendamentos_json,
+            'foto': foto
+        }
+    )
+
+@app.post("/agendar")
+def agendar_consulta(
+    request: Request,
+    exame_id: int = Form(...),
+    medico_id: int = Form(...),
+    data: str = Form(...),       # formato: yyyy-mm-dd
+    hora: str = Form(...),       # formato: hh:mm
+    db=Depends(get_db)
+):
+    #verifica se o usuário está logado
+    if not request.session.get("nome_usuario"):
+        request.session["expirado"] = True
+        return RedirectResponse(url="/login", status_code=303)
+
+    paciente_id = request.session.get("id_usuario")
+
+    try:
+        with db.cursor() as cursor:
+            sql = """
+                INSERT INTO Consulta (ID_Exame, DataConsulta, Hora, ID_medico, ID_paciente)
+                VALUES (%s, %s, %s, %s, %s)
+            """
+            cursor.execute(sql, (exame_id, data, hora, medico_id, paciente_id))
+        db.commit()
+    except Exception as e:
+        print("Erro ao agendar consulta:", e)
+    finally:
+        db.close()
+
+    return RedirectResponse(url="/agendamentos", status_code=303)
 
 @app.post('/cadastro')
 def cadastro(
