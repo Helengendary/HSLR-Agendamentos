@@ -326,6 +326,7 @@
     background-color: #23c0b8;
   }
   </style>
+  <script src="../static/script.js" defer></script>
 </head>
 <body>
 
@@ -340,13 +341,14 @@
 
 
     <div class="dropdown">
-        <button class="dropbtn">
-            <img src="../static/img/hero-image.png" alt="Foto do usuário" class="user-img">
-        </button>                <div class="dropdown-content">
-            <a id="openModal">Editar Informações</a>
-            <a id="openLogoutModal">Log out</a>
-        </div>
-    </div>
+      <button class="dropbtn">
+          <img id="avatar" src="data:image/png;base64,{{ foto.Imagem }}" alt="Foto do usuário" class="avatar" style="width: 60px; border-radius: 100%; margin-left: 20px;">
+      </button>               
+        <div class="dropdown-content">
+          <a id="openModal">Editar Informações</a>
+          <a id="openLogoutModal">Log out</a>
+      </div>
+  </div>
 
     <div id="editModal" class="modal">
         <div class="modal-content">
