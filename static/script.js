@@ -13,15 +13,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const dataNascimentoValida = validarDataNascimento();
         const telefoneValido = validarTelefone();
         const senhaValida = validarSenha();
+        const emailValido = validarEmail();
 
         // vai permitir o envio apenas se todas as validações passarem
         if (nomeValido && sobrenomeValido && cpfValido 
-            && dataNascimentoValida && telefoneValido && senhaValida ) {
+            && dataNascimentoValida && telefoneValido && senhaValida && emailValido ) {
                 document.getElementById('cadastroForm').submit();
         }
     });
 });
 
+// valida nome
 function validarNome() {
     const nome = document.getElementById('nome-cadastro').value.trim();
     if (nome === '') {
@@ -30,7 +32,10 @@ function validarNome() {
     } else if (nome.length < 3) {
         showError('nomeError', 'O nome deve ter no mínimo 3 caracteres.');
         return false;
-    }return true;}
+    }return true;
+}
+
+// valida sobrenome
 function validarSobrenome() {
     const sobrenome = document.getElementById('sobrenome-cadastro').value.trim();
     if (sobrenome === '') {
@@ -39,7 +44,10 @@ function validarSobrenome() {
     } else if (sobrenome.length < 3) {
         showError('nomeError', 'O nome deve ter no mínimo 3 caracteres.');
         return false;
-    }   return true;}
+    }   return true;
+}
+
+// valida genero
 function validarGenero() {
     const genero = document.getElementById('genero-cadastro').value;
     if (genero === "" || genero === null) {
@@ -48,6 +56,8 @@ function validarGenero() {
     }
     return true;
 }
+
+// valida cpf
 function validarCPF() {
     const cpf = document.getElementById('cpf-cadastro').value.trim();
     const strCPF = String(cpf).replace(/[^\d]/g, '');
@@ -83,7 +93,8 @@ soma = 0;
     if (resto !== parseInt(strCPF.substring(10, 11))) {
         showError('cpfError', 'CPF inválido.');
         return false; }
-return true;}
+return true;
+}
 
 function validarDataNascimento() {
     const dataNascimento = document.getElementById('nascimento-cadastro').value;
@@ -97,19 +108,28 @@ if (dataNascimento === '') {
         return false; }
     return true;
 }
+
+// validar email
 function validarEmail() {
-    const email = document.getElementById('email-cadastro').value.trim();
+    const emailInput = document.getElementById('email-cadastro')
+    const email = emailInput.value.trim();
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
     if (email === '') {
         showError('emailError', 'O e-mail é obrigatório.');
+        emailInput.classList.add("invalid");
         return false;
     } else if (!regexEmail.test(email)) {
         showError('emailError', 'Por favor, insira um e-mail válido.');
+        emailInput.classList.add("invalid");
         return false;
     }
+
+    emailInput.classList.remove('invalid');
     return true;
 }
+
+// valida telefone
 function validarTelefone() {
     const telefoneInput = document.getElementById('telefone-cadastro');
     const telefone = telefoneInput.value.trim();
@@ -136,6 +156,8 @@ function validarTelefone() {
     document.getElementById('telefoneError').textContent = '';
     return true;
 }
+
+// mostra e oculta a senha
 function mostrarOcultarSenhaCadastro() {
     var senha = document.getElementById("senha-cadastro");
     var confirmarSenha = document.getElementById("confirmar-senha-cadastro");
@@ -144,7 +166,9 @@ function mostrarOcultarSenhaCadastro() {
         confirmarSenha.type = "text";
     } else {
         senha.type = "password";
-        confirmarSenha.type = "password";}}
+        confirmarSenha.type = "password";}
+}
+
 // validar senha 
 function validarSenha() {
     const senha = document.getElementById("senha-cadastro");
@@ -217,7 +241,7 @@ function validaImagem(input) {
     } else{
         document.getElementById('imagemSelecionada').setAttribute('src', '#');
     }
-  }
+}
   
 // mostrar erro
 function showError(id, message) {

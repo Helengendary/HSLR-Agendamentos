@@ -8,12 +8,8 @@
 #  python -m uvicorn app:app --app-dir ./src
 
 
-# subir imagem do usuário (usar blob) (mediumblob) (sprint 3)
-
 import pymysql
 import base64
-
-from io import BytesIO
 
 from fastapi.responses import RedirectResponse
 from fastapi import FastAPI, Form, Depends, Query, UploadFile, File 
@@ -83,8 +79,6 @@ def home(req: Request, db=Depends(get_db)):
             cursor.execute(sql, (req.session.get("id_usuario")))
 
             foto = cursor.fetchone()
-            print(foto)
-            print(foto['Imagem'])
 
             foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
     finally:
@@ -402,7 +396,7 @@ async def atualizar_usuario(
         
             sql_update = """
                 UPDATE Usuario 
-                SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s, Imagem = %s
+                SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s, Imagem = %s,
                 WHERE ID_Usuario = %s
             """
             cursor.execute(sql_update, (name, surname, email, phone, imagem_data, ID_Usuario))

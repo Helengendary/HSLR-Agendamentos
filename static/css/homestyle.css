@@ -133,8 +133,8 @@ ul{
     justify-content: flex-start;
     align-items: center;
 }
-.hero-text-btns a{
-    width: 90px;
+.hero-text-btns button{
+    width: 30%;
     height: 45px;
     padding: 10px, 20px;
     background-color:#3b270e ;
@@ -148,9 +148,15 @@ ul{
     font-weight: 500;
     margin-left: 20px;
     margin-right: 10px;
+    border: none
     
 }
-.hero-text-btns a i{
+
+.hero-text-btns button:hover{
+    border: 2px solid rgb(155, 88, 110);
+}
+
+.hero-text-btns button i{
     width: 18px;
     height: 18px;
     display: flex;
@@ -162,6 +168,7 @@ ul{
     font-size: 0.5rem;
     padding-bottom: 1pxs;
 }
+
 /*pesquisar/procurar/search*/
 .appointment-search-container{
     max-width: 1000px;
@@ -388,7 +395,7 @@ ul{
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.servicos-box a{
+.servicos-box button{
     height: 45px;
     background-color: #9b8367;
     color: #f5ebd6;
@@ -401,7 +408,12 @@ ul{
     font-weight: 500;
     border-radius: 5PX;
     margin-top: 30px;
+    border: none;
 }
+.servicos-box button:hover{
+    font-size: 1rem;
+}
+
 .swiper-button-next, 
 .swiper-button-prev{
     position: static !important;

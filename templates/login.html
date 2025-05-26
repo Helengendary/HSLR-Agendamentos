@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Clínica Santa Luzia</title>
-    <script src="../static/script.js" ></script>
+    <script src="../static/script.js" defer ></script>
     <script src="../static/js/app.js" defer ></script>
     <link rel="stylesheet" href="../static/css/style.css?v=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
@@ -13,13 +13,15 @@
 </head>
 <body>
 
-    {% if expirado %}
-    <div class="aviso-expirado">
-         Sua sessão expirou. Faça login novamente. 
-    </div>
-    {% endif %}
     
     <div class="container">
+
+        {% if expirado %}
+        <div class="aviso-expirado">
+             Sua sessão expirou. Faça login novamente. 
+        </div>
+        {% endif %}
+
         <div class="content first-content">
             <div class="first-column">
                 <h2 class="title title-primary">Bem-Vindo!</h2>
@@ -120,62 +122,63 @@
 
             
 
-            <div class="first-column">
-                <p class="description description-quartary">Nossa missão é cuidar da sua saúde com carinho e dedicação.</p>
-                <button id="signup" class="btn btn-tertiary">Criar conta</button>
+        <div class="first-column">
+            <p class="description description-quartary">Nossa missão é cuidar da sua saúde com carinho e dedicação.</p>
+            <button id="signup" class="btn btn-tertiary">Criar conta</button>
+        </div>
+        
+        <div class="second-column">
+            <h2 class="title title-second">Faça login para continuar</h2>
+            <div class="social-media">
+                <ul class="list-social-media">
+                    <a class="link-social-media" href="https://www.facebook.com/login">
+                        <li class="item-social-media">
+                            <i class="fab fa-facebook-f"></i>
+                        </li>
+                    </a>
+                    <a class="link-social-media" href="https://accounts.google.com/ServiceLogin">
+                        <li class="item-social-media">
+                            <i class="fab fa-google-plus-g"></i>
+                        </li>
+                    </a>
+                    <a class="link-social-media" href="https://www.linkedin.com/login">
+                        <li class="item-social-media">
+                            <i class="fab fa-linkedin-in"></i>
+                        </li>
+                    </a>
+                </ul>
             </div>
-            <div class="second-column">
-                <h2 class="title title-second">Faça login para continuar</h2>
-                <div class="social-media">
-                    <ul class="list-social-media">
-                        <a class="link-social-media" href="https://www.facebook.com/login">
-                            <li class="item-social-media">
-                                <i class="fab fa-facebook-f"></i>
-                            </li>
-                        </a>
-                        <a class="link-social-media" href="https://accounts.google.com/ServiceLogin">
-                            <li class="item-social-media">
-                                <i class="fab fa-google-plus-g"></i>
-                            </li>
-                        </a>
-                        <a class="link-social-media" href="https://www.linkedin.com/login">
-                            <li class="item-social-media">
-                                <i class="fab fa-linkedin-in"></i>
-                            </li>
-                        </a>
-                    </ul>
-                </div>
-                <p class="description description-second">ou use sua conta de e-mail:</p>
+            <p class="description description-second">ou use sua conta de e-mail:</p>
 
-                {% set errorLoginStatus = request.session.pop("errorLoginStatus", None) %}
-                {% set errorLoginMessage = request.session.pop("errorLogin", None) %}
+            {% set errorLoginStatus = request.session.pop("errorLoginStatus", None) %}
+            {% set errorLoginMessage = request.session.pop("errorLogin", None) %}
 
-                {% if errorLoginStatus %}
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function () {
-                            document.getElementById("signin").click(); 
-                        });
-                    </script>
-                    <p style="color: red;">{{ errorLoginMessage }}</p>
-                {% endif %}
+            {% if errorLoginStatus %}
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        document.getElementById("signin").click(); 
+                    });
+                </script>
+                <p style="color: red;">{{ errorLoginMessage }}</p>
+            {% endif %}
 
 
-                <form class="form" action="/login" method="post">
+            <form class="form" action="/login" method="post">
 
-                    <label class="label-input" for="">
-                        <i class="far fa-envelope icon-modify"></i>
-                        <input name="Login" type="email" placeholder="Email" required name="emailcadastro">
-                    </label>
-                    <label class="label-input" for="">
-                        <i class="fas fa-lock icon-modify"></i>
-                        <input name="SenhaLogin" type="password" placeholder="Password" required>
-                    </label>
-                    <button class="btn btn-second" type="submit">Entrar</button>
-                </form>
-                <a class="password" id="openModal" href="#">Esqueceu sua senha?</a>
-            </div>
+                <label class="label-input" for="">
+                    <i class="far fa-envelope icon-modify"></i>
+                    <input name="Login" type="email" placeholder="Email" required name="emailcadastro">
+                </label>
+                <label class="label-input" for="">
+                    <i class="fas fa-lock icon-modify"></i>
+                    <input name="SenhaLogin" type="password" placeholder="Password" required>
+                </label>
+                <button class="btn btn-second" type="submit">Entrar</button>
+            </form>
+            <a class="password" id="openModal" href="#">Esqueceu sua senha?</a>
         </div>
     </div>
+</div>
 
 
 </body>

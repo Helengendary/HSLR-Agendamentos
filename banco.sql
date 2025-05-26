@@ -91,7 +91,8 @@ insert into Exame (Nome, Descricao, Imagem, ID_categoria) values
 ('Dosagem de Hormônios', 'Avaliação hormonal geral.', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/exame_hormonal_img.jpg'), 1),
 ('Exame de Mioma', 'Avaliação de miomas uterinos.', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/miomas_img.jpg'), 3);
 
-
+select * from Usuario;
+SELECT Imagem FROM Usuario WHERE ID_Usuario = 1;
 select * from Papel;
 select E.Nome as Nome, E.Descricao as Descricao, E.Imagem as Imagem, C.Nome as 'Categoria' from Exame E inner join CategoriaExame C on C.ID_categoriaExame = E.ID_categoria;
 select E.Nome as Nome, E.Descricao as Descricao, E.Imagem as Imagem, C.Nome as 'Categoria' from Exame E inner join CategoriaExame C on C.ID_categoriaExame = E.ID_categoria where C.Nome = 'Hormonal';
