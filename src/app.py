@@ -289,6 +289,7 @@ def cadastro(
         elif passouArroba:
             dominioEmail += char
 
+    caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.webp'
     if dominioEmail != 'hsrl.saude.br':
 # --------------------------------------------------- CADASTRO PACIENTE --------------------------------------------------------------------------
         try:
@@ -296,7 +297,6 @@ def cadastro(
 
                 sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel)
                         VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s)"""
-                caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.webp'
                 cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 3))
                 db.commit()
                 
@@ -334,7 +334,7 @@ def cadastro(
                     req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                     req.session["id_usuario"] = user[0]
                     req.session["papel"] = user[9]
-                    req.session["altura"] = user[10]
+
 
             db.close()
 
@@ -345,9 +345,10 @@ def cadastro(
         try:
             with db.cursor() as cursor:
 
-                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Papel)
-                        VALUES (%s, %s, %s, %s, %s, %s,  %s, MD5(%s), %s)"""
-                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, 2))
+                
+                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel)
+                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s)"""
+                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 2))
                 db.commit()
                 
         except pymysql.MySQLError as e:
