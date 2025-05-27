@@ -24,11 +24,7 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-<<<<<<< HEAD
-    "password": "ROOT",
-=======
     "password": "root",
->>>>>>> e8ae198ff82c880e61b9fe51906b9d8bbe715327
     "database": "hslr"
 }
 
