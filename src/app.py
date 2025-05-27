@@ -24,7 +24,7 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "root",
+    "password": "1106",
     "database": "hslr"
 }
 
@@ -278,6 +278,7 @@ def cadastro(
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
     senha: str = Form(...),
+    altura: float = Form(...),
     db=Depends(get_db)
 ):
     passouArroba = False
@@ -295,7 +296,7 @@ def cadastro(
 
                 sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel)
                         VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s)"""
-                caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.webp'
+                caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.png'
                 cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 3))
                 db.commit()
                 
@@ -333,6 +334,7 @@ def cadastro(
                     req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                     req.session["id_usuario"] = user[0]
                     req.session["papel"] = user[9]
+                    req.session["altura"] = user[10]
 
             db.close()
 
@@ -553,3 +555,26 @@ async def reset_session(request: Request):
     return {"status": "ok"}
 
 handler = Mangum(app)
+
+@app.route('/agendar', methods=['POST'])
+def agendar():
+    data = request.get_json()
+    medico = data.get('medico')
+    data_str = data.get('data')
+    horario = data.get('horario')
+
+    if not medico or not data_str or not horario:
+        return jsonify(success=False, message='Dados incompletos'), 400
+
+    # Verifica se o horário já está ocupado para o médico na data
+    for ag in agendamentos:
+        if ag['medico'] == medico and ag['data'] == data_str and ag['horario'] == horario:
+            return jsonify(success=False, message='Horário já ocupado'), 400
+
+    agendamentos.append({
+        'medico': medico,
+        'data': data_str,
+        'horario': horario
+    })
+
+    return jsonify(success=True)
