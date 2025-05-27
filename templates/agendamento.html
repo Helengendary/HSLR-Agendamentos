@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Agenda</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
+  <script src="../static/script.js" defer></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -107,226 +110,230 @@
     }
 
     
-/* Estilo do botão principal */
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-/* Container do dropdown */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Menu suspenso (inicialmente escondido) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    z-index: 1;
-}
-
-/* Links dentro do dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 10px 14px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Efeito ao passar o mouse */
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-/* Mostrar o menu ao passar o mouse (ou você pode usar JS pra clique) */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropbtn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-.user-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ccc;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 10px 14px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-    text-align: center;
+  /* Estilo do botão principal */
+  .dropbtn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
   }
   
-  .modal-content {
-    background-color: #faf4e7;
-    margin: 5% auto;
-    padding: 30px 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 600px;
-    position: relative;
-    box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
+  /* Container do dropdown */
+  .dropdown {
+      position: relative;
+      display: inline-block;
   }
   
-  .modal-content h2 {
-    margin-top: -10px;
-    margin-bottom: 30px;
-    color: #654a27;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
+  /* Menu suspenso (inicialmente escondido) */
+  .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      border-radius: 5px;
+      z-index: 1;
   }
   
-  .close-btn {
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
+  /* Links dentro do dropdown */
+  .dropdown-content a {
+      color: black;
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
   }
   
-  .close-btn:hover,
-  .close-btn:focus {
-    color: black;
+  /* Efeito ao passar o mouse */
+  .dropdown-content a:hover {
+      background-color: #f1f1f1;
   }
   
-  form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    grid-template-rows: auto;
+  /* Mostrar o menu ao passar o mouse (ou você pode usar JS pra clique) */
+  .dropdown:hover .dropdown-content {
+      display: block;
   }
   
-  form input {
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%;
+  .dropbtn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
   }
   
-  form input[name="name"],
-  form input[name="surname"],
-  form input[name="email"],
-  form input[name="phone"] {
-    background-color: #f5ebd6;
-    border: 1px solid #745631;
+  .user-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ccc;
   }
   
-  form input[name="cpf"],
-  form input[name="dob"] {
-    background-color: #eee;
-    border: 1px solid #ccc;
+  .dropdown {
+      position: relative;
+      display: inline-block;
   }
   
-  form input::placeholder {
-    color: #888;
-    font-style: italic;
+  .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      border-radius: 5px;
+      z-index: 1;
   }
   
-  .form-buttons {
-    grid-column: span 2;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    align-items: center;
-  }
-
-  .form-actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    width: 100%; /* Garante que ocupa todo o espaço horizontal */
+  .dropdown-content a {
+      color: black;
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
   }
   
-  button.delete-account {
-    background-color: #d93025;
-    color: white;
-    padding: 8px 25px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
+  .dropdown-content a:hover {
+      background-color: #f1f1f1;
   }
   
-  button.delete-account:hover {
-    background-color: #dd3b30;
+  .dropdown:hover .dropdown-content {
+      display: block;
   }
   
-  button.submit-btn {
-    background-color: #20B2AA;
-    color: white;
-    padding: 8px 25px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+  .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 60px;
+      text-align: center;
+    }
+    
+    .modal-content {
+      background-color: #faf4e7;
+      margin: 5% auto;
+      padding: 30px 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 600px;
+      position: relative;
+      box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
+    }
+    
+    .modal-content h2 {
+      margin-top: -10px;
+      margin-bottom: 30px;
+      color: #654a27;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .close-btn {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+    }
+    
+    .close-btn:hover,
+    .close-btn:focus {
+      color: black;
+    }
+    
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      grid-template-rows: auto;
+    }
+    
+    form input {
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      width: 100%;
+    }
+    
+    form input[name="name"],
+    form input[name="surname"],
+    form input[name="email"],
+    form input[name="phone"] {
+      background-color: #f5ebd6;
+      border: 1px solid #745631;
+    }
+    
+    form input[name="cpf"],
+    form input[name="dob"] {
+      background-color: #eee;
+      border: 1px solid #ccc;
+    }
+    
+    form input::placeholder {
+      color: #888;
+      font-style: italic;
+    }
+    
+    .form-buttons {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      align-items: center;
+    }
   
-  button.submit-btn:hover {
-    background-color: #23c0b8;
-  }
-  </style>
-  <script src="../static/script.js" defer></script>
+    .form-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      width: 100%; /* Garante que ocupa todo o espaço horizontal */
+    }
+    
+    button.delete-account {
+      background-color: #d93025;
+      color: white;
+      padding: 8px 25px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    button.delete-account:hover {
+      background-color: #dd3b30;
+    }
+    
+    button.submit-btn {
+      background-color: #20B2AA;
+      color: white;
+      padding: 8px 25px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    button.submit-btn:hover {
+      background-color: #23c0b8;
+    }
+    .modal { display: block; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
+    .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; width: 50%; border-radius: 8px; }
+    .close { float: right; font-size: 28px; cursor: pointer; }
+    label { display: block; margin-top: 10px; }
+    button { margin-top: 20px; margin-right: 10px; }
+    </style>
 </head>
 <body>
 
@@ -432,129 +439,134 @@
   </nav>
 </header>
 
-  <main>
-    <section class="calendario">
-    <h2>Exames Agendados</h2>
-    <div class="calendar-container">
-      <div class="calendar-header">
-        <button id="prevMonth">&lt;</button>
-        <span id="monthYear"></span>
-        <button id="nextMonth">&gt;</button>
-      </div>
-      <table id="calendar">
-        <thead>
-          <tr>
-            <th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th>
-            <th>Qui</th><th>Sex</th><th>Sab</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+<div id="calendar" style="max-width: 90%; margin: 30px auto; background: white; padding: 20px; border-radius: 12px;"></div>
 
-    <div class="info-dia">
-      <h3 id="selectedDateTitle">Selecione uma data</h3>
-      <div id="detalhesConsulta"></div>
-    </div>
-  </section>
-<script>
-  const agendamentos = {{ agendamentos_json | safe }};
-</script>
-<script src="{{ url_for('static', filename='calendar.js') }}"></script>
-  </main>
-
-  <!-- Modal de agendamento -->
-<div id="modal" class="modal">
+<!-- Modal de Agendamento -->
+<div id="agendamentoModal" class="modal">
   <div class="modal-content">
-    <span class="close" id="closeModal">&times;</span>
-
-    <form id="agendamentoForm" method="POST" action="/agendar">
-      <!-- Step 1: Escolher exame -->
-      <div class="step" id="step1">
-        <h2>Passo 1: Escolha o exame</h2>
-        <!--  dropdown exames p/ pessoa escolher  -->
-        <button type="button" onclick="nextStep()">Próximo</button>
+    <span class="close-btn" id="fecharModalAgendamento">&times;</span>
+    <h2>Agendar Consulta</h2>
+    <form id="formAgendamento">
+      <input type="hidden" id="dataSelecionada" name="dataSelecionada" />
+      <div style="grid-column: span 2;">
+        <label>Exame:</label>
+        <select id="exame" required></select>
       </div>
-
-      <!-- Step 2: Escolher médico -->
-      <div class="step" id="step2" style="display:none;">
-        <h2>Passo 2: Escolha o médico</h2>
-       <!-- opcoes de medicos disponiveis conforme exame selecionado ou pode ser ao contrario,
-        vou ver com as meninas primeiro -->
-        <button type="button" onclick="prevStep()">Voltar</button>
-        <button type="button" onclick="nextStep()">Próximo</button>
+      <div style="grid-column: span 2;">
+        <label>Médico:</label>
+        <select id="medico" required></select>
       </div>
-
-      <!-- Step 3: Data e hora -->
-      <div class="step" id="step3" style="display:none;">
-        <h2>Passo 3: Escolha data e hora</h2>
-        <!-- data e horarios disponiveis 
-         para fazer exame vao aparecer em formato de dropdown ou no calendario vou ver ainda... -->
-        <button type="button" onclick="prevStep()">Voltar</button>
-        <button type="button" onclick="nextStep()">Próximo</button>
+      <div style="grid-column: span 2;">
+        <label>Horário:</label>
+        <select id="horario" required></select>
       </div>
-
-      <!-- Etapa 4: Revisar e confirmar -->
-      <div class="step" id="step4" style="display:none;">
-        <h2>Passo 4: Confirmar exame</h2>
-        <div id="resumo"></div>
-        <button type="button" onclick="prevStep()">Voltar</button>
-        <button type="submit">Agendar exame</button>
+      <div class="form-actions">
+        <button type="submit" class="submit-btn">Confirmar Agendamento</button>
       </div>
     </form>
   </div>
 </div>
 
-<style>
-  .modal { display: block; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
-  .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; width: 50%; border-radius: 8px; }
-  .close { float: right; font-size: 28px; cursor: pointer; }
-  label { display: block; margin-top: 10px; }
-  button { margin-top: 20px; margin-right: 10px; }
-</style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        selectable: true,
+        dateClick: function (info) {
+          const modal = document.getElementById('agendamentoModal');
+          document.getElementById('dataSelecionada').value = info.dateStr;
+          modal.style.display = 'block';
+          carregarExames();
+        },
+        events: '/api/eventos' // URL da API que retorna os agendamentos no formato esperado
+      });
 
-<script>
-  let currentStep = 1;
+      calendar.render();
 
-  function showStep(step) {
-    document.querySelectorAll(".step").forEach((el) => el.style.display = "none");
-    document.getElementById("step" + step).style.display = "block";
-  }
+      document.getElementById('fecharModalAgendamento').addEventListener('click', function () {
+        document.getElementById('agendamentoModal').style.display = 'none';
+      });
 
-  function nextStep() {
-    if (currentStep === 3) {
-      // Preencher resumo com os dados q a pessoa acabou de preencher o modal
-      const form = document.getElementById("agendamentoForm");
-      const resumo = document.getElementById("resumo");
-      resumo.innerHTML = `
-        <p><strong>Exame:</strong> ${form.exame.value}</p>
-        <p><strong>Médico:</strong> ${form.medico.value}</p>
-        <p><strong>Especialidade:</strong> ${form.especialidade.value}</p>
-        <p><strong>Data:</strong> ${form.data.value}</p>
-        <p><strong>Hora:</strong> ${form.hora.value}</p>
-      `;
-    }
+      // Carregar exames disponíveis
+      function carregarExames() {
+        fetch('/api/exames')
+          .then(response => response.json())
+          .then(data => {
+            const select = document.getElementById('exame');
+            select.innerHTML = '<option value="">Selecione um exame</option>';
+            data.forEach(exame => {
+              const option = document.createElement('option');
+              option.value = exame.id;
+              option.textContent = exame.nome;
+              select.appendChild(option);
+            });
+          });
+      }
 
-    if (currentStep < 4) {
-      currentStep++;
-      showStep(currentStep);
-    }
-  }
+      document.getElementById('exame').addEventListener('change', function () {
+        fetch(`/api/medicos?exameId=${this.value}`)
+          .then(response => response.json())
+          .then(data => {
+            const select = document.getElementById('medico');
+            select.innerHTML = '<option value="">Selecione um médico</option>';
+            data.forEach(medico => {
+              const option = document.createElement('option');
+              option.value = medico.id;
+              option.textContent = medico.nome;
+              select.appendChild(option);
+            });
+          });
+      });
 
-  function prevStep() {
-    if (currentStep > 1) {
-      currentStep--;
-      showStep(currentStep);
-    }
-  }
+      document.getElementById('medico').addEventListener('change', function () {
+        const exameId = document.getElementById('exame').value;
+        const data = document.getElementById('dataSelecionada').value;
+        fetch(`/api/horarios?exameId=${exameId}&medicoId=${this.value}&data=${data}`)
+          .then(response => response.json())
+          .then(data => {
+            const select = document.getElementById('horario');
+            select.innerHTML = '<option value="">Selecione um horário</option>';
+            data.forEach(horario => {
+              const option = document.createElement('option');
+              option.value = horario;
+              option.textContent = horario;
+              select.appendChild(option);
+            });
+          });
+      });
 
-  // Fecha o modal
-  document.getElementById("closeModal").onclick = () => {
-    document.getElementById("modal").style.display = "none";
-  };
-</script>
+      document.getElementById('formAgendamento').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const dados = {
+          exameId: document.getElementById('exame').value,
+          medicoId: document.getElementById('medico').value,
+          horario: document.getElementById('horario').value,
+          data: document.getElementById('dataSelecionada').value
+        };
 
+        fetch('/api/agendar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dados)
+        })
+          .then(res => res.json())
+          .then(data => {
+            alert('Agendamento realizado com sucesso!');
+            calendar.refetchEvents();
+            document.getElementById('agendamentoModal').style.display = 'none';
+          });
+      });
+    });
+  </script>
 
-  <script src="{{ url_for('static', filename='modal.js') }}"></script>
 </body>
 </html>
