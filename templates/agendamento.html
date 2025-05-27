@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Agendamentos</title>
   <link rel="stylesheet" href="../static/css/styleAgendamentos.css">
+  <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet" href="../static/css/homestyle.css">
 </head>
 <body>
   <header>
@@ -18,7 +20,7 @@
 
     <div class="dropdown">
       <button class="dropbtn">
-          <img id="avatar" src="data:image/png;base64,{{ foto.Imagem }}" alt="Foto do usuário" class="avatar" style="width: 60px; border-radius: 100%; margin-left: 20px;">
+        
       </button>               
         <div class="dropdown-content">
           <a id="openModal">Editar Informações</a>
@@ -30,37 +32,51 @@
         <div class="modal-content">
             <span class="close-btn" id="closeModal">&times;</span>
             <h2>Editar Informações</h2>
-            <form id="editForm" action="/atualizarUser" method="post">
-                <div class="form-row">
-                    <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="file" name="foto">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
-                </div>
-                <div class="form-row">
-                    <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
-                </div>
+            <form id="editForm" action="/atualizarUser" method="post" enctype="multipart/form-data">
+                <label for="fotoInput" style="cursor: pointer;">
+                    <img src="data:image/png;base64,{{ foto.Imagem }}" 
+                        alt="Imagem Atual" 
+                        id="previewImage"
+                        style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
+                </label>
+                <input type="file" id="fotoInput" name="imagem" accept="image/*" style="display: none;">
 
-                <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
-                
+                <div class="input-edit">
+                    <div class="form-row">
+                        <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
+                    </div>
+
+                    <div class="form-row">
+                        <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
+                    </div>
+
+                    <div class="form-row">
+                        <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
+                    </div>
+
+                    <div class="form-row">
+                        <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
+                    </div>
+
+                    <div class="form-row">
+                        <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
+                    </div>
+
+                    <div class="form-row">
+                        <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
+                    </div>
+
+                    <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
+                </div>
+                    
                 <div class="form-actions"> 
                     <button type="submit"  class="submit-btn">Alterar Dados</button>
                 </div>
             </form>
             
-            <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
+            <div class="excluir-botao">
+                <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
+            </div>
             
         </div>
     </div>
@@ -134,7 +150,7 @@
     </div>
   </section>
 <script>
-  const agendamentos = {{ agendamentos_json | safe }};
+  // const agendamentos = {{ agendamentos_json | safe }};''
 </script>
 <script src="{{ url_for('static', filename='calendar.js') }}"></script>
   </main>
@@ -148,6 +164,21 @@
       <!-- Step 1: Escolher exame -->
       <div class="step" id="step1">
         <h2>Passo 1: Escolha o exame</h2>
+
+
+        <form action="/exames" method="get">
+          <select name="cate" onchange="this.form.submit()">
+            <option value="">Filtrar por categoria</option>
+            {% for cat in categorias %}
+            <option value="{{ cat.Nome }}"
+                    {% if cat.Nome == cate %}selected{% endif %}>
+              {{ cat.Nome }}
+            </option>
+            {% endfor %}
+          </select>
+        </form>
+
+
         <!--  dropdown exames p/ pessoa escolher  -->
         <button type="button" onclick="nextStep()">Próximo</button>
       </div>
@@ -164,8 +195,9 @@
       <!-- Step 3: Data e hora -->
       <div class="step" id="step3" style="display:none;">
         <h2>Passo 3: Escolha data e hora</h2>
-        <!-- data e horarios disponiveis 
-         para fazer exame vao aparecer em formato de dropdown ou no calendario vou ver ainda... -->
+        
+        <input type="datetime">
+
         <button type="button" onclick="prevStep()">Voltar</button>
         <button type="button" onclick="nextStep()">Próximo</button>
       </div>

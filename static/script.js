@@ -326,74 +326,17 @@ function formatarCPF(input) {
     event.preventDefault(); // evita o comportamento padrão do link
     document.getElementById("editModal").style.display = "block";
   });
-
+  
   // Fechar o modal
   document.getElementById("closeModal").addEventListener("click", function() {
-    document.getElementById("editModal").style.display = "none";
-  });
-
-  // Fechar ao clicar fora do modal
-  window.addEventListener("click", function(event) {
-    var modal = document.getElementById("editModal");
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
-
-  // Abrir o modal Logout
-  document.getElementById("openLogoutModal").addEventListener("click", function(event) {
-    event.preventDefault(); // evita o comportamento padrão do link
-    document.getElementById("logoutModal").style.display = "block";
-  });
-
-  // Fechar o modal Logout
-  document.getElementById("closeLogoutModal").addEventListener("click", function() {
-    document.getElementById("logoutModal").style.display = "none";
-  });
-
-  // Fechar ao clicar fora do modal Logout
-  window.addEventListener("click", function(event) {
-    var modal = document.getElementById("logoutModal");
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
-
-  // Abrir o modal Alerta
-  document.getElementById("openAlerta").addEventListener("click", function(event) {
-    event.preventDefault(); // evita o comportamento padrão do link
-    document.getElementById("alertaModal").style.display = "block";
-  });
-
-  // Fechar o modal Alerta
-  document.getElementById("closeAlertaModal").addEventListener("click", function() {
-    document.getElementById("alertaModal").style.display = "none";
-  });
-
-  // Fechar ao clicar fora do modal Alerta
-  window.addEventListener("click", function(event) {
-    var modal = document.getElementById("alertaModal");
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
-
-  // Abrir o modal delete
-  document.getElementById("opendelete").addEventListener("click", function(event) {
-    event.preventDefault(); // evita o comportamento padrão do link
-    document.getElementById("deleteModal").style.display = "block";
-  });
-
-  // Fechar o modal delete
-  document.getElementById("closedeleteModal").addEventListener("click", function() {
-    document.getElementById("deleteModal").style.display = "none";
-  });
-
-  // Fechar ao clicar fora do modal delete
-  window.addEventListener("click", function(event) {
-    var modal = document.getElementById("alertaModal");
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
+      document.getElementById("editModal").style.display = "none";
+    });
+    
+    // Fechar ao clicar fora do modal
+    window.addEventListener("click", function(event) {
+        var modal = document.getElementById("editModal");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
 

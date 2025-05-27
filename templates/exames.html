@@ -248,12 +248,19 @@
     color: black;
   }
   
-  form {
+  .form-edit  {
+    display: flex;
+    flex-direction: row;
+  }
+
+  
+  .input-edit{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     grid-template-rows: auto;
   }
+  
   
   form input {
     padding: 10px;
@@ -297,6 +304,22 @@
     margin-top: 20px;
     width: 100%; /* Garante que ocupa todo o espaço horizontal */
   }
+
+  .excluir-botao {
+    display: flex;
+    justify-content: start;
+  }
+
+  .excluir-botao a {
+    background-color: #d93025;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
   
   button.delete-account {
     background-color: #d93025;
@@ -325,6 +348,14 @@
   button.submit-btn:hover {
     background-color: #23c0b8;
   }
+
+  .exames button {
+    background-color: #95754d;
+    color: antiquewhite;
+    border: none;
+    padding: 2px;
+    border-radius: 3px;
+  }
   </style>
   <script src="../static/script.js" defer></script>
 </head>
@@ -351,43 +382,57 @@
   </div>
 
     <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
-            <h2>Editar Informações</h2>
-            <form id="editForm" action="/atualizarUser" method="post">
-                <div class="form-row">
-                    <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="file" name="foto">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
-                </div>
-                <div class="form-row">
-                    <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
-                </div>
+      <div class="modal-content">
+          <span class="close-btn" id="closeModal">&times;</span>
+          <h2>Editar Informações</h2>
+          <form id="editForm" action="/atualizarUser" method="post" enctype="multipart/form-data">
+              <label for="fotoInput" style="cursor: pointer;">
+                  <img src="data:image/png;base64,{{ foto.Imagem }}" 
+                      alt="Imagem Atual" 
+                      id="previewImage"
+                      style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
+              </label>
+              <input type="file" id="fotoInput" name="imagem" accept="image/*" style="display: none;">
 
-                <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
-                
-                <div class="form-actions"> 
-                    <button type="submit"  class="submit-btn">Alterar Dados</button>
-                </div>
-            </form>
-            
-            <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
-            
-        </div>
-    </div>
+              <div class="input-edit">
+                  <div class="form-row">
+                      <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
+                  </div>
+
+                  <div class="form-row">
+                      <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
+                  </div>
+
+                  <div class="form-row">
+                      <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
+                  </div>
+
+                  <div class="form-row">
+                      <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
+                  </div>
+
+                  <div class="form-row">
+                      <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
+                  </div>
+
+                  <div class="form-row">
+                      <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
+                  </div>
+
+                  <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
+              </div>
+                  
+              <div class="form-actions"> 
+                  <button type="submit"  class="submit-btn">Alterar Dados</button>
+              </div>
+          </form>
+          
+          <div class="excluir-botao">
+              <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
+          </div>
+          
+      </div>
+  </div>
     
 
     <div id="logoutModal" class="modal">
@@ -499,4 +544,60 @@
 </script>
 
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@ 11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiperservicos", {
+          slidesPerView: 1,
+          spaceBetween: 10,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+          breakpoints: {
+            700: {
+              slidesPerView: 2,
+              spaceBetween: 40,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+        },
+        });
+
+
+        document.getElementById("fotoInput").addEventListener("change", function(event) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+            document.getElementById("previewImage").src = e.target.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        
+        // Abrir modal de exclusão
+        document.getElementById("opendeleteModal").addEventListener("click", function(event) {
+            event.preventDefault(); // evita comportamento padrão
+            document.getElementById("deleteModal").style.display = "block";
+        });
+
+        // Fechar modal de exclusão ao clicar no botão de fechar
+        document.getElementById("closedeleteModal").addEventListener("click", function() {
+            document.getElementById("deleteModal").style.display = "none";
+        });
+
+        // Fechar modal de exclusão ao clicar fora do conteúdo
+        window.addEventListener("click", function(event) {
+            const modal = document.getElementById("deleteModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+</script>
+
 </html>
