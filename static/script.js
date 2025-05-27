@@ -326,17 +326,16 @@ function formatarCPF(input) {
     event.preventDefault(); // evita o comportamento padrão do link
     document.getElementById("editModal").style.display = "block";
   });
-  
+
   // Fechar o modal
   document.getElementById("closeModal").addEventListener("click", function() {
-      document.getElementById("editModal").style.display = "none";
-    });
-    
-    // Fechar ao clicar fora do modal
-    window.addEventListener("click", function(event) {
-        var modal = document.getElementById("editModal");
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    });
+    document.getElementById("editModal").style.display = "none";
+  });
 
+  // Fechar ao clicar fora do modal
+  window.addEventListener("click", function(event) {
+    var modal = document.getElementById("editModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
