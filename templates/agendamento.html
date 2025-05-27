@@ -334,6 +334,8 @@
     label { display: block; margin-top: 10px; }
     button { margin-top: 20px; margin-right: 10px; }
     </style>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet" href="../static/css/homestyle.css">
 </head>
 <body>
 
@@ -453,6 +455,10 @@
   </nav>
 </header>
 
+<div id="calendar" style="max-width: 90%; margin: 30px auto; background: white; padding: 20px; border-radius: 12px;"></div>
+
+<!-- Modal de Agendamento -->
+<div id="agendamentoModal" class="modal">
   <main>
     <section class="calendario">
     <h2>Exames Agendados</h2>
@@ -479,7 +485,7 @@
     </div>
   </section>
 <script>
-  const agendamentos = {{ agendamentos_json | safe }};
+  // const agendamentos = {{ agendamentos_json | safe }};''
 </script>
 <script src="{{ url_for('static', filename='calendar.js') }}"></script>
   </main>
@@ -487,25 +493,43 @@
   <!-- Modal de agendamento -->
 <div id="modal" class="modal">
   <div class="modal-content">
-    <span class="close" id="closeModal">&times;</span>
+    <span class="close-btn" id="fecharModalAgendamento">&times;</span>
+    <h2>Agendar Consulta</h2>
+    <form id="formAgendamento">
+      <input type="hidden" id="dataSelecionada" name="dataSelecionada" />
+      <div style="grid-column: span 2;">
 
-    <form id="agendamentoForm" method="POST" action="/agendar">
-      <!-- Step 1: Escolher exame -->
-      <div class="step" id="step1">
-        <h2>Passo 1: Escolha o exame</h2>
-        <!--  dropdown exames p/ pessoa escolher  -->
-        <button type="button" onclick="nextStep()">Próximo</button>
+
+        <form action="/exames" method="get">
+          <select name="cate" onchange="this.form.submit()">
+            <option value="">Filtrar por categoria</option>
+            {% for cat in categorias %}
+            <option value="{{ cat.Nome }}"
+                    {% if cat.Nome == cate %}selected{% endif %}>
+              {{ cat.Nome }}
+            </option>
+            {% endfor %}
+          </select>
+        </form>
+
+
+        <label>Exame:</label>
+        <select id="exame" required></select>
       </div>
       <div style="grid-column: span 2;">
         <label>Médico:</label>
         <select id="medico" required></select>
       </div>
+      <div style="grid-column: span 2;">
+        <label>Horário:</label>
+        <select id="horario" required></select>
 
       <!-- Step 3: Data e hora -->
       <div class="step" id="step3" style="display:none;">
         <h2>Passo 3: Escolha data e hora</h2>
-        <!-- data e horarios disponiveis 
-         para fazer exame vao aparecer em formato de dropdown ou no calendario vou ver ainda... -->
+        
+        <input type="datetime">
+
         <button type="button" onclick="prevStep()">Voltar</button>
         <button type="button" onclick="nextStep()">Próximo</button>
       </div>
