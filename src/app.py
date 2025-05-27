@@ -24,7 +24,11 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
+<<<<<<< HEAD
+    "password": "ROOT",
+=======
     "password": "root",
+>>>>>>> e8ae198ff82c880e61b9fe51906b9d8bbe715327
     "database": "hslr"
 }
 
@@ -278,7 +282,6 @@ def cadastro(
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
     senha: str = Form(...),
-    altura: float = Form(...),
     db=Depends(get_db)
 ):
     passouArroba = False
@@ -289,7 +292,8 @@ def cadastro(
         elif passouArroba:
             dominioEmail += char
 
-    caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.webp'
+    caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.png'
+
     if dominioEmail != 'hsrl.saude.br':
 # --------------------------------------------------- CADASTRO PACIENTE --------------------------------------------------------------------------
         try:
@@ -334,7 +338,7 @@ def cadastro(
                     req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                     req.session["id_usuario"] = user[0]
                     req.session["papel"] = user[9]
-
+                    req.session["altura"] = user[10]
 
             db.close()
 
