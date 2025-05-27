@@ -1,111 +1,200 @@
+/* Geral */
 body {
   font-family: Arial, sans-serif;
-  background: #f2f2f2;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  background: #f2f2f2;
 }
 
-header {
-  background: #a3775f;
-  color: white;
-  padding: 20px;
-  text-align: center;
+h1, h2, h3 {
+  color: #003366;
 }
 
-button {
+/* Navegação */
+.navigation {
+  background-color: #0077cc;
   padding: 10px 20px;
-  background: #3b270e;
-  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: white;
-  cursor: pointer;
-  margin-top: 10px;
 }
 
-ul {
-  list-style: none;
+.navigation h1 {
+  margin: 0;
+}
+
+.navigation .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  cursor: pointer;
   padding: 0;
 }
 
-li {
-  background: white;
-  padding: 10px;
-  margin: 5px 0;
-  border-left: 5px solid #3b270e;
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
-.calendario {
+
+/* Dropdown */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  z-index: 1;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Modal Base */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+.close-btn {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
+/* Formulários */
+.form-row {
+  margin-bottom: 15px;
+}
+
+.form-row input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.form-actions {
   display: flex;
-  gap: 2rem;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
-.calendar-container {
-  width: 60%;
+.submit-btn,
+.delete-account {
+  background-color: #0077cc;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.calendar-header {
+.delete-account {
+  background-color: #cc0000;
+}
+
+.submit-btn:hover,
+.delete-account:hover {
+  opacity: 0.9;
+}
+
+/* Calendário */
+#calendarContainer {
+  background: white;
+  margin: 30px auto;
+  padding: 20px;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.calendar-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.calendar-header button {
-  padding: 5px 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
+#calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
   text-align: center;
 }
 
-table td, table th {
+#calendarGrid div {
   padding: 10px;
-  border: 1px solid #ccc;
+  background-color: #e6f2ff;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-td.has-agendamento {
-  background-color: #ffe0b2;
+#calendarGrid div.today {
+  background-color: #b3d9ff;
   font-weight: bold;
 }
 
-td.today {
-  border: 2px solid #a3775f;
+#calendarGrid div.selected {
+  background-color: #0077cc;
+  color: white;
 }
 
-.info-dia {
-  flex: 1;
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid #ccc;
+/* Modal Agendamento */
+#agendamentoModal .form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.modal-content {
-  background: white;
-  margin: 10% auto;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
+#agendamentoModal button {
+  padding: 10px 20px;
+  border: none;
   border-radius: 5px;
-  position: relative;
+  cursor: pointer;
+  background-color: #0077cc;
+  color: white;
 }
 
-.close {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  font-size: 20px;
-  cursor: pointer;
+#agendamentoModal button:hover {
+  opacity: 0.9;
 }
