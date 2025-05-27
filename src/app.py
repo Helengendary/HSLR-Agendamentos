@@ -23,7 +23,7 @@ from starlette.middleware.sessions import SessionMiddleware
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "root",
+    "password": "1106",
     "database": "hslr"
 }
 def get_db():
@@ -266,6 +266,7 @@ def cadastro(
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
     senha: str = Form(...),
+    altura: float = Form(...),
     db=Depends(get_db)
 ):
     passouArroba = False
@@ -281,10 +282,10 @@ def cadastro(
         try:
             with db.cursor() as cursor:
 
-                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel)
-                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s)"""
-                caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.webp'
-                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 3))
+                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel, altura)
+                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s, %s)"""
+                caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.jpg'
+                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 3, altura))
                 db.commit()
                 
         except pymysql.MySQLError as e:
@@ -320,6 +321,7 @@ def cadastro(
                     req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
                     req.session["id_usuario"] = user[0]
                     req.session["papel"] = user[9]
+                    req.session["altura"] = user[10]
 
             db.close()
 
