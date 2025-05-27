@@ -339,3 +339,25 @@ function formatarCPF(input) {
       modal.style.display = "none";
     }
   });
+
+
+  // Abrir o modal Alerta
+  document.getElementById("openAlerta").addEventListener("click", function(event) {
+    event.preventDefault(); // evita o comportamento padrão do link
+    document.getElementById("alertaModal").style.display = "block";
+  });
+
+  // Fechar o modal Alerta
+  document.getElementById("closeAlertaModal").addEventListener("click", function() {
+    document.getElementById("alertaModal").style.display = "none";
+  });
+
+  // Fechar ao clicar fora do modal Alerta
+  window.addEventListener("click", function(event) {
+    var modal = document.getElementById("alertaModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+
