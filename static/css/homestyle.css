@@ -219,6 +219,7 @@ ul{
     font-size: 1.1rem;
     cursor: pointer;
 }
+
 /*informacoes sla************************************/
 .info{
     max-width: 1200px;
@@ -829,7 +830,12 @@ footer{
     color: black;
   }
   
-  form {
+  .form-edit  {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .input-edit{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
@@ -879,7 +885,12 @@ footer{
     width: 100%; /* Garante que ocupa todo o espaço horizontal */
   }
   
-  button.delete-account {
+  .excluir-botao {
+    display: flex;
+    justify-content: start;
+  }
+
+  .excluir-botao a {
     background-color: #d93025;
     color: white;
     padding: 8px 25px;

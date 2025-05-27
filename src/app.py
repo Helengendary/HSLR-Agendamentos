@@ -8,6 +8,7 @@
 # python -m uvicorn app:app --app-dir ./src
 
 
+from tempfile import template
 import pymysql
 import base64
 
@@ -26,11 +27,11 @@ DB_CONFIG = {
     "password": "1106",
     "database": "hslr"
 }
+
 def get_db():
     return pymysql.connect(**DB_CONFIG)
 
 app = FastAPI()
-
 
 #expiração da sessão por inatividade
 app.add_middleware(
@@ -42,11 +43,9 @@ app.add_middleware(
     https_only=False
 )
 
-
 #app.add_middleware(SessionMiddleware, secret_key="clinica")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 pages = Jinja2Templates(directory='templates')
-
 
 @app.get('/')
 def index(req: Request):
@@ -55,11 +54,25 @@ def index(req: Request):
 #aqui tira o aviso que a sessao expirou
 @app.get('/login')
 def login(req: Request):
+
+    req.session["nome_usuario"] = ''
+    req.session["sobrenome_usuario"] = ''
+    req.session["email_usuario"] = '' 
+    req.session["numero_usuario"] = ''
+    req.session["cpf_usuario"] = ''
+    req.session["data_usuario"] = ''
+    req.session["id_usuario"] = ''
+    req.session["papel"] = ''
+
+    expirado = req.session.pop("expirado", False)
+    return pages.TemplateResponse(name='login.html', context={"expirado": expirado, "request": req})
+
+@app.get('/calendario')
+def login(req: Request):
     req.session.clear()
 
     expirado = req.session.pop("expirado", False)
-    return pages.TemplateResponse(request=req, name='login.html', context={"expirado": expirado})
-
+    return pages.TemplateResponse(request=req, name='agendamento.html', context={"expirado": expirado})
 
 #quando a sessao expira, nome_usuario vira None, redirecionando para a pagina de login
 @app.get('/home')
@@ -122,7 +135,6 @@ def homeMedico(req: Request, db=Depends(get_db)):
             'foto': foto,     
         }
     )
-
 
 @app.get('/exames')
 def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
@@ -216,7 +228,7 @@ def agendamentos(req: Request, db=Depends(get_db)):
     finally:
         db.close()
 
-    return templates.TemplateResponse(
+    return template.TemplateResponse(
         'agendamentos.html',
         {
             'request': req,
@@ -293,6 +305,7 @@ def cadastro(
             print(e)
 
             if "Duplicate entry" in str(e):
+                print("duplicado")
                 if "CPF" in str(e):
                     msg = "Este CPF já está cadastrado."
                 elif "Email" in str(e):
@@ -401,7 +414,7 @@ async def login(
             else:
                 req.session["errorLogin"] = "Usuário ou senha inválidos."
                 req.session["errorLoginStatus"] = True
-                return RedirectResponse(url="/", status_code=303)
+                return RedirectResponse(url="/login", status_code=303)
             
     except pymysql.MySQLError as e:
         print(e)
@@ -446,7 +459,6 @@ async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(
     return RedirectResponse(url="/", status_code=303)
 
 # -------------------------------------------------------------------------- UPDATE USER ------------------------------------------------------------
-
 @app.post("/atualizarUser")
 async def atualizar_usuario(
     req: Request,
@@ -466,14 +478,24 @@ async def atualizar_usuario(
     try:
         imagem_data = await imagem.read() 
 
+        print(imagem)
+
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
         
-            sql_update = """
-                UPDATE Usuario 
-                SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s, Imagem = %s,
-                WHERE ID_Usuario = %s
-            """
-            cursor.execute(sql_update, (name, surname, email, phone, imagem_data, ID_Usuario))
+            if imagem.filename != '':
+                sql_update = """
+                    UPDATE Usuario 
+                    SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s, Imagem = %s
+                    WHERE ID_Usuario = %s
+                """
+                cursor.execute(sql_update, (name, surname, email, phone, imagem_data, ID_Usuario))
+            else:
+                sql_update = """
+                    UPDATE Usuario 
+                    SET Nome = %s, Sobrenome = %s, Email = %s, Telefone = %s
+                    WHERE ID_Usuario = %s
+                """
+                cursor.execute(sql_update, (name, surname, email, phone, ID_Usuario))
         
             db.commit()
 
@@ -481,7 +503,7 @@ async def atualizar_usuario(
             req.session["sobrenome_usuario"] = surname 
             req.session["email_usuario"] = email 
             req.session["numero_usuario"] = phone
-            req.session["foto_usuario"] = base64.b64encode(imagem_data).decode('utf-8')
+            req.session["id_usuario"] = ID_Usuario
             req.session["mensagem_header"] = "Atualização realizada com sucesso"
             req.session["mensagem"] = "Os dados foram atualizados com sucesso."
 
