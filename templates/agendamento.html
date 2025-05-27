@@ -12,7 +12,7 @@
       <form action="/home" method="get" id="voltarForm">
         <span onclick="document.getElementById('voltarForm').submit();"  style="cursor: pointer; font-size: 3rem; color: white; padding-right: 20px;">‹</span>
       </form>
-      <h1>Hospital Santa Luzia - Exames</h1>
+      <h1>Hospital Santa Luzia - Agenda</h1>
     </div>
 
 
@@ -214,38 +214,27 @@
 </div>
 
 <script>
+  // Variáveis globais
   let selectedDate = null;
   let selectedMedico = null;
   let selectedTime = null;
+  let currentMonth = new Date().getMonth();
+  let currentYear = new Date().getFullYear();
 
   const horariosDisponiveis = [
     "08:00", "09:00", "10:00", "11:00",
     "13:00", "14:00", "15:00", "16:00"
   ];
-  let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
 
-function prevMonth() {
-  currentMonth--;
-  if (currentMonth < 0) {
-    currentMonth = 11;
-    currentYear--;
-  }
-  createCalendar(currentYear, currentMonth);
-}
+  let agendamentoData = {
+    data: null,
+    exame: null,
+    medico: null,
+    horario: null
+  };
+  let currentStep = 1;
 
-function nextMonth() {
-  currentMonth++;
-  if (currentMonth > 11) {
-    currentMonth = 0;
-    currentYear++;
-  }
-  createCalendar(currentYear, currentMonth);
-}
-
-window.onload = () => {
-  createCalendar(currentYear, currentMonth);
-};
+  // Criação do calendário
   function createCalendar(year, month) {
     const calendarGrid = document.getElementById('calendarGrid');
     while (calendarGrid.children.length > 7) {
@@ -261,7 +250,6 @@ window.onload = () => {
 
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-
     const startDayOfWeek = firstDay.getDay();
     const totalDays = lastDay.getDate();
 
@@ -272,14 +260,14 @@ window.onload = () => {
     }
 
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
 
     for (let day = 1; day <= totalDays; day++) {
       const dateCell = document.createElement('div');
       dateCell.textContent = day;
 
       const cellDate = new Date(year, month, day);
-      cellDate.setHours(0,0,0,0);
+      cellDate.setHours(0, 0, 0, 0);
 
       if (cellDate < today) {
         dateCell.style.color = '#ccc';
@@ -289,13 +277,13 @@ window.onload = () => {
 
         dateCell.addEventListener('click', () => {
           selectedDate = cellDate;
+          agendamentoData.data = cellDate.toLocaleDateString('pt-BR');
 
           Array.from(calendarGrid.children).forEach(div => {
             div.classList.remove('selected');
           });
 
           dateCell.classList.add('selected');
-
           openAgendamentoModal(selectedDate);
         });
       }
@@ -307,94 +295,118 @@ window.onload = () => {
       calendarGrid.appendChild(dateCell);
     }
   }
-let currentStep = 1;
-let agendamentoData = {
-  data: null,
-  exame: null,
-  medico: null,
-  horario: null
-};
 
-function openAgendamentoModal(date) {
-  agendamentoData.data = date.toLocaleDateString('pt-BR');
-  currentStep = 1;
-  document.getElementById('agendamentoModal').style.display = 'block';
-  showStep();
-}
+  function prevMonth() {
+    currentMonth--;
+    if (currentMonth < 0) {
+      currentMonth = 11;
+      currentYear--;
+    }
+    createCalendar(currentYear, currentMonth);
+  }
 
-function closeAgendamentoModal() {
-  document.getElementById('agendamentoModal').style.display = 'none';
-}
+  function nextMonth() {
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+    createCalendar(currentYear, currentMonth);
+  }
 
-function prevStep() {
-  if (currentStep > 1) {
-    currentStep--;
+  // Modal de agendamento com 4 passos
+  function openAgendamentoModal(date) {
+    currentStep = 1;
+    document.getElementById('agendamentoModal').style.display = 'block';
     showStep();
   }
-}
 
-function nextStep() {
-  if (currentStep < 4) {
-    currentStep++;
-    showStep();
-  } else {
-    alert(`Agendamento confirmado:\n${JSON.stringify(agendamentoData, null, 2)}`);
-    closeAgendamentoModal();
+  function closeAgendamentoModal() {
+    document.getElementById('agendamentoModal').style.display = 'none';
   }
-}
 
-function showStep() {
-  const container = document.getElementById('stepContainer');
-  container.innerHTML = '';
-
-  const title = document.getElementById('modalTitle');
-  document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'inline-block';
-  document.getElementById('nextBtn').textContent = currentStep === 4 ? 'Confirmar' : 'Próximo';
-
-  switch (currentStep) {
-    case 1:
-      title.textContent = 'Passo 1: Escolher Exame';
-      const exames = ['Raio-X', 'Ultrassom', 'Sangue', 'Ressonância']; // Substitua por dados vindos do backend
-      exames.forEach(exame => {
-        const btn = document.createElement('button');
-        btn.textContent = exame;
-        btn.onclick = () => agendamentoData.exame = exame;
-        container.appendChild(btn);
-      });
-      break;
-
-    case 2:
-      title.textContent = 'Passo 2: Escolher Médico';
-      const medicos = ['Dr. Afonso', 'Dra. Helena', 'Dr. Roberto']; // Poderia filtrar por exame
-      medicos.forEach(med => {
-        const btn = document.createElement('button');
-        btn.textContent = med;
-        btn.onclick = () => agendamentoData.medico = med;
-        container.appendChild(btn);
-      });
-      break;
-
-    case 3:
-      title.textContent = 'Passo 3: Escolher Horário';
-      horariosDisponiveis.forEach(horario => {
-        const btn = document.createElement('button');
-        btn.textContent = horario;
-        btn.onclick = () => agendamentoData.horario = horario;
-        container.appendChild(btn);
-      });
-      break;
-
-    case 4:
-      title.textContent = 'Passo 4: Revisar Dados';
-      container.innerHTML = `
-        <p><strong>Data:</strong> ${agendamentoData.data}</p>
-        <p><strong>Exame:</strong> ${agendamentoData.exame}</p>
-        <p><strong>Médico:</strong> ${agendamentoData.medico}</p>
-        <p><strong>Horário:</strong> ${agendamentoData.horario}</p>
-      `;
-      break;
+  function prevStep() {
+    if (currentStep > 1) {
+      currentStep--;
+      showStep();
+    }
   }
-}
+
+  function nextStep() {
+    if (currentStep < 4) {
+      currentStep++;
+      showStep();
+    } else {
+      alert(`Agendamento confirmado:\n${JSON.stringify(agendamentoData, null, 2)}`);
+      closeAgendamentoModal();
+    }
+  }
+
+  function showStep() {
+    const container = document.getElementById('stepContainer');
+    container.innerHTML = '';
+    const title = document.getElementById('modalTitle');
+    document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'inline-block';
+    document.getElementById('nextBtn').textContent = currentStep === 4 ? 'Confirmar' : 'Próximo';
+
+    switch (currentStep) {
+      case 1:
+        title.textContent = 'Passo 1: Escolher Exame';
+        ['Raio-X', 'Ultrassom', 'Sangue', 'Ressonância'].forEach(exame => {
+          const btn = document.createElement('button');
+          btn.textContent = exame;
+          btn.onclick = () => {
+            agendamentoData.exame = exame;
+            nextStep();
+          };
+          container.appendChild(btn);
+        });
+        break;
+
+      case 2:
+        title.textContent = 'Passo 2: Escolher Médico';
+        ['Dr. Afonso', 'Dra. Helena', 'Dr. Roberto'].forEach(med => {
+          const btn = document.createElement('button');
+          btn.textContent = med;
+          btn.onclick = () => {
+            agendamentoData.medico = med;
+            nextStep();
+          };
+          container.appendChild(btn);
+        });
+        break;
+
+      case 3:
+        title.textContent = 'Passo 3: Escolher Horário';
+        horariosDisponiveis.forEach(horario => {
+          const btn = document.createElement('button');
+          btn.textContent = horario;
+          btn.onclick = () => {
+            agendamentoData.horario = horario;
+            nextStep();
+          };
+          container.appendChild(btn);
+        });
+        break;
+
+      case 4:
+        title.textContent = 'Passo 4: Revisar Dados';
+        container.innerHTML = `
+          <p><strong>Data:</strong> ${agendamentoData.data}</p>
+          <p><strong>Exame:</strong> ${agendamentoData.exame}</p>
+          <p><strong>Médico:</strong> ${agendamentoData.medico}</p>
+          <p><strong>Horário:</strong> ${agendamentoData.horario}</p>
+        `;
+        break;
+    }
+  }
+
+  // Inicialização do calendário ao carregar a página
+  window.onload = () => {
+    createCalendar(currentYear, currentMonth);
+  };
+
+  // Módulo do modal de horários por médico
   const medicoModal = document.getElementById('medicoModal');
   const modalMedicoName = document.getElementById('modalMedicoName');
   const timeslotsContainer = document.getElementById('timeslotsContainer');
@@ -414,17 +426,13 @@ function showStep() {
     modalMedicoName.textContent = `Horários disponíveis - ${medico} em ${dateStr}`;
 
     timeslotsContainer.innerHTML = '';
-
     horariosDisponiveis.forEach(time => {
       const timeSlot = document.createElement('div');
       timeSlot.classList.add('timeslot');
       timeSlot.textContent = time;
 
       timeSlot.addEventListener('click', () => {
-        Array.from(timeslotsContainer.children).forEach(slot => {
-          slot.classList.remove('selected');
-        });
-
+        Array.from(timeslotsContainer.children).forEach(slot => slot.classList.remove('selected'));
         timeSlot.classList.add('selected');
         selectedTime = time;
       });
@@ -470,38 +478,108 @@ function showStep() {
 
     fetch('/agendar', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dataAgendamento)
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert('Agendamento realizado com sucesso!');
-        medicoModal.style.display = 'none';
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Agendamento realizado com sucesso!');
+          medicoModal.style.display = 'none';
 
-        selectedDate = null;
-        selectedMedico = null;
-        selectedTime = null;
+          selectedDate = null;
+          selectedMedico = null;
+          selectedTime = null;
 
-        const calendarGrid = document.getElementById('calendarGrid');
-        Array.from(calendarGrid.children).forEach(div => {
-          div.classList.remove('selected');
-        });
-      } else {
-        alert('Erro: ' + (data.message || 'Tente novamente'));
-      }
-    })
-    .catch(err => {
-      alert('Erro ao conectar com servidor.');
-      console.error(err);
+          const calendarGrid = document.getElementById('calendarGrid');
+          Array.from(calendarGrid.children).forEach(div => div.classList.remove('selected'));
+        } else {
+          alert('Erro: ' + (data.message || 'Tente novamente'));
+        }
+      })
+      .catch(err => {
+        alert('Erro ao conectar com servidor.');
+        console.error(err);
+      });
+  });
+  function showStep() {
+  // Pega todos os passos e esconde todos
+  const steps = document.querySelectorAll('.step');
+  steps.forEach(step => step.classList.remove('active'));
+
+  // Mostra o passo atual
+  const currentStepElement = document.getElementById(`step${currentStep}`);
+  if (currentStepElement) {
+    currentStepElement.classList.add('active');
+  }
+
+  // Controla visibilidade dos botões voltar e próximo
+  document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'inline-block';
+  document.getElementById('nextBtn').style.display = currentStep === 3 ? 'none' : 'inline-block';
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("agendamentoModal");
+  const closeBtn = document.getElementById("closeAgendamentoModal");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const steps = document.querySelectorAll("#agendamentoModal .step");
+  let currentStep = 0; // índice dos steps: 0 a 3 (total 4 passos)
+
+  function showStep(index) {
+    steps.forEach((step, i) => {
+      step.style.display = i === index ? "block" : "none";
     });
+
+    prevBtn.style.display = index === 0 ? "none" : "inline-block";
+    nextBtn.style.display = index === steps.length - 1 ? "none" : "inline-block";
+    submitBtn.style.display = index === steps.length - 1 ? "inline-block" : "none";
+
+    // Aqui você pode atualizar o título ou resumo se quiser
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentStep > 0) {
+      currentStep--;
+      showStep(currentStep);
+    }
   });
 
-  const today = new Date();
-  createCalendar(today.getFullYear(), today.getMonth());
-</script>
+  nextBtn.addEventListener("click", () => {
+    // Opcional: validar campos antes de avançar
+    // Exemplo: checar se campo obrigatório está preenchido
 
-</body>
+    // Para exemplo simples, apenas avança
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      showStep(currentStep);
+    }
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // Função para abrir modal (chame quando clicar na data)
+  window.openAgendamentoModal = function() {
+    modal.style.display = "block";
+    currentStep = 0;
+    showStep(currentStep);
+  };
+
+  // Fecha o modal clicando fora da área dele
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  // Inicializa invisível
+  modal.style.display = "none";
+
+  // Exemplo para testar:
+  // openAgendamentoModal();
+});
+</script>
+s</body>
 </html>

@@ -1,27 +1,34 @@
 /* Geral */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f2f2f2;
+  background: #f9f5f1; /* tom bem claro, próximo do bege */
+  color: #4a2c1a; /* marrom escuro para texto */
 }
 
 h1, h2, h3 {
-  color: #003366;
+  color: #6b4c35; /* marrom médio */
+  margin-bottom: 0.5em;
+  font-weight: 600;
 }
 
 /* Navegação */
 .navigation {
-  background-color: #0077cc;
-  padding: 10px 20px;
+  background-color: #7a5230; /* marrom quente escuro */
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
+  color: #f0e6d2; /* bege claro para contraste */
+  box-shadow: 0 3px 6px rgba(122,82,48,0.4);
 }
 
 .navigation h1 {
   margin: 0;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  user-select: none;
 }
 
 .navigation .dropdown {
@@ -30,7 +37,7 @@ h1, h2, h3 {
 }
 
 .dropbtn {
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
@@ -40,6 +47,13 @@ h1, h2, h3 {
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  border: 2px solid #b38b5b; /* borda em tom marrom claro */
+  transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px #b38b5b;
 }
 
 /* Dropdown */
@@ -47,17 +61,21 @@ h1, h2, h3 {
   display: none;
   position: absolute;
   right: 0;
-  background-color: white;
-  min-width: 160px;
-  z-index: 1;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  background-color: #f9f5f1;
+  min-width: 180px;
+  z-index: 10;
+  box-shadow: 0 8px 16px rgba(122, 82, 48, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
+  color: #5c3d1a;
+  padding: 14px 20px;
   text-decoration: none;
   display: block;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
 .dropdown:hover .dropdown-content {
@@ -65,136 +83,298 @@ h1, h2, h3 {
 }
 
 .dropdown-content a:hover {
-  background-color: #f1f1f1;
+  background-color: #7a5230;
+  color: #f0e6d2;
 }
 
 /* Modal Base */
 .modal {
   display: none;
   position: fixed;
-  z-index: 10;
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(122, 82, 48, 0.75); /* marrom semi-transparente */
+}
+
+.modal.active {
+  display: block;
 }
 
 .modal-content {
-  background-color: white;
-  margin: 10% auto;
-  padding: 30px;
-  border: 1px solid #888;
+  background-color: #fdf9f3;
+  margin: 8% auto;
+  padding: 30px 35px;
+  border: 2px solid #b38b5b;
   width: 90%;
-  max-width: 500px;
-  border-radius: 10px;
+  max-width: 480px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 6px 15px rgba(122, 82, 48, 0.3);
+  top: 50%;
+  transform: translateY(-50%);
 }
 
+/* Botão fechar */
 .close-btn {
-  float: right;
+  position: absolute;
+  top: 12px;
+  right: 15px;
   font-size: 28px;
   font-weight: bold;
+  color: #7a5230;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .close-btn:hover {
-  color: red;
+  color: #cc0000;
 }
 
 /* Formulários */
 .form-row {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
-.form-row input {
+.form-row input,
+.form-row select,
+.form-row textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px 15px;
   box-sizing: border-box;
+  border: 1.8px solid #b38b5b;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #4a2c1a;
+  background-color: #fefbf6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: #7a5230;
+  box-shadow: 0 0 5px #7a5230;
 }
 
 .form-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
 }
 
 .submit-btn,
 .delete-account {
-  background-color: #0077cc;
-  color: white;
-  padding: 10px 20px;
+  background-color: #7a5230;
+  color: #f0e6d2;
+  padding: 12px 28px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease;
 }
 
 .delete-account {
-  background-color: #cc0000;
+  background-color: #a03e28;
 }
 
-.submit-btn:hover,
+.submit-btn:hover {
+  background-color: #995d34;
+}
+
 .delete-account:hover {
-  opacity: 0.9;
+  background-color: #cc3f1a;
 }
 
 /* Calendário */
 #calendarContainer {
-  background: white;
-  margin: 30px auto;
-  padding: 20px;
-  max-width: 600px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+  background: #fdf9f3;
+  margin: 40px auto;
+  padding: 25px 30px;
+  max-width: 620px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(122, 82, 48, 0.15);
+  border: 1.5px solid #b38b5b;
 }
 
 .calendar-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #6b4c35;
 }
 
 #calendarGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  gap: 14px;
   text-align: center;
+  font-weight: 600;
 }
 
 #calendarGrid div {
-  padding: 10px;
-  background-color: #e6f2ff;
-  border-radius: 5px;
+  padding: 14px 0;
+  background-color: #f1e6d1;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #6b4c35;
+  user-select: none;
+  box-shadow: inset 0 0 4px rgba(122, 82, 48, 0.1);
+}
+
+#calendarGrid div:hover {
+  background-color: #d7b87c;
+  color: #fff;
+  box-shadow: 0 0 8px #b38b5b;
 }
 
 #calendarGrid div.today {
-  background-color: #b3d9ff;
-  font-weight: bold;
+  background-color: #b38b5b;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 0 10px #7a5230;
 }
 
 #calendarGrid div.selected {
-  background-color: #0077cc;
-  color: white;
+  background-color: #7a5230;
+  color: #f0e6d2;
+  font-weight: 700;
+  box-shadow: 0 0 10px #4a2c1a;
 }
 
 /* Modal Agendamento */
 #agendamentoModal .form-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: flex-end;
+  margin-top: 25px;
 }
 
 #agendamentoModal button {
-  padding: 10px 20px;
+  padding: 12px 28px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  background-color: #0077cc;
-  color: white;
+  background-color: #7a5230;
+  color: #f0e6d2;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
 #agendamentoModal button:hover {
-  opacity: 0.9;
+  background-color: #995d34;
+}
+.modal {
+  display: none; /* escondido por padrão */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* permite scroll se conteúdo for maior */
+  background-color: rgba(0, 0, 0, 0.5); /* fundo escuro translúcido */
+  transition: opacity 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Conteúdo do modal */
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto; /* centraliza verticalmente e horizontalmente */
+  padding: 20px 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* Botão fechar */
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+/* Título modal */
+.modal-content h2, .modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Botões do formulário */
+.form-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.submit-btn, .delete-account {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover, .delete-account:hover {
+  background-color: #0056b3;
+}
+
+/* Input fields dentro do modal */
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="date"],
+.modal-content select {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 8px 0 16px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+/* Passos do modal */
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+/* Botões "voltar" e "próximo" */
+#prevBtn, #nextBtn {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.2s ease;
+}
+
+#prevBtn:hover, #nextBtn:hover {
+  background-color: #19692c;
 }
