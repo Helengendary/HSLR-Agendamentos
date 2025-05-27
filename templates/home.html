@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Hospital Santa Luzia</title>
-    <link rel="stylesheet" href="../static/css/homestyle.css">
     <script src="../static/script.js" defer></script>
+    <link rel="stylesheet" href="../static/css/homestyle.css?v=1    ">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
       integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!--font awesome ícones-->
@@ -49,7 +49,7 @@
                 <div class="modal-content">
                     <span class="close-btn" id="closeModal">&times;</span>
                     <h2>Editar Informações</h2>
-                    <form id="editForm" action="/atualizarUser" method="post">
+                    <form id="editForm" action="/atualizarUser" method="post" enctype="multipart/form-data">
                         <label for="fotoInput" style="cursor: pointer;">
                             <img src="data:image/png;base64,{{ foto.Imagem }}" 
                                 alt="Imagem Atual" 
@@ -58,38 +58,42 @@
                         </label>
                         <input type="file" id="fotoInput" name="imagem" accept="image/*" style="display: none;">
 
-                        <div class="form-row">
-                            <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
+                        <div class="input-edit">
+                            <div class="form-row">
+                                <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
+                            </div>
+    
+                            <div class="form-row">
+                                <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
+                            </div>
+    
+                            <div class="form-row">
+                                <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
+                            </div>
+    
+                            <div class="form-row">
+                                <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
+                            </div>
+    
+                            <div class="form-row">
+                                <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
+                            </div>
+    
+                            <div class="form-row">
+                                <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
+                            </div>
+    
+                            <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
                         </div>
-
-                        <div class="form-row">
-                            <input type="text" id="surname" name="surname" placeholder="Sobrenome" value="{{request.session.get("sobrenome_usuario")}}">
-                        </div>
-
-                        <div class="form-row">
-                            <input type="email" id="email" name="email" placeholder="E-mail" value="{{request.session.get("email_usuario")}}">
-                        </div>
-
-                        <div class="form-row">
-                            <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
-                        </div>
-
-                        <div class="form-row">
-                            <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{request.session.get("cpf_usuario")}}" disabled>
-                        </div>
-
-                        <div class="form-row">
-                            <input type="date" id="data" name="data" placeholder="Data de Nascimento" value="{{request.session.get("data_usuario")}}" disabled>
-                        </div>
-
-                        <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
-                        
+                            
                         <div class="form-actions"> 
                             <button type="submit"  class="submit-btn">Alterar Dados</button>
                         </div>
                     </form>
                     
-                    <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
+                    <div class="excluir-botao">
+                        <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
+                    </div>
                     
                 </div>
             </div>
@@ -135,10 +139,9 @@
             </div>
 
 
-        </nav> <!--nav end-->
-        <!--content-->
+        </nav> 
+
         <div class="hero-content">
-        <!--texto-->
         <div class="hero-text">
             <h1>Consultas ginecológicas com agendamento simples e rápido</h1>
             <p>Cuidando da mulher em todas as fases da vida</p>
@@ -159,7 +162,8 @@
             <img src="../static/img/hero-image.png" alt="">
         </div>
         </div>
-    </section> <!--hero end-->
+    </section> 
+
     <!--procurar-->
     <div class="appointment-search-container">
         <h3>Ache o melhor médico para você</h3>
@@ -179,7 +183,7 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
-    </div><!--final pesquisar-->
+    </div>
 
     <!--serviços-->
     <section class="info">
@@ -412,6 +416,26 @@
             document.getElementById("previewImage").src = e.target.result;
             };
             reader.readAsDataURL(event.target.files[0]);
+        });
+
+        
+        // Abrir modal de exclusão
+        document.getElementById("opendeleteModal").addEventListener("click", function(event) {
+            event.preventDefault(); // evita comportamento padrão
+            document.getElementById("deleteModal").style.display = "block";
+        });
+
+        // Fechar modal de exclusão ao clicar no botão de fechar
+        document.getElementById("closedeleteModal").addEventListener("click", function() {
+            document.getElementById("deleteModal").style.display = "none";
+        });
+
+        // Fechar modal de exclusão ao clicar fora do conteúdo
+        window.addEventListener("click", function(event) {
+            const modal = document.getElementById("deleteModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
         });
 
     </script>
