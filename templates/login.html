@@ -6,7 +6,7 @@
     <title>Login - Clínica Santa Luzia</title>
     <script src="../static/script.js" defer ></script>
     <script src="../static/js/app.js" defer ></script>
-    <link rel="stylesheet" href="../static/css/style.css?v=1">
+    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
@@ -100,6 +100,11 @@
                                 <input name="telefone" id="telefone-cadastro" type="tel" oninput="formatarTelefone(this)" placeholder="Telefone" required>
                             </label>
                             <div id="telefoneError" class="error-message"></div>
+    
+                            <label class="label-input" for="telefone-cadastro">
+                                <i class="fas fa-cash icon-modify"></i>
+                                <input name="salario" id="telefone-cadastro" type="number" placeholder="Salário" required>
+                            </label>
                             
                             <label class="label-input" for="senha-cadastro">
                                 <i class="fas fa-lock icon-modify"></i>
@@ -118,7 +123,7 @@
                 </form>
             </div>
         </div>
-        
+
         <div class="content second-content">
 
             

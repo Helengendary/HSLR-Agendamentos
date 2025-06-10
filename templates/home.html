@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Hospital Santa Luzia</title>
-    <script src="../static/script.js" defer></script>
-    <link rel="stylesheet" href="../static/css/homestyle.css?v=1    ">
+    <script src="../static/script.js?v=1" defer></script>
+    <link rel="stylesheet" href="../static/css/homestyle.css?v=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
       integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!--font awesome ícones-->
@@ -73,6 +73,10 @@
     
                             <div class="form-row">
                                 <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
+                            </div>
+                            
+                            <div class="form-row">
+                                <input type="text" id="me" name="men" placeholder="Mensalidade" value="{{request.session.get("mensalidade")}}">
                             </div>
     
                             <div class="form-row">

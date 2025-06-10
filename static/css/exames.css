@@ -1,0 +1,350 @@
+body {
+      font-family: 'Inter', sans-serif;
+      background-color: antiquewhite;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #5c4327;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .navigation{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0px auto;
+      padding: 30px 0px;
+      }
+
+    header h1 {
+      color: white;
+      font-size: 24px;
+    }
+    .search-filter {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .search-filter input[type="text"],
+    .search-filter select {
+      padding: 0.8rem;
+      border: 1px solid #745631;
+      border-radius: 4px;
+      width: 250px;
+      background-color: #f5ebd6;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .card-content h2 {
+      font-size: 20px;
+      color: #5c4327;
+      margin: 0;
+    }
+    .card-content p {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #8b5e3c;
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+    .btn:hover {
+      background-color: #a06b40;
+    }
+
+
+/* Estilo do botão principal */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Container do dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Menu suspenso (inicialmente escondido) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+/* Links dentro do dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Efeito ao passar o mouse */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Mostrar o menu ao passar o mouse (ou você pode usar JS pra clique) */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.user-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+    text-align: center;
+  }
+
+  .modal-content {
+    background-color: #faf4e7;
+    margin: 5% auto;
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
+  }
+
+  .modal-content h2 {
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #654a27;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+  }
+
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+  }
+
+  .form-edit  {
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  .input-edit{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    grid-template-rows: auto;
+  }
+
+
+  form input {
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  form input[name="name"],
+  form input[name="surname"],
+  form input[name="email"],
+  form input[name="phone"] {
+    background-color: #f5ebd6;
+    border: 1px solid #745631;
+  }
+
+  form input[name="cpf"],
+  form input[name="dob"] {
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
+
+  form input::placeholder {
+    color: #888;
+    font-style: italic;
+  }
+
+  .form-buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    align-items: center;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%; /* Garante que ocupa todo o espaço horizontal */
+  }
+
+  .excluir-botao {
+    display: flex;
+    justify-content: start;
+  }
+
+  .excluir-botao a {
+    background-color: #d93025;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+
+  button.delete-account {
+    background-color: #d93025;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button.delete-account:hover {
+    background-color: #dd3b30;
+  }
+
+  button.submit-btn {
+    background-color: #20B2AA;
+    color: white;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button.submit-btn:hover {
+    background-color: #23c0b8;
+  }
+
+  .exames button {
+    background-color: #95754d;
+    color: antiquewhite;
+    border: none;
+    padding: 2px;
+    border-radius: 3px;
+  }

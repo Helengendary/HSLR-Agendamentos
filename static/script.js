@@ -341,6 +341,52 @@ function formatarCPF(input) {
   });
 
 
+
+
+
+  // Abrir o modal
+  document.getElementById("openLogoutModal").addEventListener("click", function(event) {
+    event.preventDefault(); // evita o comportamento padrão do link
+    document.getElementById("logoutModal").style.display = "block";
+  });
+
+  // Fechar o modal
+  document.getElementById("closeLogoutModal").addEventListener("click", function() {
+    document.getElementById("logoutModal").style.display = "none";
+  });
+
+  // Fechar ao clicar fora do modal
+  window.addEventListener("click", function(event) {
+    var modal = document.getElementById("logoutModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+
+  // Abrir o modal
+  document.getElementById("openModalAddExame").addEventListener("click", function(event) {
+    event.preventDefault(); // evita o comportamento padrão do link
+    document.getElementById("AddExameModal").style.display = "block";
+  });
+
+  // Fechar o modal
+  document.getElementById("closeModalAddExame").addEventListener("click", function() {
+    document.getElementById("AddExameModal").style.display = "none";
+  });
+
+  // Fechar ao clicar fora do modal
+  window.addEventListener("click", function(event) {
+    var modal = document.getElementById("AddExameModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+
+
+
+
   // Abrir o modal Alerta
   document.getElementById("openAlerta").addEventListener("click", function(event) {
     event.preventDefault(); // evita o comportamento padrão do link
@@ -360,4 +406,23 @@ function formatarCPF(input) {
     }
   });
 
+  document.addEventListener('DOMContentLoaded', function() {
+        const fotoInput = document.getElementById('fotoInput');
+        const previewImage = document.getElementById('previewImage');
+        const imagePreviewLabel = document.getElementById('imagePreviewLabel');
 
+        fotoInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    imagePreviewLabel.style.display = 'block'; // Mostra o label
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreviewLabel.style.display = 'none'; // Esconde o label se nenhum arquivo for selecionado
+                previewImage.src = ''; // Limpa a pré-visualização
+            }
+        });
+    });

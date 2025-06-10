@@ -38,7 +38,7 @@ app.add_middleware(
     SessionMiddleware,
     secret_key="hslr",
     session_cookie="clinica_session",
-    max_age = 300000000000000000000000000000000000000000000000,  #sessao expira apos 30s
+    max_age = 100000000000000000000000000000000000000000,  #sessao expira apos 30s
     same_site="lax",
     https_only=False
 )
@@ -50,6 +50,10 @@ pages = Jinja2Templates(directory='templates')
 @app.get('/')
 def index(req: Request):
     return pages.TemplateResponse(request=req, name='index.html')
+
+@app.get('/agendamentos')
+def index(req: Request):
+    return pages.TemplateResponse(request=req, name='agendamento.html')
 
 #aqui tira o aviso que a sessao expirou
 @app.get('/login')
@@ -141,8 +145,6 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
     if not req.session.get("nome_usuario"):
         req.session["expirado"] = True  # Marcar que expirou
         return RedirectResponse(url="/login", status_code=303)
-    elif req.session.get("papel") != 3:
-        return RedirectResponse(url="/home", status_code=303)
 
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -160,7 +162,7 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
             #busca exames
             if cate:                                          
                 sql = """
-                    SELECT E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
+                    SELECT E.ID_exame, E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
                     FROM Exame E
                     INNER JOIN CategoriaExame C ON C.ID_categoriaExame = E.ID_categoria
                     WHERE C.Nome = %s
@@ -168,7 +170,7 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
                 cursor.execute(sql, (cate,))
             else:
                 sql = """
-                    SELECT E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
+                    SELECT E.ID_exame, E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
                     FROM Exame E
                     INNER JOIN CategoriaExame C ON C.ID_categoriaExame = E.ID_categoria
                 """
@@ -193,6 +195,146 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
             'foto': foto       
         }
     )
+
+@app.post('/excluirExame')
+def excluirExames(
+    request: Request,
+    excluirID: str = Form(...),
+    db=Depends(get_db)
+):
+    if not request.session.get("nome_usuario"):
+        request.session["expirado"] = True  # Marcar que expirou
+        return RedirectResponse(url="/login", status_code=303)
+
+    try:
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+
+            sql_delete = "DELETE FROM Exame WHERE ID_exame = %s"
+            cursor.execute(sql_delete, (excluirID,))
+            db.commit()
+
+            request.session["mensagem_header"] = "Exclusão do exame"
+            request.session["mensagem"] = f"Exame excluído com sucesso."
+
+    except Exception as e:
+        request.session["mensagem_header"] = "Erro ao excluir"
+        request.session["mensagem"] = str(e)
+    finally:
+        db.close()
+
+    return RedirectResponse(url="/exames", status_code=303)          
+
+@app.post('/addExame')
+async def addExame(
+    req: Request,
+    nome: str = Form(...),
+    descricao: str = Form(...),
+    imagem:  UploadFile = File(...),
+    cate: str = Form(...),
+    db=Depends(get_db)
+):
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True
+        return RedirectResponse(url="/login", status_code=303)
+
+
+    try:
+        image_content = await imagem.read()
+
+        print(imagem)
+
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+
+            if imagem.filename != '':
+                sql = """INSERT INTO Exame (Nome, Descricao, Imagem, ID_categoria)
+                        VALUES (%s, %s, %s, %s)"""
+                cursor.execute(sql, (nome, descricao, image_content, cate))
+            else:
+                caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/padraoexame.png'
+
+                sql = """INSERT INTO Exame (Nome, Descricao, Imagem, ID_categoria)
+                        VALUES (%s, %s, LOAD_FILE(%s), %s)"""
+                cursor.execute(sql, (nome, descricao, caminho, cate))
+
+            db.commit()
+            
+    except pymysql.MySQLError as e:
+
+        print(e)
+
+        if "Duplicate entry" in str(e):
+            msg = "Nome duplicados."
+        else:
+            msg = "Erro ao cadastrar. Tente novamente."
+
+        req.session["errorAddExames"] = msg
+        req.session["errorStatusAddExames"] = True
+
+        return RedirectResponse(url='/exames', status_code=303)
+
+    finally:
+        db.close()
+
+    return RedirectResponse(url='/exames', status_code=303)
+
+@app.post('/editarExame')
+async def editarExame(
+    req: Request,
+    nome: str = Form(...),
+    descricao: str = Form(...),
+    imagem:  UploadFile = File(...),
+    cate: int = Form(...),
+    ID_exame: int = Form(...),
+    db=Depends(get_db)
+):
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True
+        return RedirectResponse(url="/login", status_code=303)
+
+
+    try:
+        image_content = await imagem.read()
+
+        print(imagem)
+
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+
+            if imagem.filename != '':
+                sql = """
+                    UPDATE Exame 
+                    SET Nome = %s, Descricao = %s, Imagem = %s, ID_categoria = %s
+                    WHERE ID_exame = %s"""
+                cursor.execute(sql, (nome, descricao, image_content, cate, ID_exame))
+            else:
+
+                sql = """
+                    UPDATE Exame 
+                    SET Nome = %s, Descricao = %s, ID_categoria = %s
+                    WHERE ID_exame = %s"""
+                cursor.execute(sql, (nome, descricao, cate, ID_exame))
+
+            db.commit()
+            
+    except pymysql.MySQLError as e:
+        print(f"ERRO no banco de dados (MySQL) /editarExame: {e}")
+        if "Duplicate entry" in str(e):
+            msg = "Nome do exame duplicado."
+        else:
+            msg = "Erro ao atualizar o exame. Tente novamente."
+
+        req.session["errorAddExames"] = msg
+        req.session["errorStatusAddExames"] = True
+
+        return RedirectResponse(url='/exames', status_code=303)
+    except Exception as e:
+        print(f"ERRO inesperado /editarExame: {e}")
+        req.session["errorAddExames"] = "Ocorreu um erro inesperado ao atualizar o exame."
+        req.session["errorStatusAddExames"] = True
+        return RedirectResponse(url='/exames', status_code=303)
+    finally:
+        db.close()
+
+    return RedirectResponse(url='/exames', status_code=303)
 
 @app.get('/agendamentos')
 def agendamentos(req: Request, db=Depends(get_db)):
@@ -278,6 +420,7 @@ def cadastro(
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
     senha: str = Form(...),
+    salario: float = Form(...),
     db=Depends(get_db)
 ):
     passouArroba = False
@@ -288,104 +431,67 @@ def cadastro(
         elif passouArroba:
             dominioEmail += char
 
-    caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.png'
+    caminho = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/default.webp'
 
-    if dominioEmail != 'hsrl.saude.br':
-# --------------------------------------------------- CADASTRO PACIENTE --------------------------------------------------------------------------
-        try:
-            with db.cursor() as cursor:
+    print(dominioEmail)
+    print(dominioEmail == 'hslr.saude.br')
 
-                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel)
-                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s)"""
-                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 3))
-                db.commit()
-                
-        except pymysql.MySQLError as e:
-
-            print(e)
-
-            if "Duplicate entry" in str(e):
-                print("duplicado")
-                if "CPF" in str(e):
-                    msg = "Este CPF já está cadastrado."
-                elif "Email" in str(e):
-                    msg = "Este e-mail já está cadastrado."
-                else:
-                    msg = "Dados duplicados detectados."
+        
+    try:
+        with db.cursor() as cursor:
+            if dominioEmail != 'hslr.saude.br':
+                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel, Salario)
+                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s, %s)"""
+                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 3, salario))
             else:
-                msg = "Erro ao cadastrar. Tente novamente."
+                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel, Salario)
+                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s, %s)"""
+                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 2, salario))
 
-            req.session["error"] = msg
-            req.session["errorStatus"] = True
+            db.commit()
+            
+    except pymysql.MySQLError as e:
 
-            return RedirectResponse(url='/login', status_code=303)
+        print(e)
 
-        finally:
-            with db.cursor() as cursor:
-                cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
-                user = cursor.fetchone()
-
-                if user:
-                    req.session["nome_usuario"] = user[3] 
-                    req.session["sobrenome_usuario"] = user[4] 
-                    req.session["email_usuario"] = user[2] 
-                    req.session["numero_usuario"] = user[6] 
-                    req.session["cpf_usuario"] = user[1] 
-                    req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
-                    req.session["id_usuario"] = user[0]
-                    req.session["papel"] = user[9]
-                    req.session["altura"] = user[10]
-
-            db.close()
-
-        return RedirectResponse(url='/home', status_code=303)
-
-# --------------------------------------------- CADASTRO MÈDICO --------------------------------------------------------------------------------------
-    else: 
-        try:
-            with db.cursor() as cursor:
-
-                
-                sql = """INSERT INTO Usuario (CPF, Email, Nome, Sobrenome, DataDeNascimento, Telefone, Senha, Imagem, Papel)
-                        VALUES (%s, %s, %s, %s, %s, %s, MD5(%s), LOAD_FILE(%s), %s)"""
-                cursor.execute(sql, (cpf, email, nome, sobrenome, dataNascimento, telefone, senha, caminho, 2))
-                db.commit()
-                
-        except pymysql.MySQLError as e:
-
-            if "Duplicate entry" in str(e):
-                if "CPF" in str(e):
-                    msg = "Este CPF já está cadastrado."
-                elif "Email" in str(e):
-                    msg = "Este e-mail já está cadastrado."
-                else:
-                    msg = "Dados duplicados detectados."
+        if "Duplicate entry" in str(e):
+            print("duplicado")
+            if "CPF" in str(e):
+                msg = "Este CPF já está cadastrado."
+            elif "Email" in str(e):
+                msg = "Este e-mail já está cadastrado."
             else:
-                msg = "Erro ao cadastrar. Tente novamente."
+                msg = "Dados duplicados detectados."
+        else:
+            msg = "Erro ao cadastrar. Tente novamente."
 
-            req.session["error"] = msg
-            req.session["errorStatus"] = True
+        req.session["error"] = msg
+        req.session["errorStatus"] = True
 
-            return RedirectResponse(url='/login', status_code=303)
+        return RedirectResponse(url='/login', status_code=303)
 
-        finally:
-            with db.cursor() as cursor:
-                cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
-                user = cursor.fetchone()
+    finally:
+        with db.cursor() as cursor:
+            cursor.execute("SELECT * FROM Usuario WHERE Email = %s AND Senha = MD5(%s)", (email, senha))
+            user = cursor.fetchone()
 
-                if user:
-                    req.session["nome_usuario"] = user[3] 
-                    req.session["sobrenome_usuario"] = user[4] 
-                    req.session["email_usuario"] = user[2] 
-                    req.session["numero_usuario"] = user[6] 
-                    req.session["cpf_usuario"] = user[1] 
-                    req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
-                    req.session["id_usuario"] = user[0]
-                    req.session["papel"] = user[9]
+            if user:
+                req.session["nome_usuario"] = user[3] 
+                req.session["sobrenome_usuario"] = user[4] 
+                req.session["email_usuario"] = user[2] 
+                req.session["numero_usuario"] = user[6] 
+                req.session["cpf_usuario"] = user[1] 
+                req.session["data_usuario"] = user[5].strftime('%Y-%m-%d') 
+                req.session["id_usuario"] = user[0]
+                req.session["papel"] = user[9]
+                req.session["salario"] = user[10]
 
-            db.close()
+        db.close()
 
-        return RedirectResponse(url='/homeMedico', status_code=303)
+        if dominioEmail != 'hslr.saude.br':
+            return RedirectResponse(url='/home', status_code=303)
+        else:
+            return RedirectResponse(url='/homeMedico', status_code=303)
     
 # ------------------------------------------------------------- LOGIN -----------------------------------------------------------------------------------
 @app.post("/login")

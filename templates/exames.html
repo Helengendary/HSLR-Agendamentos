@@ -4,360 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Exames</title>
+  <link rel="stylesheet" href="../static/css/exames.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: antiquewhite;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #5c4327;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .navigation{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 0px auto;
-      padding: 30px 0px;
-      }
-
-    header h1 {
-      color: white;
-      font-size: 24px;
-    }
-    .search-filter {
-      display: flex;
-      gap: 1rem;
-      margin: 2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .search-filter input[type="text"],
-    .search-filter select {
-      padding: 0.8rem;
-      border: 1px solid #745631;
-      border-radius: 4px;
-      width: 250px;
-      background-color: #f5ebd6;
-    }
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      padding: 2rem;
-    }
-    .card {
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .card-content {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .card-content h2 {
-      font-size: 20px;
-      color: #5c4327;
-      margin: 0;
-    }
-    .card-content p {
-      font-size: 14px;
-      color: #666;
-      margin: 0;
-    }
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 1rem;
-    }
-    .btn {
-      display: inline-block;
-      background-color: #8b5e3c;
-      color: #fff;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background-color 0.3s;
-      text-align: center;
-    }
-    .btn:hover {
-      background-color: #a06b40;
-    }
-
-    
-/* Estilo do botão principal */
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-/* Container do dropdown */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Menu suspenso (inicialmente escondido) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    z-index: 1;
-}
-
-/* Links dentro do dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 10px 14px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Efeito ao passar o mouse */
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-/* Mostrar o menu ao passar o mouse (ou você pode usar JS pra clique) */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropbtn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-.user-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ccc;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 10px 14px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-    text-align: center;
-  }
-  
-  .modal-content {
-    background-color: #faf4e7;
-    margin: 5% auto;
-    padding: 30px 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 600px;
-    position: relative;
-    box-shadow: 0 0 20px rgba(116, 86, 49, 0.6);
-  }
-  
-  .modal-content h2 {
-    margin-top: -10px;
-    margin-bottom: 30px;
-    color: #654a27;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .close-btn {
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-  }
-  
-  .close-btn:hover,
-  .close-btn:focus {
-    color: black;
-  }
-  
-  .form-edit  {
-    display: flex;
-    flex-direction: row;
-  }
-
-  
-  .input-edit{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    grid-template-rows: auto;
-  }
-  
-  
-  form input {
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%;
-  }
-  
-  form input[name="name"],
-  form input[name="surname"],
-  form input[name="email"],
-  form input[name="phone"] {
-    background-color: #f5ebd6;
-    border: 1px solid #745631;
-  }
-  
-  form input[name="cpf"],
-  form input[name="dob"] {
-    background-color: #eee;
-    border: 1px solid #ccc;
-  }
-  
-  form input::placeholder {
-    color: #888;
-    font-style: italic;
-  }
-  
-  .form-buttons {
-    grid-column: span 2;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    align-items: center;
-  }
-
-  .form-actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    width: 100%; /* Garante que ocupa todo o espaço horizontal */
-  }
-
-  .excluir-botao {
-    display: flex;
-    justify-content: start;
-  }
-
-  .excluir-botao a {
-    background-color: #d93025;
-    color: white;
-    padding: 8px 25px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  
-  button.delete-account {
-    background-color: #d93025;
-    color: white;
-    padding: 8px 25px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  button.delete-account:hover {
-    background-color: #dd3b30;
-  }
-  
-  button.submit-btn {
-    background-color: #20B2AA;
-    color: white;
-    padding: 8px 25px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  button.submit-btn:hover {
-    background-color: #23c0b8;
-  }
-
-  .exames button {
-    background-color: #95754d;
-    color: antiquewhite;
-    border: none;
-    padding: 2px;
-    border-radius: 3px;
-  }
-  </style>
-  <script src="../static/script.js" defer></script>
+  <script src="../static/script.js?v=1" defer></script>
 </head>
 <body>
 
@@ -374,7 +23,7 @@
     <div class="dropdown">
       <button class="dropbtn">
           <img id="avatar" src="data:image/png;base64,{{ foto.Imagem }}" alt="Foto do usuário" class="avatar" style="width: 60px; border-radius: 100%; margin-left: 20px;">
-      </button>               
+      </button>
         <div class="dropdown-content">
           <a id="openModal">Editar Informações</a>
           <a id="openLogoutModal">Log out</a>
@@ -386,15 +35,11 @@
           <span class="close-btn" id="closeModal">&times;</span>
           <h2>Editar Informações</h2>
           <form id="editForm" action="/atualizarUser" method="post" enctype="multipart/form-data">
-              <label for="fotoInput" style="cursor: pointer;">
-                  <img src="data:image/png;base64,{{ foto.Imagem }}" 
-                      alt="Imagem Atual" 
-                      id="previewImage"
-                      style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
+              <label for="fotoInputEdit" style="cursor: pointer;"> <img src="data:image/png;base64,{{ foto.Imagem }}"
+                      alt="Imagem Atual"
+                      id="previewImageEdit" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
               </label>
-              <input type="file" id="fotoInput" name="imagem" accept="image/*" style="display: none;">
-
-              <div class="input-edit">
+              <input type="file" id="fotoInputEdit" name="imagem" accept="image/*" style="display: none;"> <div class="input-edit">
                   <div class="form-row">
                       <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
                   </div>
@@ -421,42 +66,42 @@
 
                   <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
               </div>
-                  
-              <div class="form-actions"> 
+
+              <div class="form-actions">
                   <button type="submit"  class="submit-btn">Alterar Dados</button>
               </div>
           </form>
-          
+
           <div class="excluir-botao">
               <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
           </div>
-          
+
       </div>
   </div>
-    
+
 
     <div id="logoutModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="closeLogoutModal">&times;</span>
             <h2>Certeza que deseja deslogar?</h2>
             <div>
-                <form action="/logout" method="get">  
+                <form action="/logout" method="get">
                     <button href="#" class="delete-account" type="submit">Logout</button>
                 </form>
-                <form action="/home" method="get">  
+                <form action="/home" method="get">
                     <button href="#" class="submit-btn" type="submit">Cancelar</button>
                 </form>
             </div>
         </div>
     </div>
-    
+
     <div id="alertaModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="closeAlertaModal">&times;</span>
             <h2>{{ request.session.get('mensagem_header') }}</h2>
         </div>
     </div>
-    
+
     <div id="deleteModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="closedeleteModal">&times;</span>
@@ -467,13 +112,13 @@
                     <button type="submit" class="delete-account">Confirmar</button>
                 </form>
 
-                <form action="/home" method="get">  
+                <form action="/home" method="get">
                     <button href="#" class="submit-btn" type="submit">Cancelar</button>
                 </form>
             </div>
         </div>
     </div>
-    
+
   </nav>
 </header>
 
@@ -484,52 +129,152 @@
     <select name="cate" onchange="this.form.submit()">
       <option value="">Filtrar por categoria</option>
       {% for cat in categorias %}
-      <option value="{{ cat.Nome }}"
-              {% if cat.Nome == cate %}selected{% endif %}>
-        {{ cat.Nome }}
+      <option value="{{ cat.ID_categoriaExame }}"
+              {% if cat.ID_categoriaExame == cate|int %}selected{% endif %}> {{ cat.Nome }}
       </option>
       {% endfor %}
     </select>
   </form>
+
+  {% if request.session.get("papel") == 2 %}
+    <a id="openModalAddExame" class="btn">Adicionar exame</a>
+  {% endif %}
+
+  {% set errorStatus = request.session.pop("errorStatusAddExames", None) %}
+  {% set error = request.session.pop("errorAddExames", None) %}
+
+  {% if errorStatusAddExames %}
+  <p style="color: red;">{{ errorAddExames }}</p>
+  {% endif %}
+
+    
+  <div id="EditExameModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeModalEditExame">&times;</span> <h2>Editar Exame</h2> <form id="editExameForm" action="/editarExame" method="post" enctype="multipart/form-data">
+            <label for="fotoInputEditExame" style="cursor: pointer;" id="imagePreviewLabelEditExame">
+                <img src="../static/img/padraoexame.png"
+                    alt="Imagem Atual"
+                    id="previewImageEditExame"
+                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
+            </label>
+            <input type="file" id="fotoInputEditExame" name="imagem" accept="image/*" style="display: block;">
+
+            <div class="input-edit">
+                <div class="form-row">
+                    <input type="text" id="editExameName" name="nome" placeholder="Nome">
+                </div>
+
+                <div class="form-row">
+                    <input type="text" id="editExameDescricao" name="descricao" placeholder="Descrição">
+                </div>
+
+                <select name="cate" id="editExameCategory">
+                    <option value="">Selecionar categoria</option>
+                    {% for cat in categorias %}
+                    <option value="{{ cat.ID_categoriaExame }}">
+                        {{ cat.Nome }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" id="editExameId" name="ID_exame"> </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Salvar Alterações</button>
+            </div>
+        </form>
+
+    </div>
+  </div>
+
+
+  <div id="AddExameModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeModalAddExame">&times;</span>
+        <h2>Adicionar Exames</h2>
+
+        <form id="exameForm" action="/addExame" method="post" enctype="multipart/form-data">
+            <label for="fotoInputAddExame" style="cursor: pointer; display: none;" id="imagePreviewLabelAddExame"> <img src=""
+                    alt="Imagem Atual"
+                    id="previewImageAddExame" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
+            </label>
+            <input type="file" id="fotoInputAddExame" name="imagem" accept="image/*" style="display: block;"> <div class="input-edit">
+                <div class="form-row">
+                    <input type="text" id="nameExame" name="nome" placeholder="Nome"> </div>
+
+                <div class="form-row">
+                    <input type="text" id="descricaoExame" name="descricao" placeholder="Descrição"> </div>
+
+                <select name="cate">
+                  <option value="">Filtrar por categoria</option>
+                  {% for cat in categorias %}
+                  <option value="{{ cat.ID_categoriaExame }}"  {% if cat.ID_categoriaExame == cate|int %}selected{% endif %}> {{ cat.Nome }}
+                  </option>
+                  {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit"  class="submit-btn">Adicionar</button>
+            </div>
+        </form>
+
+    </div>
+  </div>
 </section>
 
 
 <section class="cards-container" id="cardsContainer">
   {% for ex in exames %}
   <div class="card" data-title='{{ex.Nome}}' data-category='{{ex.Categoria}}'>
-    
+
     {% if ex.Imagem is not none %}
     <img class="w3-circle w3-margin-top"
     src="data:image/png;base64,{{ ex.Imagem }}" alt="Foto" width="50">
     {% else %}
     <img class="w3-circle w3-margin-top"
-    src="../static/img/perfil.jpeg" alt="Sem foto" width="50">
+    src="../static/img/padraoexame.png" alt="Sem foto" width="50">
     {% endif %}
-    
+
     <div class="card-content">
       <h2>{{ ex.Nome }}</h2>
       <p><strong>Categoria:</strong> {{ ex.Categoria }}. {{ ex.Descricao }}.</p>
       <div class="buttons">
-        <a href="#" class="btn">Ver mais detalhes</a>
-        <form class="agendamentos" action="/agendamentos" method="get">
-          <button>Agendar Exame</button>
+        {% if request.session.get("papel") == 3 %}
+          <form class="agendamentos" action="/agendamentos" method="get">
+            <button>Agendar Exame</button>
+          </form>
+        {% else %}
+          <button class="btn-edit-exame"
+                  data-id="{{ ex.ID_exame }}"
+                  data-nome="{{ ex.Nome }}"
+                  data-descricao="{{ ex.Descricao }}"
+                  data-categoria-id="{{ ex.ID_categoria }}"
+                  data-categoria-nome="{{ ex.Categoria }}"
+                  data-imagem-base64="{% if ex.Imagem is not none %}{{ ex.Imagem }}{% endif %}">
+              Editar Exame
+          </button>
+        {% endif %}
+
+        <form class="agendamentos" action="/excluirExame" method="post">
+          <button>Excluir Exame</button>
+          <input style="display: none;" type="text" name="excluirID" value="{{ex.ID_exame}}">
+        </form>
       </div>
     </div>
   </div>
   {% endfor %}
 </section>
-  
+
 
 <script>
+  // Script para a funcionalidade de busca e filtro de cards (já existente e funcional)
   const searchInput = document.getElementById('searchInput');
   const cards = document.querySelectorAll('.card');
 
   function filterCards() {
     const searchTerm = searchInput.value.toLowerCase();
-
     cards.forEach(card => {
       const title = card.dataset.title.toLowerCase();
-
       const matchesSearch = title.includes(searchTerm);
       if (matchesSearch ) {
         card.style.display = 'block';
@@ -538,15 +283,232 @@
       }
     });
   }
-
   searchInput.addEventListener('input', filterCards);
-  categoryFilter.addEventListener('change', filterCards);
+  // Removi categoryFilter.addEventListener('change', filterCards); pois o select já faz submit.
+
+  // --- Funções para os Modais ---
+
+  // Modal "Editar Informações"
+  document.getElementById("openModal").addEventListener("click", function(event) {
+    event.preventDefault();
+    document.getElementById("editModal").style.display = "block";
+  });
+  document.getElementById("closeModal").addEventListener("click", function() {
+    document.getElementById("editModal").style.display = "none";
+  });
+  // Event listener para o input de arquivo do modal de EDIÇÃO (ID: fotoInputEdit)
+  document.getElementById("fotoInputEdit").addEventListener("change", function(event) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("previewImageEdit").src = e.target.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  });
+
+  // Modal "Adicionar Exames" (Ajustado)
+  document.getElementById("openModalAddExame").addEventListener("click", function() {
+    document.getElementById("AddExameModal").style.display = "block";
+  });
+  document.getElementById("closeModalAddExame").addEventListener("click", function() {
+    document.getElementById("AddExameModal").style.display = "none";
+    // Opcional: limpar a pré-visualização e esconder a label ao fechar o modal
+    document.getElementById("previewImageAddExame").src = "";
+    document.getElementById("imagePreviewLabelAddExame").style.display = "none";
+  });
+
+  // Novo event listener para o input de arquivo do modal "Adicionar Exames"
+  document.getElementById('fotoInputAddExame').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewImage = document.getElementById('previewImageAddExame');
+    const imagePreviewLabel = document.getElementById('imagePreviewLabelAddExame');
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImage.src = e.target.result;
+        imagePreviewLabel.style.display = 'block'; // Mostra a label quando uma imagem é selecionada
+      };
+      reader.readAsDataURL(file);
+    } else {
+      imagePreviewLabel.style.display = 'none'; // Esconde a label se nenhum arquivo for selecionado
+      previewImage.src = ''; // Limpa a pré-visualização
+    }
+  });
+
+
+  // Modal "Excluir Conta"
+  document.getElementById("opendeleteModal").addEventListener("click", function(event) {
+    event.preventDefault();
+    document.getElementById("deleteModal").style.display = "block";
+  });
+  document.getElementById("closedeleteModal").addEventListener("click", function() {
+    document.getElementById("deleteModal").style.display = "none";
+  });
+
+  // Modal "Logout"
+  document.getElementById("openLogoutModal").addEventListener("click", function(event) {
+    event.preventDefault();
+    document.getElementById("logoutModal").style.display = "block";
+  });
+  document.getElementById("closeLogoutModal").addEventListener("click", function() {
+    document.getElementById("logoutModal").style.display = "none";
+  });
+
+  // Fechar modais ao clicar fora (geral para todos os modais)
+  window.addEventListener("click", function(event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = "none";
+      // Opcional: Limpar pré-visualização do AddExameModal se ele for fechado clicando fora
+      if (event.target.id === "AddExameModal") {
+        document.getElementById("previewImageAddExame").src = "";
+        document.getElementById("imagePreviewLabelAddExame").style.display = "none";
+      }
+    }
+  });
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // ... (Seu código JavaScript existente para outros modais e funcionalidades) ...
+
+    // --- Lógica para o Modal "Adicionar Exames" (certifique-se de que este está correto com os IDs ajustados) ---
+    const openModalAddExameBtn = document.getElementById('openModalAddExame');
+    const AddExameModal = document.getElementById('AddExameModal'); // O modal de adicionar
+    const closeModalAddExameBtn = document.getElementById('closeModalAddExame'); // O botão de fechar do modal de adicionar
+
+    if (openModalAddExameBtn) {
+        openModalAddExameBtn.addEventListener('click', function() {
+            AddExameModal.style.display = 'block';
+            // Opcional: Limpar campos do modal de adição ao abrir
+            document.getElementById('exameForm').reset();
+            document.getElementById('previewImageAddExame').src = '';
+            document.getElementById('imagePreviewLabelAddExame').style.display = 'none';
+        });
+    }
+
+    if (closeModalAddExameBtn) {
+        closeModalAddExameBtn.addEventListener('click', function() {
+            AddExameModal.style.display = 'none';
+        });
+    }
+
+    // Listener para pré-visualização da imagem no modal de ADICIONAR
+    const fotoInputAddExame = document.getElementById('fotoInputAddExame');
+    const previewImageAddExame = document.getElementById('previewImageAddExame');
+    const imagePreviewLabelAddExame = document.getElementById('imagePreviewLabelAddExame');
+
+    if (fotoInputAddExame) {
+        fotoInputAddExame.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImageAddExame.src = e.target.result;
+                    imagePreviewLabelAddExame.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreviewLabelAddExame.style.display = 'none';
+                previewImageAddExame.src = '';
+            }
+        });
+    }
+
+
+   const editExameButtons = document.querySelectorAll('.btn-edit-exame');
+    const editExameModal = document.getElementById('EditExameModal');
+    const closeModalEditExameBtn = document.getElementById('closeModalEditExame');
+
+    const editExameIdInput = document.getElementById('editExameId');
+    const editExameNameInput = document.getElementById('editExameName');
+    const editExameDescricaoInput = document.getElementById('editExameDescricao');
+    const editExameCategorySelect = document.getElementById('editExameCategory'); // Seu select de categoria
+    const fotoInputEditExame = document.getElementById('fotoInputEditExame');
+    const previewImageEditExame = document.getElementById('previewImageEditExame');
+    const imagePreviewLabelEditExame = document.getElementById('imagePreviewLabelEditExame');
+
+    // Event listener para cada botão "Editar Exame"
+    editExameButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const nome = this.dataset.nome;
+            const descricao = this.dataset.descricao;
+            const categoriaId = this.dataset.categoriaId; // <--- Pegando o ID da categoria
+            const imagemBase64 = this.dataset.imagemBase64;
+
+            // Preenche os campos do modal
+            editExameIdInput.value = id;
+            editExameNameInput.value = nome;
+            editExameDescricaoInput.value = descricao;
+
+            // Seleciona a categoria correta no dropdown
+            editExameCategorySelect.value = categoriaId;
+            if (imagemBase64) {
+                previewImageEditExame.src = `data:image/png;base64,${imagemBase64}`;
+                imagePreviewLabelEditExame.style.display = 'block';
+            } else {
+                previewImageEditExame.src = '../static/img/padraoexame.png';
+                imagePreviewLabelEditExame.style.display = 'block';
+            }
+
+            // Exibe o modal de edição
+            editExameModal.style.display = 'block';
+        });
+    });
+    // Fechar o modal de edição
+    if (closeModalEditExameBtn) {
+        closeModalEditExameBtn.addEventListener('click', function() {
+            editExameModal.style.display = 'none';
+        });
+    }
+
+    // Listener para pré-visualização da imagem no modal de EDIÇÃO
+    if (fotoInputEditExame) {
+        fotoInputEditExame.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImageEditExame.src = e.target.result;
+                    imagePreviewLabelEditExame.style.display = 'block'; // Mostra a label
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Se o usuário limpar o input de arquivo, volte para a imagem atual (se houver) ou padrão
+                const imagemBase64Atual = editExameButtons[0].dataset.imagemBase64; // Isso é um hack, melhor pegar o dado inicial do exame
+                if (imagemBase64Atual) {
+                     previewImageEditExame.src = `data:image/png;base64,${imagemBase64Atual}`;
+                } else {
+                     previewImageEditExame.src = '../static/img/padraoexame.png';
+                }
+                imagePreviewLabelEditExame.style.display = 'block'; // Mantém a label visível
+            }
+        });
+    }
+
+    // Fechar modais ao clicar fora (geral para todos os modais)
+    window.addEventListener("click", function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+            // Lógica para limpar e esconder elementos se o modal de adição for fechado
+            if (event.target.id === "AddExameModal") {
+                document.getElementById('exameForm').reset();
+                document.getElementById("previewImageAddExame").src = "";
+                document.getElementById("imagePreviewLabelAddExame").style.display = "none";
+            }
+            // Não limpe o modal de edição automaticamente ao fechar fora, pois ele guarda os dados
+        }
+    });
+
+    // ... (Seu código Swiper e outros listeners de modais como logout, delete user) ...
+});
+
 </script>
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@ 11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        // Swiper (mantido, pois não interfere na lógica principal)
         var swiper = new Swiper(".mySwiperservicos", {
           slidesPerView: 1,
           spaceBetween: 10,
@@ -568,54 +530,6 @@
               spaceBetween: 20,
             },
         },
-        });
-
-
-        document.getElementById("fotoInput").addEventListener("change", function(event) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-            document.getElementById("previewImage").src = e.target.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        });
-
-        
-        // Abrir modal de exclusão
-        document.getElementById("opendeleteModal").addEventListener("click", function(event) {
-            event.preventDefault(); // evita comportamento padrão
-            document.getElementById("deleteModal").style.display = "block";
-        });
-
-        // Fechar modal de exclusão ao clicar no botão de fechar
-        document.getElementById("closedeleteModal").addEventListener("click", function() {
-            document.getElementById("deleteModal").style.display = "none";
-        });
-
-        // Fechar modal de exclusão ao clicar fora do conteúdo
-        window.addEventListener("click", function(event) {
-            const modal = document.getElementById("deleteModal");
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        });
-
-        // Abrir o modal Logout
-        document.getElementById("openLogoutModal").addEventListener("click", function(event) {
-          event.preventDefault(); // evita o comportamento padrão do link
-          document.getElementById("logoutModal").style.display = "block";
-        });
-
-        // Fechar o modal Logout
-        document.getElementById("closeLogoutModal").addEventListener("click", function() {
-          document.getElementById("logoutModal").style.display = "none";
-        });
-
-        // Fechar ao clicar fora do modal Logout
-        window.addEventListener("click", function(event) {
-          var modal = document.getElementById("logoutModal");
-          if (event.target === modal) {
-            modal.style.display = "none";
-          }
         });
 </script>
 
