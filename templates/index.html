@@ -8,42 +8,31 @@
     <link rel="stylesheet" href="/static/css/homestyle.css?v=1.0.3">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
       integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <!--font awesome ícones-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
 
-    <!--HERO SECTION-->
     <section id="hero">
-        <!--navbar-->
         <nav class="navigation">
-            <!--menu btn-->
             <input type="checkbox" class="menu-btn" id="menu-btn">
             <label for="menu-btn" class="menu-icon">
                 <span class="nav-icon"></span>
             </label>
-            <!--logo-->
             <a href="#" class="logo">Hospital Santa Luzia Agendamentos</a>
-            <!--menu-->
             <ul class="menu">
                 <li><a href="#quem-somos">Quem Somos</a></li>
                 <li><a href="#servicos">Serviços</a></li>
                 <li><a href="#hero">Valores</a></li>
             </ul>
-            <form action="/login" method="get">    
+            <form action="/login" method="get">
                 <button href="#" class="nav-btn-login" type="submit">Login</button>
             </form>
 
-        </nav> <!--nav end-->
-        <!--content-->
-        <div class="hero-content">
-        <!--texto-->
+        </nav> <div class="hero-content">
         <div class="hero-text">
             <h1>Consultas ginecológicas com agendamento simples e rápido</h1>
             <p>Cuidando da mulher em todas as fases da vida</p>
-            <!--botaooo-->
             <div class="hero-text-btns">
                 <button onclick="window.location.href='/login'" href="#">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -55,194 +44,134 @@
                 </button>
             </div>
         </div>
-        <!--imagem-->
         <div class="hero-img">
             <img src="../static/img/hero-image.png" alt="">
         </div>
         </div>
-    </section> <!--hero end-->
-    <!--procurar-->
-    <div class="appointment-search-container">
+    </section> <div class="appointment-search-container">
         <h3>Ache o melhor médico para você</h3>
         <div class="appointment-search">
             <div class="appo-search-box">
-                <!--search box doctor-->
                 <i class="fa-solid fa-user-doctor"></i>
                 <input type="text" placeholder="Procurar médicos" id="#">
             </div>
             <div class="appo-search-box">
-                <!--search box location-->
                 <i class="fa-solid fa-location-dot"></i>
                 <input type="text" placeholder="Coloque sua localização" id="#">
             </div>
-            <!--botao pesquisar-->
             <button onclick="window.location.href='/login'">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
-    </div><!--final pesquisar-->
-
-    <!--serviços-->
-    <section class="info">
-        <!--box 1 -->
+    </div><section class="info">
         <div class="w-info-box w-info-box1">
-            <!--icone-->
             <div class="w-info-icon">
                 <i class="fa-solid fa-file-lines"></i>
             </div>
-            <!--texto-->
             <div class="w-info-text">
                 <strong>Agendamento Fácil</strong>
                 <p>Marque sua consulta em poucos cliques, de forma prática e rápida.</p>
             </div>
         </div>
-        <!--box 2 -->
         <div class="w-info-box w-info-box2">
-            <!--icone-->
             <div class="w-info-icon">
                 <i class="fa-solid fa-clock"></i>
             </div>
-            <!--texto-->
             <div class="w-info-text">
                 <strong>Disponível 24h</strong>
                 <p>Agende consultas a qualquer hora, com total flexibilidade.</p>
             </div>
         </div>
-        <!--box 3 -->
         <div class="w-info-box w-info-box3">
-            <!--icone-->
             <div class="w-info-icon">
                 <i class="fa-solid fa-heart-pulse"></i>
             </div>
-            <!--texto-->
             <div class="w-info-text">
                 <strong>Atedimento Humanizado</strong>
                 <p>Cuidamos de você com empatia, respeito e atenção individual.</p>
             </div>
         </div>
-    </section><!--fim servicos-->
-
-    <!--quem somos-->
-    <section id="quem-somos">
-        <!--imagem-->
+    </section><section id="quem-somos">
         <div class="quem-somos-img">
             <img src="../static/img/quem-somos-img.png" alt="">
         </div>
-        <!--texto-->
         <div class="quem-somos-text">
             <h2>Um Pouco Sobre a Nossa Tragetória</h2>
             <p>A Clínica Hospitalar Santa Luzia nasceu em 2012 com o sonho de oferecer um atendimento humanizado, acessível e de qualidade para todos. Começamos com um pequeno consultório e, com o passar dos anos, crescemos ao lado da comunidade, investindo em tecnologia, estrutura moderna e uma equipe dedicada.</p>
             <p>Hoje, além de sermos referência em ginecologia e saúde da mulher, também acompanhamos gestantes em todas as fases da gravidez, oferecendo exames obstétricos, pré-natal e um cuidado especial para esse momento tão importante. Nosso compromisso é estar presente em todas as etapas da vida da mulher — do cuidado preventivo ao nascimento de uma nova vida — sempre com carinho, segurança e acolhimento.</p>
-        <!--numero clientes happyyyy :) -->
         <div class="story-number-container">
-            <!--box 1 pacientes-->
             <div class="story-number-box">
                 <strong>500+</strong>
                 <span>Pacientes Indicam</span>
             </div>
-            <!--box 2 doutores-->
             <div class="story-number-box">
                 <strong>25+</strong>
                 <span>Doutores Especializados</span>
             </div>
         </div>
         </div>
-    </section><!--fim quem somos-->
-
-    <!--servicos-->
-    <section id="servicos">
-        <!--heading-->
+    </section><section id="servicos">
         <div class="servicos-heading">
-            <!--texto-->
             <div class="servicos-heading-text">
                 <strong>Serviços</strong>
                 <h2>Serviços que oferecemos para nossos pacientes</h2>
             </div>
-            <!--botoes next e prev-->
             <div class="services-slide-btns">
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
             </div>
         </div>
-        <!--container box-->
         <div class="servicos-box-container">
-            <!-- Swiper -->
             <div class="swiper mySwiperservicos">
             <div class="swiper-wrapper">
-                <!--slide 1-->
                 <div class="swiper-slide">
-                <!--box-->
-                    <div class="servicos-box">
-                        <!--icone-->
+                <div class="servicos-box">
                         <i class="fa-solid fa-person-dress"></i>
-                        <!--titulo-->
                         <strong>Exames preventivos</strong>
-                        <!--descricao-->
                         <p>Para acompanhar a saúde da mulher e detectar alterações precocemente</p>
-                        <!--btn-->
                         <button onclick="window.location.href='/exames'">Clique aqui para mais informações</button>
                     </div>
                 </div>
-                <!--slide 2-->
                 <div class="swiper-slide">
-                    <!--box-->
-                        <div class="servicos-box">
+                    <div class="servicos-box">
                             <i class="fa-solid fa-person-pregnant"></i>
                             <strong>Exames Obstétricos</strong>
                             <p>Para o acompanhamento da saúde da gestante e do bebê</p>
-                            <!--btn-->
                             <button  onclick="window.location.href='/exames'">Clique aqui para mais informações</button>
                         </div>
                     </div>
-                    <!--slide 3-->
                     <div class="swiper-slide">
-                    <!--box-->
-                        <div class="servicos-box">
-                            <!--icone-->
+                    <div class="servicos-box">
                             <i class="fa-solid fa-venus"></i>
                             <strong>Exames por Imagem</strong>
                             <p>Avaliações com tecnologia de imagem para diagnóstico preciso</p>
-                            <!--btn-->
                             <button  onclick="window.location.href='/exames'">Clique aqui para mais informações</button>
                         </div>
                     </div>
-                    <!--slide 4-->
                     <div class="swiper-slide">
-                        <!--box-->
-                            <div class="servicos-box">
-                                <!--icone-->
+                        <div class="servicos-box">
                                 <i class="fa-solid fa-microscope"></i>
                                 <strong>Exames Hormonais</strong>
                                 <p>Para investigar alterações hormonais, fertilidade e outras condições</p>
-                                <!--btn-->
                                 <button  onclick="window.location.href='/exames'">Clique aqui para mais informações</button>
                             </div>
                         </div>
-                    <!--slide 5-->
                     <div class="swiper-slide">
-                        <!--box-->
                         <div class="servicos-box">
-                            <!--icone-->
                             <i class="fa-solid fa-hand-holding-heart"></i>
                             <strong> Saúde da Mulher na Menopausa</strong>
                             <p>Acompanhamento e prevenção de doenças relacionadas à menopausa</p>
-                            <!--btn-->
                             <button  onclick="window.location.href='/exames'">Clique aqui para mais informações</button>
                         </div>
                     </div>
-                </div> <!--fim wrapper-->
-                </div> <!--fim swiper-->
-                </div>
+                </div> </div> </div>
             </div>
         </div>
     </section>
 
-    <!--footer-->
     <footer>
         <div class="footer-container">
-            <!--box-->
             <div class="footer-company-box">
-                <!--logo-->
                 <a href="#" class="logo"><span>Hospital Santa</span> Luzia do Rocil</a>
                 <p>Nosso compromisso é cuidar de você com carinho, respeito e qualidade.</p>
                 <div class="footer-social">
@@ -262,37 +191,13 @@
                 </ul>
             </div>
         </div>
-        <!--bottom-->
         <div class="footer-bottom">
             <span>Made by HLSR</span>
             <span>Copyright 2025 - HLSR</span>
         </div>
     </footer>
 
-    <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        var swiper = new Swiper(".mySwiperservicos", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-            breakpoints: {
-            700: {
-                slidesPerView: 2,
-                spaceBetween: 40,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-            },
-        },
-        });
-    </script>
+    <script src="/static/js/home.js"></script>
 </body>
+</html>

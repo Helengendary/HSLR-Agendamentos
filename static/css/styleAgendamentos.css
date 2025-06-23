@@ -1,380 +1,442 @@
+/* styleAgendamentos.css */
+
 /* Geral */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f9f5f1; /* tom bem claro, próximo do bege */
-  color: #4a2c1a; /* marrom escuro para texto */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f5f1; /* tom bem claro, próximo do bege */
+    color: #4a2c1a; /* marrom escuro para texto */
 }
 
 h1, h2, h3 {
-  color: #6b4c35; /* marrom médio */
-  margin-bottom: 0.5em;
-  font-weight: 600;
+    color: #6b4c35; /* marrom médio */
+    margin-bottom: 0.5em;
+    font-weight: 600;
 }
 
 /* Navegação */
 .navigation {
-  background-color: #7a5230; /* marrom quente escuro */
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #f0e6d2; /* bege claro para contraste */
-  box-shadow: 0 3px 6px rgba(122,82,48,0.4);
+    background-color: #7a5230; /* marrom quente escuro */
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #f0e6d2; /* bege claro para contraste */
+    box-shadow: 0 3px 6px rgba(122,82,48,0.4);
 }
 
 .navigation h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
-  user-select: none;
+    margin: 0;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    user-select: none;
 }
 
 .navigation .dropdown {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .dropbtn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 .avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 2px solid #b38b5b; /* borda em tom marrom claro */
-  transition: transform 0.3s ease;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #b38b5b; /* borda em tom marrom claro */
+    transition: transform 0.3s ease;
 }
 
 .avatar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 8px #b38b5b;
+    transform: scale(1.05);
+    box-shadow: 0 0 8px #b38b5b;
 }
 
 /* Dropdown */
 .dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  background-color: #f9f5f1;
-  min-width: 180px;
-  z-index: 10;
-  box-shadow: 0 8px 16px rgba(122, 82, 48, 0.3);
-  border-radius: 6px;
-  overflow: hidden;
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f5f1;
+    min-width: 180px;
+    z-index: 10;
+    box-shadow: 0 8px 16px rgba(122, 82, 48, 0.3);
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 .dropdown-content a {
-  color: #5c3d1a;
-  padding: 14px 20px;
-  text-decoration: none;
-  display: block;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+    color: #5c3d1a;
+    padding: 14px 20px;
+    text-decoration: none;
+    display: block;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
 }
 
 .dropdown:hover .dropdown-content {
-  display: block;
+    display: block;
 }
 
 .dropdown-content a:hover {
-  background-color: #7a5230;
-  color: #f0e6d2;
+    background-color: #7a5230;
+    color: #f0e6d2;
 }
 
-/* Modal Base */
+/* Modal Base (Unified for all modals) */
+/* Removido #scheduleFormModal e #dayAppointmentsModal display: none; aqui,
+   pois o JS controlará isso. A regra .modal é a que importa. */
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(122, 82, 48, 0.75); /* marrom semi-transparente */
+    display: none; /* hidden by default */
+    position: fixed;
+    z-index: 9999; /* Higher z-index for modals */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* enables scroll if content is too long */
+    background-color: rgba(0, 0, 0, 0.5); /* translucent black background */
+    display: flex; /* Use flexbox to center content */
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease; /* smooth transition for showing/hiding */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.modal.active {
-  display: block;
-}
-
+/* Modal Content Base (Unified) */
 .modal-content {
-  background-color: #fdf9f3;
-  margin: 8% auto;
-  padding: 30px 35px;
-  border: 2px solid #b38b5b;
-  width: 90%;
-  max-width: 480px;
-  border-radius: 12px;
-  position: relative;
-  box-shadow: 0 6px 15px rgba(122, 82, 48, 0.3);
-  top: 50%;
-  transform: translateY(-50%);
+    background-color: #fdf9f3;
+    padding: 30px 35px;
+    border: 2px solid #b38b5b;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 6px 15px rgba(122, 82, 48, 0.3);
+    /* `top` e `transform` não são necessários aqui se .modal usa flexbox para centralizar */
 }
 
-/* Botão fechar */
+/* Close button */
 .close-btn {
-  position: absolute;
-  top: 12px;
-  right: 15px;
-  font-size: 28px;
-  font-weight: bold;
-  color: #7a5230;
-  cursor: pointer;
-  transition: color 0.3s ease;
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #7a5230;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 .close-btn:hover {
-  color: #cc0000;
+    color: #cc0000;
 }
 
-/* Formulários */
+/* Form Styles within Modals */
 .form-row {
-  margin-bottom: 18px;
+    margin-bottom: 18px;
 }
 
 .form-row input,
 .form-row select,
 .form-row textarea {
-  width: 100%;
-  padding: 12px 15px;
-  box-sizing: border-box;
-  border: 1.8px solid #b38b5b;
-  border-radius: 8px;
-  font-size: 1rem;
-  color: #4a2c1a;
-  background-color: #fefbf6;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    padding: 12px 15px;
+    box-sizing: border-box;
+    border: 1.8px solid #b38b5b;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #4a2c1a;
+    background-color: #fefbf6;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-row input:focus,
 .form-row select:focus,
 .form-row textarea:focus {
-  outline: none;
-  border-color: #7a5230;
-  box-shadow: 0 0 5px #7a5230;
+    outline: none;
+    border-color: #7a5230;
+    box-shadow: 0 0 5px #7a5230;
 }
 
 .form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
 }
 
 .submit-btn,
 .delete-account {
-  background-color: #7a5230;
-  color: #f0e6d2;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: background-color 0.3s ease;
+    background-color: #7a5230;
+    color: #f0e6d2;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease;
 }
 
 .delete-account {
-  background-color: #a03e28;
+    background-color: #a03e28;
 }
 
 .submit-btn:hover {
-  background-color: #995d34;
+    background-color: #995d34;
 }
 
 .delete-account:hover {
-  background-color: #cc3f1a;
+    background-color: #cc3f1a;
 }
 
-/* Calendário */
-#calendarContainer {
-  background: #fdf9f3;
-  margin: 40px auto;
-  padding: 25px 30px;
-  max-width: 620px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(122, 82, 48, 0.15);
-  border: 1.5px solid #b38b5b;
+/* Calendário Principal */
+#mainCalendarContainer { /* Renomeado para não conflitar com modais */
+    background: #fdf9f3;
+    margin: 40px auto;
+    padding: 25px 30px;
+    max-width: 620px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(122, 82, 48, 0.15);
+    border: 1.5px solid #b38b5b;
 }
 
 .calendar-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  font-weight: 600;
-  color: #6b4c35;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #6b4c35;
 }
 
 #calendarGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 14px;
-  text-align: center;
-  font-weight: 600;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 14px;
+    text-align: center;
+    font-weight: 600;
 }
 
 #calendarGrid div {
-  padding: 14px 0;
-  background-color: #f1e6d1;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: #6b4c35;
-  user-select: none;
-  box-shadow: inset 0 0 4px rgba(122, 82, 48, 0.1);
+    padding: 14px 0;
+    background-color: #f1e6d1;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #6b4c35;
+    user-select: none;
+    box-shadow: inset 0 0 4px rgba(122, 82, 48, 0.1);
 }
 
-#calendarGrid div:hover {
-  background-color: #d7b87c;
-  color: #fff;
-  box-shadow: 0 0 8px #b38b5b;
+#calendarGrid div:first-child, /* Estilo para os nomes dos dias da semana (Dom, Seg...) */
+#calendarGrid div:nth-child(2),
+#calendarGrid div:nth-child(3),
+#calendarGrid div:nth-child(4),
+#calendarGrid div:nth-child(5),
+#calendarGrid div:nth-child(6),
+#calendarGrid div:nth-child(7) {
+    background-color: transparent;
+    cursor: default;
+    box-shadow: none;
+    color: #4a2c1a;
+    font-weight: bold;
+}
+
+
+#calendarGrid div:hover:not(.past-day):not(:nth-child(-n+7)) { /* Exclui dias passados e nomes dos dias da semana */
+    background-color: #d7b87c;
+    color: #fff;
+    box-shadow: 0 0 8px #b38b5b;
 }
 
 #calendarGrid div.today {
-  background-color: #b38b5b;
-  color: #fff;
-  font-weight: 700;
-  box-shadow: 0 0 10px #7a5230;
+    background-color: #b38b5b;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 0 10px #7a5230;
 }
 
 #calendarGrid div.selected {
-  background-color: #7a5230;
-  color: #f0e6d2;
-  font-weight: 700;
-  box-shadow: 0 0 10px #4a2c1a;
+    background-color: #7a5230;
+    color: #f0e6d2;
+    font-weight: 700;
+    box-shadow: 0 0 10px #4a2c1a;
 }
 
-/* Modal Agendamento */
-#agendamentoModal .form-actions {
-  justify-content: flex-end;
-  margin-top: 25px;
+/* Indicador de agendamento (um ponto) */
+.has-agendamento-dot::after {
+    content: '•';
+    display: block;
+    font-size: 1.5em;
+    line-height: 0.1em;
+    color: #e6b300; /* Cor do ponto */
+    margin-top: 5px;
 }
 
-#agendamentoModal button {
-  padding: 12px 28px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #7a5230;
-  color: #f0e6d2;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+.past-day {
+    color: #ccc !important;
+    cursor: default !important;
+    background-color: #eee !important;
+    box-shadow: none !important;
+    pointer-events: none; /* Desabilita cliques */
 }
 
-#agendamentoModal button:hover {
-  background-color: #995d34;
+/* Estilos para o Modal de Agendamentos por Dia */
+#dayAppointmentsModal .modal-content h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #7a5230; /* Título */
 }
-.modal {
-  display: none; /* escondido por padrão */
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto; /* permite scroll se conteúdo for maior */
-  background-color: rgba(0, 0, 0, 0.5); /* fundo escuro translúcido */
-  transition: opacity 0.3s ease;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.appointment-item {
+    background-color: #fefbf6;
+    border: 1px solid #d7b87c;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
-/* Conteúdo do modal */
-.modal-content {
-  background-color: #fff;
-  margin: 5% auto; /* centraliza verticalmente e horizontalmente */
-  padding: 20px 30px;
-  border-radius: 10px;
-  max-width: 600px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  position: relative;
+.appointment-item strong {
+    color: #6b4c35; /* Nome do Exame/Especialidade */
+}
+.appointment-item span {
+    color: #4a2c1a; /* Detalhes (Médico) */
+    font-size: 0.9em;
 }
 
-/* Botão fechar */
-.close-btn {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: color 0.2s ease;
+/* Estilos para os passos do formulário de agendamento (Modal 2) */
+#scheduleFormModal .step {
+    /* display: none; controlado por JS */
+    padding: 15px 0;
+}
+#scheduleFormModal .step h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #7a5230; /* Título do passo */
+}
+/* Estilo base para todos os botões de opção dentro dos passos */
+.step-option-btn {
+    padding: 12px 20px;
+    margin: 5px;
+    border: 1.5px solid #b38b5b;
+    border-radius: 8px;
+    background-color: #f1e6d1;
+    color: #6b4c35;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    flex-grow: 1; /* Permite que os botões cresçam para ocupar espaço */
+    max-width: calc(50% - 10px); /* Ajuste para ter 2 por linha com gap */
+}
+.step-option-btn:hover {
+    background-color: #d7b87c;
+    border-color: #7a5230;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+/* Estilo para a opção selecionada */
+.step-option-btn.selected {
+    background-color: #7a5230; /* Cor de destaque para o selecionado */
+    border-color: #4a2c1a;
+    color: #f0e6d2;
+    box-shadow: 0 0 12px rgba(122,82,48,0.4); /* Sombra mais forte */
+}
+/* Estilo para horários ocupados */
+.step-option-btn.occupied {
+    background-color: #f0f0f0;
+    color: #999;
+    border-color: #ddd;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    opacity: 0.7;
+    box-shadow: none;
+}
+.step-option-btn.occupied:hover {
+    background-color: #f0f0f0; /* Mantém a cor de fundo cinza ao passar o mouse */
+    border-color: #ddd;
+    color: #999;
+    box-shadow: none;
 }
 
-.close-btn:hover {
-  color: #000;
+/* Estilos para a seção de revisão (Passo 4) */
+#reviewDetails p {
+    background-color: #fefbf6;
+    border: 1px dashed #b38b5b;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #4a2c1a;
+}
+#reviewDetails strong {
+    color: #7a5230;
 }
 
-/* Título modal */
-.modal-content h2, .modal-content h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #333;
+/* Botões de navegação dos passos do formulário */
+#scheduleFormModal .form-actions button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+#scheduleFormModal #prevBtn {
+    background-color: #6c757d; 
+    color: white;
+}
+#scheduleFormModal #prevBtn:hover {
+    background-color: #5a6268;
+}
+#scheduleFormModal #confirmAgendamentoBtn {
+    background-color: #28a745; 
+    color: white;
+}
+#scheduleFormModal #confirmAgendamentoBtn:hover {
+    background-color: #218838;
 }
 
-/* Botões do formulário */
-.form-actions {
-  margin-top: 20px;
-  text-align: right;
+.cancel-appointment-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-top: 10px; 
+    transition: background-color 0.2s ease;
+    float: right; 
 }
 
-.submit-btn, .delete-account {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 10px 18px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.cancel-appointment-btn:hover {
+    background-color: #c82333;
 }
 
-.submit-btn:hover, .delete-account:hover {
-  background-color: #0056b3;
+.appointment-item {
+    overflow: hidden; 
+    position: relative; 
+    padding-right: 100px;
+    
 }
+.appointment-item strong,
+.appointment-item span {
+    display: block; 
+    margin-right: 10px;
+} 
 
-/* Input fields dentro do modal */
-.modal-content input[type="text"],
-.modal-content input[type="email"],
-.modal-content input[type="date"],
-.modal-content select {
-  width: 100%;
-  padding: 10px 12px;
-  margin: 8px 0 16px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
-  font-size: 1rem;
-}
-
-/* Passos do modal */
-.step {
+#dayAppointmentsModal {
   display: none;
 }
 
-.step.active {
-  display: block;
-}
-
-/* Botões "voltar" e "próximo" */
-#prevBtn, #nextBtn {
-  background-color: #28a745;
-  border: none;
-  color: white;
-  padding: 10px 18px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: background-color 0.2s ease;
-}
-
-#prevBtn:hover, #nextBtn:hover {
-  background-color: #19692c;
+#scheduleFormModal {
+  display: none;
 }

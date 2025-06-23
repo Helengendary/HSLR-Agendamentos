@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Hospital Santa Luzia</title>
     <script src="../static/script.js?v=1" defer></script>
-    <link rel="stylesheet" href="../static/css/homestyle.css?v=1">
+    <link rel="stylesheet" href="../static/css/homestyle.css?v=4">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
       integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!--font awesome ícones-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />    
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />   
+  
 </head>
 <body>
     <!--HERO SECTION-->
@@ -25,7 +26,7 @@
                 <span class="nav-icon"></span>
             </label>
             <!--logo-->
-            <a href="#" class="logo">Hospital Santa Luzia Agendamentos</a>
+            <a href="#" class="logo" >Hospital Santa Luzia Agendamentos</a>
             <!--menu-->
             <ul class="menu">
                 <li><a href="#quem-somos">Quem Somos</a></li>
@@ -73,10 +74,6 @@
     
                             <div class="form-row">
                                 <input type="text" id="phone" name="phone" placeholder="Número" value="{{request.session.get("numero_usuario")}}">
-                            </div>
-                            
-                            <div class="form-row">
-                                <input type="text" id="me" name="men" placeholder="Mensalidade" value="{{request.session.get("mensalidade")}}">
                             </div>
     
                             <div class="form-row">
@@ -131,7 +128,7 @@
                     <h2>Certeza que deseja excluir a conta?</h2>
                     <div>
                         <form action="/excluir" method="post">
-                            <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
+                            <input type="hidden" name="ID_Usuario" value="{{ request.session.get('ID_usuario') }}">
                             <button type="submit" class="delete-account">Confirmar</button>
                         </form>
 
@@ -151,14 +148,18 @@
             <p>Cuidando da mulher em todas as fases da vida</p>
             <!--botaooo-->
             <div class="hero-text-btns">
-                <a href="#">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Achar doutor
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-check"></i>
-                    Agendar consulta
-                </a>
+                <form action="/acharMedico" method="get">
+                    <button >
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Achar doutor
+                    </button>
+                </form>
+                <form action="/agendamentos" method="get">
+                    <button href="#">
+                        <i class="fa-solid fa-check"></i>
+                        Agendar consulta
+                    </button>
+                </form>
             </div>
         </div>
         <!--imagem-->

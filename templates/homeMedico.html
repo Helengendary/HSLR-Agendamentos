@@ -4,41 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Hospital Santa Luzia</title>
-    <link rel="stylesheet" href="../static/css/homestyle.css">
+    <title>Dashboard Médico - Hospital Santa Luzia</title> <link rel="stylesheet" href="../static/css/homestyle.css">
     <script src="../static/script.js" defer></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <!--font awesome ícones-->
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
-    <!--HERO SECTION-->
     <section id="hero">
-        <!--navbar-->
         <nav class="navigation">
-            <!--menu btn-->
             <input type="checkbox" class="menu-btn" id="menu-btn">
             <label for="menu-btn" class="menu-icon">
                 <span class="nav-icon"></span>
             </label>
-            <!--logo-->
-            <a href="#" class="logo">Hospital Santa Luzia Agendamentos</a>
-            <!--menu-->
-            <ul class="menu">
-                <li><a href="#quem-somos">Quem Somos</a></li>
-                <li><a href="#servicos">Serviços</a></li>
-                <li><a href="#">Valores</a></li>
-            </ul>
-            
-            <h1>Bem-vinda, {{request.session.get("nome_usuario")}}!</h1>
+            <a href="#" class="logo">Hospital Santa Luzia Médicos</a> <ul class="menu">
+                <li><a href="#dashboard-medico">Dashboard</a></li> <li><a href="#meus-agendamentos">Meus Agendamentos</a></li> <li><a href="#meus-pacientes">Meus Pacientes</a></li> <li><a href="#exames-disponiveis">Exames e Procedimentos</a></li> </ul>
 
-            <div class="dropdown">
+            <h1>Bem-vindo(a), Dr(a). {{request.session.get("nome_usuario")}}!</h1> <div class="dropdown">
                 <button class="dropbtn">
                     <img src="../static/img/hero-image.png" alt="Foto do usuário" class="user-img">
-                </button>                <div class="dropdown-content">
+                </button>
+                <div class="dropdown-content">
                     <a id="openModal">Editar Informações</a>
                     <a id="openLogoutModal">Log out</a>
                 </div>
@@ -47,9 +34,8 @@
             <div id="editModal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn" id="closeModal">&times;</span>
-                    <h2>Editar Informações</h2>
-                    <form id="editForm" action="/atualizarUser" method="post">
-                        <div class="form-row" >
+                    <h2>Editar Informações do Perfil</h2> <form id="editForm" action="/atualizarUser" method="post" enctype="multipart/form-data">
+                        <div class="form-row">
                             <input type="text" id="name" name="name" placeholder="Nome" value="{{request.session.get("nome_usuario")}}">
                         </div>
                         <div class="form-row">
@@ -69,40 +55,38 @@
                         </div>
 
                         <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
-                        
-                        <div class="form-actions"> 
-                            <button type="submit"  class="submit-btn">Alterar Dados</button>
-                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn">Salvar Alterações</button> </div>
                     </form>
-                    
+
                     <a id="opendeleteModal" class="submit-btn">Excluir Conta</a>
-                    
+
                 </div>
             </div>
-            
 
             <div id="logoutModal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn" id="closeLogoutModal">&times;</span>
                     <h2>Certeza que deseja deslogar?</h2>
                     <div>
-                        <form action="/logout" method="get">  
+                        <form action="/logout" method="get">
                             <button href="#" class="delete-account" type="submit">Logout</button>
                         </form>
-                        <form action="/home" method="get">  
+                        <form action="/home" method="get">
                             <button href="#" class="submit-btn" type="submit">Cancelar</button>
                         </form>
                     </div>
                 </div>
             </div>
-            
+
             <div id="alertaModal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn" id="closeAlertaModal">&times;</span>
                     <h2>{{ request.session.get('mensagem_header') }}</h2>
                 </div>
             </div>
-            
+
             <div id="deleteModal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn" id="closedeleteModal">&times;</span>
@@ -113,232 +97,98 @@
                             <button type="submit" class="delete-account">Confirmar</button>
                         </form>
 
-                        <form action="/home" method="get">  
+                        <form action="/home" method="get">
                             <button href="#" class="submit-btn" type="submit">Cancelar</button>
                         </form>
                     </div>
                 </div>
             </div>
-
-
-        </nav> <!--nav end-->
-        <!--content-->
-        <div class="hero-content">
-        <!--texto-->
-        <div class="hero-text">
-            <h1>Consultas ginecológicas com agendamento simples e rápido</h1>
-            <p>Cuidando da mulher em todas as fases da vida</p>
-            <!--botaooo-->
-            <div class="hero-text-btns">
-                <a href="#">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Achar doutor
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-check"></i>
-                    Agendar consulta
-                </a>
+        </nav> <div class="hero-content">
+            <div class="hero-text">
+                <h1>Gerencie Seus Agendamentos e Pacientes de Forma Eficiente</h1>
+                <p>Tenha todas as informações ao seu alcance para um atendimento de excelência e otimize seu tempo.</p>
+                <div class="hero-text-btns">
+                    <a href="/agendamentosMedico"> <i class="fa-solid fa-calendar-check"></i>
+                        Meus Agendamentos
+                    </a>
+                    <a href="/pacientesMedico"> <i class="fa-solid fa-user-injured"></i>
+                        Lista de Pacientes
+                    </a>
+                </div>
             </div>
+            <div class="hero-img">
+                <img src="../static/img/hero-image.png" alt="Imagem de dashboard médico"> </div>
         </div>
-        <!--imagem-->
-        <div class="hero-img">
-            <img src="../static/img/hero-image.png" alt="">
-        </div>
-        </div>
-    </section> <!--hero end-->
-    <!--procurar-->
-    <div class="appointment-search-container">
-        <h3>Ache o melhor médico para você</h3>
-        <div class="appointment-search">
-            <div class="appo-search-box">
-                <!--search box doctor-->
-                <i class="fa-solid fa-user-doctor"></i>
-                <input type="text" placeholder="Procurar médicos" id="#">
+    </section> <div class="appointment-search-container" id="dashboard-medico"> <h3>Visão Geral Diária</h3>
+        <div class="appointment-search"> <div class="appo-search-box">
+                <i class="fa-solid fa-users"></i> <span style="font-weight: bold; font-size: 1.5rem; color: #3b270e;">12</span> <span>Pacientes Agendados</span>
             </div>
             <div class="appo-search-box">
-                <!--search box location-->
-                <i class="fa-solid fa-location-dot"></i>
-                <input type="text" placeholder="Coloque sua localização" id="#">
+                <i class="fa-solid fa-hourglass-half"></i> <span style="font-weight: bold; font-size: 1.5rem; color: #3b270e;">09:00</span> <span>Próxima Consulta (João S.)</span>
             </div>
-            <!--botao pesquisar-->
-            <button>
-                <i class="fa-solid fa-magnifying-glass"></i>
+            <button onclick="location.href='/agendamentosMedico'"> <i class="fa-solid fa-circle-info"></i> Ver Detalhes
             </button>
         </div>
-    </div><!--final pesquisar-->
-
-    <!--serviços-->
-    <section class="info">
-        <!--box 1 -->
-        <div class="w-info-box w-info-box1">
-            <!--icone-->
-            <div class="w-info-icon">
-                <i class="fa-solid fa-file-lines"></i>
-            </div>
-            <!--texto-->
-            <div class="w-info-text">
-                <strong>Agendamento Fácil</strong>
-                <p>Marque sua consulta em poucos cliques, de forma prática e rápida.</p>
-            </div>
-        </div>
-        <!--box 2 -->
-        <div class="w-info-box w-info-box2">
-            <!--icone-->
-            <div class="w-info-icon">
-                <i class="fa-solid fa-clock"></i>
-            </div>
-            <!--texto-->
-            <div class="w-info-text">
-                <strong>Disponível 24h</strong>
-                <p>Agende consultas a qualquer hora, com total flexibilidade.</p>
-            </div>
-        </div>
-        <!--box 3 -->
-        <div class="w-info-box w-info-box3">
-            <!--icone-->
-            <div class="w-info-icon">
-                <i class="fa-solid fa-heart-pulse"></i>
-            </div>
-            <!--texto-->
-            <div class="w-info-text">
-                <strong>Atedimento Humanizado</strong>
-                <p>Cuidamos de você com empatia, respeito e atenção individual.</p>
-            </div>
-        </div>
-    </section><!--fim servicos-->
-
-    <!--quem somos-->
-    <section id="quem-somos">
-        <!--imagem-->
-        <div class="quem-somos-img">
-            <img src="../static/img/quem-somos-img.png" alt="">
-        </div>
-        <!--texto-->
-        <div class="quem-somos-text">
-            <h2>Um Pouco Sobre a Nossa Tragetória</h2>
-            <p>A Clínica Hospitalar Santa Luzia nasceu em 2012 com o sonho de oferecer um atendimento humanizado, acessível e de qualidade para todos. Começamos com um pequeno consultório e, com o passar dos anos, crescemos ao lado da comunidade, investindo em tecnologia, estrutura moderna e uma equipe dedicada.</p>
-            <p>Hoje, além de sermos referência em ginecologia e saúde da mulher, também acompanhamos gestantes em todas as fases da gravidez, oferecendo exames obstétricos, pré-natal e um cuidado especial para esse momento tão importante. Nosso compromisso é estar presente em todas as etapas da vida da mulher — do cuidado preventivo ao nascimento de uma nova vida — sempre com carinho, segurança e acolhimento.</p>
-        <!--numero clientes happyyyy :) -->
-        <div class="story-number-container">
-            <!--box 1 pacientes-->
-            <div class="story-number-box">
-                <strong>500+</strong>
-                <span>Pacientes Indicam</span>
-            </div>
-            <!--box 2 doutores-->
-            <div class="story-number-box">
-                <strong>25+</strong>
-                <span>Doutores Especializados</span>
-            </div>
-        </div>
-        </div>
-    </section><!--fim quem somos-->
-
-    <!--servicos-->
-    <section id="servicos">
-        <!--heading-->
+    </div><section id="servicos">
         <div class="servicos-heading">
-            <!--texto-->
             <div class="servicos-heading-text">
-                <strong>Serviços</strong>
-                <h2>Serviços que oferecemos para nossos pacientes</h2>
-            </div>
-            <!--botoes next e prev-->
+                <strong>Informações Clínicas</strong> <h2>Exames e Procedimentos Disponíveis no Hospital</h2> </div>
             <div class="services-slide-btns">
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
             </div>
         </div>
-        <!--container box-->
         <div class="servicos-box-container">
-            <!-- Swiper -->
             <div class="swiper mySwiperservicos">
-            <div class="swiper-wrapper">
-                <!--slide 1-->
-                <div class="swiper-slide">
-                <!--box-->
-                    <div class="servicos-box">
-                        <!--icone-->
-                        <i class="fa-solid fa-person-dress"></i>
-                        <!--titulo-->
-                        <strong>Exames preventivos</strong>
-                        <!--descricao-->
-                        <p>Para acompanhar a saúde da mulher e detectar alterações precocemente</p>
-                        <!--btn-->
-                        <form class="exames" action="/exames" method="get">
-                            <button >Clique aqui para mais informações</button>
-                        </form>
-                    </div>
-                </div>
-                <!--slide 2-->
-                <div class="swiper-slide">
-                    <!--box-->
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
                         <div class="servicos-box">
-                            <!--icone-->
-                            <i class="fa-solid fa-person-pregnant"></i>
-                            <strong>Exames Obstétricos</strong>
-                            <p>Para o acompanhamento da saúde da gestante e do bebê</p>
-                            <!--btn-->
-                            <form class="exames" action="/exames" method="get">
-                                <button >Clique aqui para mais informações</button>
+                            <i class="fa-solid fa-stethoscope"></i> <strong>Consultas e Avaliações</strong>
+                            <p>Visão geral dos tipos de consultas e avaliações que você pode realizar.</p>
+                            <form class="exames" action="/exames" method="get"> <button>Ver Detalhes</button>
                             </form>
                         </div>
                     </div>
-                    <!--slide 3-->
                     <div class="swiper-slide">
-                    <!--box-->
                         <div class="servicos-box">
-                            <!--icone-->
-                            <i class="fa-solid fa-venus"></i>
-                            <strong>Exames por Imagem</strong>
-                            <p>Avaliações com tecnologia de imagem para diagnóstico preciso</p>
-                            <!--btn-->
+                            <i class="fa-solid fa-baby"></i> <strong>Acompanhamento Gestacional</strong>
+                            <p>Recursos e diretrizes para o acompanhamento completo de gestantes.</p>
                             <form class="exames" action="/exames" method="get">
-                                <button >Clique aqui para mais informações</button>
+                                <button>Ver Detalhes</button>
                             </form>
                         </div>
                     </div>
-                    <!--slide 4-->
                     <div class="swiper-slide">
-                        <!--box-->
-                            <div class="servicos-box">
-                                <!--icone-->
-                                <i class="fa-solid fa-microscope"></i>
-                                <strong>Exames Hormonais</strong>
-                                <p>Para investigar alterações hormonais, fertilidade e outras condições</p>
-                                <!--btn-->
-                                <form class="exames" action="/exames" method="get">
-                                    <button >Clique aqui para mais informações</button>
-                                </form>
-                            </div>
+                        <div class="servicos-box">
+                            <i class="fa-solid fa-x-ray"></i> <strong>Diagnóstico por Imagem</strong>
+                            <p>Informações sobre a realização de exames de imagem (ultrassom, mamografia).</p>
+                            <form class="exames" action="/exames" method="get">
+                                <button>Ver Detalhes</button>
+                            </form>
                         </div>
-                    <!--slide 5-->
+                    </div>
                     <div class="swiper-slide">
-                        <!--box-->
-                            <div class="servicos-box">
-                                <!--icone-->
-                                <i class="fa-solid fa-hand-holding-heart"></i>
-                                <strong> Saúde da Mulher na Menopausa</strong>
-                                <p>Acompanhamento e prevenção de doenças relacionadas à menopausa</p>
-                                <!--btn-->
-                                <form class="exames" action="/exames" method="get">
-                                    <button >Clique aqui para mais informações</button>
-                                </form>
-                            </div>
+                        <div class="servicos-box">
+                            <i class="fa-solid fa-flask"></i> <strong>Resultados Laboratoriais</strong>
+                            <p>Acesso rápido aos resultados de exames de seus pacientes.</p>
+                            <form class="exames" action="/exames" method="get">
+                                <button>Acessar</button>
+                            </form>
                         </div>
-                </div> <!--fim wrapper-->
-            </div> <!--fim swiper-->
-        </div>
-    </div>
-    </div>
-    </section>
-
-    <!--footer-->
-    <footer>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="servicos-box">
+                            <i class="fa-solid fa-laptop-medical"></i> <strong>Telemedicina</strong>
+                            <p>Ferramentas e suporte para consultas online e acompanhamento remoto.</p>
+                            <form class="exames" action="/exames" method="get">
+                                <button>Saiba Mais</button>
+                            </form>
+                        </div>
+                    </div>
+                </div> </div> </div>
+    </section><footer>
         <div class="footer-container">
-            <!--box-->
             <div class="footer-company-box">
-                <!--logo-->
                 <a href="#" class="logo"><span>Hospital Santa</span> Luzia do Rocil</a>
                 <p>Nosso compromisso é cuidar de você com carinho, respeito e qualidade.</p>
                 <div class="footer-social">
@@ -351,44 +201,96 @@
             <div class="footer-link-box">
                 <strong>Links</strong>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Quem somos</a></li>
-                    <li><a href="#">Servicos</a></li>
-                    <li><a href="#">Valores</a></li>
+                    <li><a href="#dashboard-medico">Dashboard</a></li> <li><a href="#meus-agendamentos">Agendamentos</a></li>
+                    <li><a href="#meus-pacientes">Pacientes</a></li>
+                    <li><a href="#exames-disponiveis">Exames</a></li>
                 </ul>
             </div>
         </div>
-        <!--bottom-->
         <div class="footer-bottom">
             <span>Made by HLSR</span>
             <span>Copyright 2025 - HLSR</span>
         </div>
     </footer>
 
-    <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@ 11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper(".mySwiperservicos", {
-          slidesPerView: 1,
-          spaceBetween: 10,
-          pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-          breakpoints: {
-            700: {
-              slidesPerView: 2,
-              spaceBetween: 40,
+            slidesPerView: 1,
+            spaceBetween: 10,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
             },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 20,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
             },
-        },
+            breakpoints: {
+                700: {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+            },
+        });
+
+        // Adapte os listeners dos modais para esta página (script.js já deve ter isso, mas para referência):
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal de Editar Informações
+            const openModalBtn = document.getElementById('openModal');
+            const editModal = document.getElementById('editModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            if (openModalBtn) openModalBtn.addEventListener('click', () => editModal.style.display = 'block');
+            if (closeModalBtn) closeModalBtn.addEventListener('click', () => editModal.style.display = 'none');
+
+            // Modal de Logout
+            const openLogoutModalBtn = document.getElementById('openLogoutModal');
+            const logoutModal = document.getElementById('logoutModal');
+            const closeLogoutModalBtn = document.getElementById('closeLogoutModal');
+            if (openLogoutModalBtn) openLogoutModalBtn.addEventListener('click', () => logoutModal.style.display = 'block');
+            if (closeLogoutModalBtn) closeLogoutModalBtn.addEventListener('click', () => logoutModal.style.display = 'none');
+
+            // Modal de Excluir Conta
+            const opendeleteModalBtn = document.getElementById('opendeleteModal');
+            const deleteModal = document.getElementById('deleteModal');
+            const closedeleteModalBtn = document.getElementById('closedeleteModal');
+            if (opendeleteModalBtn) opendeleteModalBtn.addEventListener('click', (event) => { event.preventDefault(); deleteModal.style.display = 'block'; });
+            if (closedeleteModalBtn) closedeleteModalBtn.addEventListener('click', () => deleteModal.style.display = 'none');
+
+            // Fechar modais ao clicar fora
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+            // Adicionar listener para o input de arquivo do modal de edição de usuário, se aplicável
+            const fotoInputEditUser = document.getElementById('fotoInputEditUser');
+            const previewImageEditUser = document.getElementById('previewImageEditUser');
+            const imagePreviewLabelEditUser = document.getElementById('imagePreviewLabelEditUser');
+
+            if (fotoInputEditUser) {
+                fotoInputEditUser.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImageEditUser.src = e.target.result;
+                            imagePreviewLabelEditUser.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Se o usuário limpar, pode voltar para a imagem atual do perfil ou uma padrão
+                        // Será necessário carregar a imagem do perfil do backend na session para isso
+                        previewImageEditUser.src = '../static/img/hero-image.png'; // Ou a foto do perfil
+                        imagePreviewLabelEditUser.style.display = 'block';
+                    }
+                });
+            }
         });
     </script>
 </body>
+</html>

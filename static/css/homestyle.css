@@ -528,6 +528,8 @@ footer{
     margin-top: 0px;
 }
 @media(max-width:950px){
+    
+
     .navigation{
         justify-content: space-between;
         padding: 20px;
@@ -644,8 +646,21 @@ footer{
     }
 }
 @media(max-width:620px){
+
+    .hero-img {
+        display: none;
+    }
+
+    #hero {
+        justify-content: space-around;
+    }
+
+    .hero-content {
+        margin-top: 5px;
+    }
+
     .hero-text{
-        padding: 20px;
+        width: 150%;
     }
     .hero-text h1, .quem-somos-text h2, .servicos-heading h2 {
         font-size: 1.8rem;

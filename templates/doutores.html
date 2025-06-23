@@ -128,17 +128,7 @@
 <section class="search-filter">
   <input type="text" id="searchInput" placeholder="Pesquisar exame..." />
 
-  <form action="/exames" method="get">
-    <select name="cate" onchange="this.form.submit()">
-      <option value="">Filtrar por categoria</option>
-      {% for cat in categorias %}
-      <option value="{{ cat.ID_categoriaExame }}"
-              {% if cat.ID_categoriaExame == cate|int %}selected{% endif %}> {{ cat.Nome }}
-      </option>
-      {% endfor %}
-    </select>
-  </form>
-
+  
   {% if request.session.get("papel") == 2 %}
     <a id="openModalAddExame" class="btn">Adicionar exame</a>
   {% endif %}
@@ -171,15 +161,7 @@
                     <input type="text" id="editExameDescricao" name="descricao" placeholder="Descrição">
                 </div>
 
-                <select name="cate" id="editExameCategory">
-                    <option value="">Selecionar categoria</option>
-                    {% for cat in categorias %}
-                    <option value="{{ cat.ID_categoriaExame }}">
-                        {{ cat.Nome }}
-                    </option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" id="editExameId" name="ID_exame" > </div>
+                <input type="hidden" id="editExameId" name="ID_exame"> </div>
 
             <div class="form-actions">
                 <button type="submit" class="submit-btn">Salvar Alterações</button>
@@ -206,14 +188,6 @@
 
                 <div class="form-row">
                     <input type="text" id="descricaoExame" name="descricao" placeholder="Descrição"> </div>
-
-                <select name="cate">
-                  <option value="">Filtrar por categoria</option>
-                  {% for cat in categorias %}
-                  <option value="{{ cat.ID_categoriaExame }}"  {% if cat.ID_categoriaExame == cate|int %}selected{% endif %}> {{ cat.Nome }}
-                  </option>
-                  {% endfor %}
-                </select>
             </div>
 
             <div class="form-actions">
@@ -228,7 +202,6 @@
 
 <section class="cards-container" id="cardsContainer">
   {% for ex in exames %}
-  <div class="card" data-title='{{ex.Nome}}' data-category='{{ex.Categoria}}'>
 
     {% if ex.Imagem is not none %}
     <img class="w3-circle w3-margin-top"
@@ -240,7 +213,6 @@
 
     <div class="card-content">
       <h2>{{ ex.Nome }}</h2>
-      <p><strong>Categoria:</strong> {{ ex.Categoria }}. {{ ex.Descricao }}.</p>
       <div class="buttons">
         {% if request.session.get("papel") == 3 %}
           <form class="agendamentos" action="/agendamentos" method="get">
@@ -251,17 +223,15 @@
                   data-id="{{ ex.ID_exame }}"
                   data-nome="{{ ex.Nome }}"
                   data-descricao="{{ ex.Descricao }}"
-                  data-categoria-id="{{ ex.ID_categoria }}"
-                  data-categoria-nome="{{ ex.Categoria }}"
                   data-imagem-base64="{% if ex.Imagem is not none %}{{ ex.Imagem }}{% endif %}">
               Editar Exame
           </button>
-          
-          <form class="agendamentos" action="/excluirExame" method="post">
-            <button>Excluir Exame</button>
-            <input style="display: none;" type="text" name="excluirID" value="{{ex.ID_exame}}">
-          </form>
         {% endif %}
+
+        <form class="agendamentos" action="/excluirExame" method="post">
+          <button>Excluir Exame</button>
+          <input style="display: none;" type="text" name="excluirID" value="{{ex.ID_exame}}">
+        </form>
       </div>
     </div>
   </div>
@@ -287,7 +257,6 @@
     });
   }
   searchInput.addEventListener('input', filterCards);
-  // Removi categoryFilter.addEventListener('change', filterCards); pois o select já faz submit.
 
   // --- Funções para os Modais ---
 
@@ -424,7 +393,6 @@
     const editExameIdInput = document.getElementById('editExameId');
     const editExameNameInput = document.getElementById('editExameName');
     const editExameDescricaoInput = document.getElementById('editExameDescricao');
-    const editExameCategorySelect = document.getElementById('editExameCategory'); // Seu select de categoria
     const fotoInputEditExame = document.getElementById('fotoInputEditExame');
     const previewImageEditExame = document.getElementById('previewImageEditExame');
     const imagePreviewLabelEditExame = document.getElementById('imagePreviewLabelEditExame');
@@ -435,23 +403,12 @@
             const id = this.dataset.id;
             const nome = this.dataset.nome;
             const descricao = this.dataset.descricao;
-            const categoriaId = this.dataset.categoriaId; // <--- Pegando o ID da categoria
             const imagemBase64 = this.dataset.imagemBase64;
 
             // Preenche os campos do modal
             editExameIdInput.value = id;
             editExameNameInput.value = nome;
             editExameDescricaoInput.value = descricao;
-
-            // Seleciona a categoria correta no dropdown
-            editExameCategorySelect.value = categoriaId;
-            if (imagemBase64) {
-                previewImageEditExame.src = `data:image/png;base64,${imagemBase64}`;
-                imagePreviewLabelEditExame.style.display = 'block';
-            } else {
-                previewImageEditExame.src = '../static/img/padraoexame.png';
-                imagePreviewLabelEditExame.style.display = 'block';
-            }
 
             // Exibe o modal de edição
             editExameModal.style.display = 'block';

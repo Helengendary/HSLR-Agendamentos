@@ -4,38 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Clínica Santa Luzia</title>
-    <script src="../static/script.js" defer ></script>
-    <script src="../static/js/app.js" defer ></script>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
+    <style>
+        
+#alertaSessaoExpirada {
+    background-color: #ffeeba; 
+    color: #b3742c; 
+    padding: 15px 30px; 
+    border: 1px solid #ffeeba; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    position: fixed; 
+    top: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 10000; 
+    width: fit-content; 
+    max-width: 90%; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    animation: 0.5s ease-in-out forwards; 
+}
+
+
+@keyframes fadeAviso {
+    from { opacity: 0; transform: translateY(-30px) translateX(-50%); } 
+    to { opacity: 1; transform: translateY(0) translateX(-50%); }
+}
+
+    </style>
 </head>
 <body>
 
-    
-    <div class="container">
+    {% if expirado %}
+    <div id="alertaSessaoExpirada" class="aviso-expirado">
+        Sua sessão expirou. Faça login novamente.
+    </div>
+    {% endif %}
 
-        {% if expirado %}
-        <div class="aviso-expirado">
-             Sua sessão expirou. Faça login novamente. 
-        </div>
-        {% endif %}
+    <div class="container">
 
         <div class="content first-content">
             <div class="first-column">
                 <h2 class="title title-primary">Bem-Vindo!</h2>
-
                 <p class="description description-primary">Por favor, faça login com suas informações pessoais</p>
                 <button id="signin" class="btn btn-primary" type="button">entrar</button>
-            </div>    
+            </div>
             <div class="second-column">
                 <h2 class="title title-second">Criar conta</h2>
                 <div class="social-media">
                     <ul class="list-social-media">
                         <a class="link-social-media" href="https://www.facebook.com/login">
                             <li class="item-social-media">
-                                <i class="fab fa-facebook-f"></i>        
+                                <i class="fab fa-facebook-f"></i>
                             </li>
                         </a>
                         <a class="link-social-media" href="https://accounts.google.com/ServiceLogin">
@@ -56,7 +81,7 @@
                 {% set error = request.session.pop("error", None) %}
 
                 {% if errorStatus %}
-                <p style="color: red;">{{ error }}</p>
+                <p class="error-message-server">{{ error }}</p>
                 {% endif %}
 
                 <form class="form" id="cadastroForm" action="/cadastro" method="post">
@@ -67,51 +92,45 @@
                                 <input name="nome" id="nome-cadastro" type="text" placeholder="Nome" required>
                             </label>
                             <div id="nomeError" class="error-message"></div>
-                            
+
                             <label class="label-input" for="sobrenome-cadastro">
                                 <i class="fas fa-user icon-modify"></i>
                                 <input name="sobrenome" id="sobrenome-cadastro" type="text" placeholder="Sobrenome" required>
                             </label>
                             <div id="sobrenomeError" class="error-message"></div>
-                            <div id="nomeError" class="error-message"></div>
-    
-                            <label class="label-input"  for="nascimento-cadastro">
+
+                            <label class="label-input" for="nascimento-cadastro">
                                 <i class="fas fa-calendar icon-modify"></i>
                                 <input name="dataNascimento" type="date" id="nascimento-cadastro" placeholder="Data de Nascimento" required>
                             </label>
                             <div id="dataNascimentoError" class="error-message"></div>
-                            
+
                             <label class="label-input" for="email-cadastro">
                                 <i class="fas fa-envelope icon-modify"></i>
                                 <input name="email" id="email-cadastro" type="email" placeholder="E-mail" required>
                             </label>
                             <div id="emailError" class="error-message"></div>
                         </div>
-                        
+
                         <div>
                             <label class="label-input" for="cpf-cadastro">
                                 <i class="fas fa-id-card icon-modify"></i>
-                                <input name="cpf" id="cpf-cadastro" type="text" oninput="formatarCPF(this)" placeholder="CPF" required>
+                                <input name="cpf" id="cpf-cadastro" type="text" placeholder="CPF" required>
                             </label>
                             <div id="cpfError" class="error-message"></div>
-    
+
                             <label class="label-input" for="telefone-cadastro">
                                 <i class="fas fa-phone icon-modify"></i>
-                                <input name="telefone" id="telefone-cadastro" type="tel" oninput="formatarTelefone(this)" placeholder="Telefone" required>
+                                <input name="telefone" id="telefone-cadastro" type="tel" placeholder="Telefone" required>
                             </label>
                             <div id="telefoneError" class="error-message"></div>
-    
-                            <label class="label-input" for="telefone-cadastro">
-                                <i class="fas fa-cash icon-modify"></i>
-                                <input name="salario" id="telefone-cadastro" type="number" placeholder="Salário" required>
-                            </label>
-                            
+
                             <label class="label-input" for="senha-cadastro">
                                 <i class="fas fa-lock icon-modify"></i>
                                 <input name="senha" id="senha-cadastro" type="password" placeholder="Senha" required>
                             </label>
                             <div id="senhaError" class="error-message"></div>
-                            
+
                             <label class="label-input" for="confirmar-senha-cadastro">
                                 <i class="fas fa-lock icon-modify"></i>
                                 <input id="confirmar-senha-cadastro" type="password" placeholder="Confirmar Senha" required>
@@ -119,73 +138,71 @@
                             <div id="confirmarSenhaError" class="error-message"></div>
                         </div>
                     </div>
-                    <button class="btn btn-second" id="btn-enviar" type="button">Cadastrar</button>        
+                    <button class="btn btn-second" id="btn-enviar" type="button">Cadastrar</button>
                 </form>
             </div>
         </div>
 
         <div class="content second-content">
-
-            
-
-        <div class="first-column">
-            <p class="description description-quartary">Nossa missão é cuidar da sua saúde com carinho e dedicação.</p>
-            <button id="signup" class="btn btn-tertiary">Criar conta</button>
-        </div>
-        
-        <div class="second-column">
-            <h2 class="title title-second">Faça login para continuar</h2>
-            <div class="social-media">
-                <ul class="list-social-media">
-                    <a class="link-social-media" href="https://www.facebook.com/login">
-                        <li class="item-social-media">
-                            <i class="fab fa-facebook-f"></i>
-                        </li>
-                    </a>
-                    <a class="link-social-media" href="https://accounts.google.com/ServiceLogin">
-                        <li class="item-social-media">
-                            <i class="fab fa-google-plus-g"></i>
-                        </li>
-                    </a>
-                    <a class="link-social-media" href="https://www.linkedin.com/login">
-                        <li class="item-social-media">
-                            <i class="fab fa-linkedin-in"></i>
-                        </li>
-                    </a>
-                </ul>
+            <div class="first-column">
+                <p class="description description-quartary">Nossa missão é cuidar da sua saúde com carinho e dedicação.</p>
+                <button id="signup" class="btn btn-tertiary">Criar conta</button>
             </div>
-            <p class="description description-second">ou use sua conta de e-mail:</p>
 
-            {% set errorLoginStatus = request.session.pop("errorLoginStatus", None) %}
-            {% set errorLoginMessage = request.session.pop("errorLogin", None) %}
+            <div class="second-column">
+                <h2 class="title title-second">Faça login para continuar</h2>
+                <div class="social-media">
+                    <ul class="list-social-media">
+                        <a class="link-social-media" href="https://www.facebook.com/login">
+                            <li class="item-social-media">
+                                <i class="fab fa-facebook-f"></i>
+                            </li>
+                        </a>
+                        <a class="link-social-media" href="https://accounts.google.com/ServiceLogin">
+                            <li class="item-social-media">
+                                <i class="fab fa-google-plus-g"></i>
+                            </li>
+                        </a>
+                        <a class="link-social-media" href="https://www.linkedin.com/login">
+                            <li class="item-social-media">
+                                <i class="fab fa-linkedin-in"></i>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+                <p class="description description-second">ou use sua conta de e-mail:</p>
 
-            {% if errorLoginStatus %}
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        document.getElementById("signin").click(); 
-                    });
-                </script>
-                <p style="color: red;">{{ errorLoginMessage }}</p>
-            {% endif %}
+                {% set errorLoginStatus = request.session.pop("errorLoginStatus", None) %}
+                {% set errorLoginMessage = request.session.pop("errorLogin", None) %}
+
+                {% if errorLoginStatus %}
+                <p class="error-message-server error-login">{{ errorLoginMessage }}</p>
+                {% endif %}
 
 
-            <form class="form" action="/login" method="post">
-
-                <label class="label-input" for="">
-                    <i class="far fa-envelope icon-modify"></i>
-                    <input name="Login" type="email" placeholder="Email" required name="emailcadastro">
-                </label>
-                <label class="label-input" for="">
-                    <i class="fas fa-lock icon-modify"></i>
-                    <input name="SenhaLogin" type="password" placeholder="Password" required>
-                </label>
-                <button class="btn btn-second" type="submit">Entrar</button>
-            </form>
-            <a class="password" id="openModal" href="#">Esqueceu sua senha?</a>
+                <form class="form" action="/login" method="post">
+                    <label class="label-input" for="login-email">
+                        <i class="far fa-envelope icon-modify"></i>
+                        <input name="Login" id="login-email" type="email" placeholder="Email" required>
+                    </label>
+                    <label class="label-input" for="login-password">
+                        <i class="fas fa-lock icon-modify"></i>
+                        <input name="SenhaLogin" id="login-password" type="password" placeholder="Password" required>
+                    </label>
+                    <button class="btn btn-second" type="submit">Entrar</button>
+                </form>
+                <a class="password" id="openModal" href="#">Esqueceu sua senha?</a>
+            </div>
         </div>
     </div>
-</div>
 
-
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeForgotPasswordModal">&times;</span>
+            <h2>Esqueceu sua senha?</h2>
+            <p>Entre em contato com o suporte para redefinir sua senha.</p>
+            </div>
+    </div>
+    <script src="../static/js/login.js" defer></script>
 </body>
 </html>

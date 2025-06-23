@@ -1,530 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="../static/css/styleAgendamentos.css">
-<title>Agendamento Consulta</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/styleAgendamentos.css?v=1">
+    <title>Agendamento Consulta</title>
 </head>
 <header>
-  <nav class="navigation">
-    <div style="display: flex; flex-direction: row; align-items: center;">
-      <form action="/home" method="get" id="voltarForm">
-        <span onclick="document.getElementById('voltarForm').submit();"  style="cursor: pointer; font-size: 3rem; color: white; padding-right: 20px;">‹</span>
-      </form>
-      <h1>Hospital Santa Luzia - Agenda</h1>
-    </div>
+    <nav class="navigation">
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <form action="/home" method="get" id="voltarForm">
+                <span onclick="document.getElementById('voltarForm').submit();" style="cursor: pointer; font-size: 3rem; color: white; padding-right: 20px;">‹</span>
+            </form>
+            <h1 style="color: rgb(202, 138, 86);">Hospital Santa Luzia - Agenda</h1>
 
+          </div>
+          <h1 style="color: rgb(202, 138, 86);">Olá, {{request.session.get("nome_usuario")}}!</h1>
 
-    <div class="dropdown">
-      <button class="dropbtn">
-        
-      </button>               
-        <div class="dropdown-content">
-          <a id="openModal">Editar Informações</a>
-          <a id="openLogoutModal">Log out</a>
-      </div>
-  </div>    
-
-    <div id="logoutModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeLogoutModal">&times;</span>
-            <h2>Certeza que deseja deslogar?</h2>
-            <div>
-                <form action="/logout" method="get">  
-                    <button href="#" class="delete-account" type="submit">Logout</button>
-                </form>
-                <form action="/home" method="get">  
-                    <button href="#" class="submit-btn" type="submit">Cancelar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <div id="alertaModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeAlertaModal">&times;</span>
-            <h2>{{ request.session.get('mensagem_header') }}</h2>
-        </div>
-    </div>
-    
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closedeleteModal">&times;</span>
-            <h2>Certeza que deseja excluir a conta?</h2>
-            <div>
-                <form action="/excluir" method="post">
-                    <input type="hidden" name="ID_Usuario" value="{{ request.session.get('id_usuario') }}">
-                    <button type="submit" class="delete-account">Confirmar</button>
-                </form>
-
-                <form action="/home" method="get">  
-                    <button href="#" class="submit-btn" type="submit">Cancelar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-  </nav>
+        </nav>
 </header>
 <body>
 
 <h2>Agendamento de Consulta</h2>
 
-<div id="calendarContainer">
-  <h3 id="calendarHeader">Calendário</h3>
-  <div class="calendar-nav">
-  <button onclick="prevMonth()">‹</button>
-  <h3 id="calendarHeader">Calendário</h3>
-  <button onclick="nextMonth()">›</button>
-</div>
-  <div id="calendarGrid">
-    <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
-  </div>
-</div>
-
-<div id="agendamentoModal" class="modal">
-
-  <main>
-    <section class="calendario">
-    <h2>Exames Agendados</h2>
-    <div class="calendar-container">
-      <div class="calendar-header">
-        <button id="prevMonth">&lt;</button>
-        <span id="monthYear"></span>
-        <button id="nextMonth">&gt;</button>
-      </div>
-      <table id="calendar">
-        <thead>
-          <tr>
-            <th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th>
-            <th>Qui</th><th>Sex</th><th>Sab</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+<div id="mainCalendarContainer">
+    <div class="calendar-nav">
+        <button onclick="prevMonth()">‹</button>
+        <h3 id="calendarHeader">Calendário</h3>
+        <button onclick="nextMonth()">›</button>
     </div>
-
-    <div class="info-dia">
-      <h3 id="selectedDateTitle">Selecione uma data</h3>
-      <div id="detalhesConsulta"></div>
+    <div id="calendarGrid">
+        <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
     </div>
-  </section>
+</div>
+
+<div id="dayAppointmentsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn" id="closeDayAppointmentsModal">&times;</span>
+        <h3 id="selectedDateTitle">Consultas em [Data Selecionada]</h3>
+        <div id="appointmentsList">
+            <p>Carregando consultas...</p>
+        </div>
+        <div class="form-actions" style="justify-content: center; margin-top: 20px;">
+            <button id="openScheduleFormModalBtn" class="submit-btn">Agendar Nova Consulta</button>
+        </div>
+    </div>
+</div>
+
+<div id="scheduleFormModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn" id="closeScheduleFormModal">&times;</span>
+        <h3 id="scheduleModalTitle">Novo Agendamento</h3>
+
+        <form id="agendamentoForm" method="POST" action="/agendar">
+            <input type="hidden" id="agendamentoDataInput" name="data">
+            <input type="hidden" id="agendamentoExameInput" name="exame">
+            <input type="hidden" id="agendamentoMedicoInput" name="medico">
+            <input type="hidden" id="agendamentoHorarioInput" name="horario">
+            <input type="hidden" name="ID_Usuario_Logado" value="{{ request.session.get('id_usuario') }}">
+
+
+            <div class="step" id="step1">
+                <h2>Passo 1: Escolha o exame</h2>
+                <div id="exameOptionsContainer" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                    {% for ex in exames %}
+                        <button type="button" class="step-option-btn"
+                                data-id="{{ex.ID_exame}}"
+                                data-nome="{{ex.Nome}}"
+                                onclick="selectExame(this)">
+                            {{ex.Nome}}
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="step" id="step2" style="display:none;">
+                <h2>Passo 2: Escolha o médico</h2>
+                <div id="medicoOptionsContainer" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                    {% for med in medicos %}
+                        <button type="button" class="step-option-btn"
+                                data-id="{{med.ID_usuario}}"
+                                data-nome="{{med.Nome}} {{med.Sobrenome}}"
+                                onclick="selectMedico(this)">
+                            {{med.Nome}} {{med.Sobrenome}}
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="step" id="step3" style="display:none;">
+                <h2>Passo 3: Escolha o horário</h2>
+                <div id="horarioOptionsContainer" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                    <p>Selecione um médico e uma data para ver os horários.</p>
+                </div>
+            </div>
+
+            <div class="step" id="step4" style="display:none;">
+                <h2>Passo 4: Revisar Agendamento</h2>
+                <div id="reviewDetails">
+                    <p><strong>Data:</strong> <span id="revData"></span></p>
+                    <p><strong>Exame:</strong> <span id="revExame"></span></p>
+                    <p><strong>Médico:</strong> <span id="revMedico"></span></p>
+                    <p><strong>Horário:</strong> <span id="revHorario"></span></p>
+                </div>
+            </div>
+
+            <div class="form-actions" style="justify-content: space-between;">
+                <button type="button" onclick="prevFormStep()" id="prevBtn" style="display:none;">Voltar</button>
+                <button type="submit" id="confirmAgendamentoBtn" class="submit-btn" style="display:block;">Confirmar Agendamento</button>
+            </div>
+        </form>
+    </div>
+</div>
 <script>
-  // const agendamentos = {{ agendamentos_json | safe }};
-</script>
-  </main>
-
-  <!-- Modal de agendamento -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeAgendamentoModal()">&times;</span>
-    <h3 id="modalTitle">Agendamento</h3>
-
-    <div id="stepContainer">
-
-    </div>
-
-    <div class="form-actions">
-      <button onclick="prevStep()" id="prevBtn" style="display:none;">Voltar</button>
-      <button onclick="nextStep()" id="nextBtn">Próximo</button>
-    </div>
-    <span class="close" id="closeModal">&times;</span>
-
-    <form id="agendamentoForm" method="POST" action="/agendar">
-      <!-- Step 1: Escolher exame -->
-      <div class="step" id="step1">
-        <h2>Passo 1: Escolha o exame</h2>
-        <!--  dropdown exames p/ pessoa escolher  -->
-        <button type="button" onclick="nextStep()">Próximo</button>
-      </div>
-      <div style="grid-column: span 2;">
-        <label>Médico:</label>
-        <select id="medico" required></select>
-      </div>
-
-      <!-- Step 3: Data e hora -->
-      <div class="step" id="step3" style="display:none;">
-        <h2>Passo 3: Escolha data e hora</h2>
-        <!-- data e horarios disponiveis 
-         para fazer exame vao aparecer em formato de dropdown ou no calendario vou ver ainda... -->
-        <button type="button" onclick="prevStep()">Voltar</button>
-        <button type="button" onclick="nextStep()">Próximo</button>
-      </div>
-      <div class="form-actions">
-        <button type="submit" class="submit-btn">Confirmar Agendamento</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-  // Variáveis globais
-  let selectedDate = null;
-  let selectedMedico = null;
-  let selectedTime = null;
-  let currentMonth = new Date().getMonth();
-  let currentYear = new Date().getFullYear();
-
-  const horariosDisponiveis = [
-    "08:00", "09:00", "10:00", "11:00",
-    "13:00", "14:00", "15:00", "16:00"
-  ];
-
-  let agendamentoData = {
-    data: null,
-    exame: null,
-    medico: null,
-    horario: null
-  };
-  let currentStep = 1;
-
-  // Criação do calendário
-  function createCalendar(year, month) {
-    const calendarGrid = document.getElementById('calendarGrid');
-    while (calendarGrid.children.length > 7) {
-      calendarGrid.removeChild(calendarGrid.lastChild);
-    }
-
-    const monthNames = [
-      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    ];
-
-    document.getElementById('calendarHeader').textContent = `${monthNames[month]} ${year}`;
-
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startDayOfWeek = firstDay.getDay();
-    const totalDays = lastDay.getDate();
-
-    for (let i = 0; i < startDayOfWeek; i++) {
-      const emptyCell = document.createElement('div');
-      emptyCell.textContent = '';
-      calendarGrid.appendChild(emptyCell);
-    }
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    for (let day = 1; day <= totalDays; day++) {
-      const dateCell = document.createElement('div');
-      dateCell.textContent = day;
-
-      const cellDate = new Date(year, month, day);
-      cellDate.setHours(0, 0, 0, 0);
-
-      if (cellDate < today) {
-        dateCell.style.color = '#ccc';
-        dateCell.style.cursor = 'default';
-      } else {
-        dateCell.style.cursor = 'pointer';
-
-        dateCell.addEventListener('click', () => {
-          selectedDate = cellDate;
-          agendamentoData.data = cellDate.toLocaleDateString('pt-BR');
-
-          Array.from(calendarGrid.children).forEach(div => {
-            div.classList.remove('selected');
-          });
-
-          dateCell.classList.add('selected');
-          openAgendamentoModal(selectedDate);
-        });
-      }
-
-      if (cellDate.getTime() === today.getTime()) {
-        dateCell.classList.add('today');
-      }
-
-      calendarGrid.appendChild(dateCell);
-    }
-  }
-
-  function prevMonth() {
-    currentMonth--;
-    if (currentMonth < 0) {
-      currentMonth = 11;
-      currentYear--;
-    }
-    createCalendar(currentYear, currentMonth);
-  }
-
-  function nextMonth() {
-    currentMonth++;
-    if (currentMonth > 11) {
-      currentMonth = 0;
-      currentYear++;
-    }
-    createCalendar(currentYear, currentMonth);
-  }
-
-  // Modal de agendamento com 4 passos
-  function openAgendamentoModal(date) {
-    currentStep = 1;
-    document.getElementById('agendamentoModal').style.display = 'block';
-    showStep();
-  }
-
-  function closeAgendamentoModal() {
-    document.getElementById('agendamentoModal').style.display = 'none';
-  }
-
-  function prevStep() {
-    if (currentStep > 1) {
-      currentStep--;
-      showStep();
-    }
-  }
-
-  function nextStep() {
-    if (currentStep < 4) {
-      currentStep++;
-      showStep();
-    } else {
-      alert(`Agendamento confirmado:\n${JSON.stringify(agendamentoData, null, 2)}`);
-      closeAgendamentoModal();
-    }
-  }
-
-  function showStep() {
-    const container = document.getElementById('stepContainer');
-    container.innerHTML = '';
-    const title = document.getElementById('modalTitle');
-    document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'inline-block';
-    document.getElementById('nextBtn').textContent = currentStep === 4 ? 'Confirmar' : 'Próximo';
-
-    switch (currentStep) {
-      case 1:
-        title.textContent = 'Passo 1: Escolher Exame';
-        ['Raio-X', 'Ultrassom', 'Sangue', 'Ressonância'].forEach(exame => {
-          const btn = document.createElement('button');
-          btn.textContent = exame;
-          btn.onclick = () => {
-            agendamentoData.exame = exame;
-            nextStep();
-          };
-          container.appendChild(btn);
-        });
-        break;
-
-      case 2:
-        title.textContent = 'Passo 2: Escolher Médico';
-        ['Dr. Afonso', 'Dra. Helena', 'Dr. Roberto'].forEach(med => {
-          const btn = document.createElement('button');
-          btn.textContent = med;
-          btn.onclick = () => {
-            agendamentoData.medico = med;
-            nextStep();
-          };
-          container.appendChild(btn);
-        });
-        break;
-
-      case 3:
-        title.textContent = 'Passo 3: Escolher Horário';
-        horariosDisponiveis.forEach(horario => {
-          const btn = document.createElement('button');
-          btn.textContent = horario;
-          btn.onclick = () => {
-            agendamentoData.horario = horario;
-            nextStep();
-          };
-          container.appendChild(btn);
-        });
-        break;
-
-      case 4:
-        title.textContent = 'Passo 4: Revisar Dados';
-        container.innerHTML = `
-          <p><strong>Data:</strong> ${agendamentoData.data}</p>
-          <p><strong>Exame:</strong> ${agendamentoData.exame}</p>
-          <p><strong>Médico:</strong> ${agendamentoData.medico}</p>
-          <p><strong>Horário:</strong> ${agendamentoData.horario}</p>
-        `;
-        break;
-    }
-  }
-
-  // Inicialização do calendário ao carregar a página
-  window.onload = () => {
-    createCalendar(currentYear, currentMonth);
-  };
-
-  // Módulo do modal de horários por médico
-  const medicoModal = document.getElementById('medicoModal');
-  const modalMedicoName = document.getElementById('modalMedicoName');
-  const timeslotsContainer = document.getElementById('timeslotsContainer');
-  const confirmScheduleBtn = document.getElementById('confirmSchedule');
-
-  function showHorariosModal(medico, date) {
-    if (!date) {
-      alert('Selecione uma data antes de escolher o horário.');
-      return;
-    }
-
-    selectedMedico = medico;
-    selectedTime = null;
-
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const dateStr = date.toLocaleDateString('pt-BR', options);
-    modalMedicoName.textContent = `Horários disponíveis - ${medico} em ${dateStr}`;
-
-    timeslotsContainer.innerHTML = '';
-    horariosDisponiveis.forEach(time => {
-      const timeSlot = document.createElement('div');
-      timeSlot.classList.add('timeslot');
-      timeSlot.textContent = time;
-
-      timeSlot.addEventListener('click', () => {
-        Array.from(timeslotsContainer.children).forEach(slot => slot.classList.remove('selected'));
-        timeSlot.classList.add('selected');
-        selectedTime = time;
-      });
-
-      timeslotsContainer.appendChild(timeSlot);
-    });
-
-    medicoModal.style.display = 'block';
-  }
-
-  document.getElementById('closeMedicoModal').addEventListener('click', () => {
-    medicoModal.style.display = 'none';
-  });
-
-  window.addEventListener('click', (event) => {
-    if (event.target === medicoModal) {
-      medicoModal.style.display = 'none';
-    }
-  });
-
-  document.querySelectorAll('.open-medico-modal').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const medico = btn.getAttribute('data-medico');
-      if (!selectedDate) {
-        alert('Selecione uma data no calendário antes de escolher o médico.');
-        return;
-      }
-      showHorariosModal(medico, selectedDate);
-    });
-  });
-
-  confirmScheduleBtn.addEventListener('click', () => {
-    if (!selectedDate || !selectedMedico || !selectedTime) {
-      alert('Selecione data, médico e horário antes de confirmar.');
-      return;
-    }
-
-    const dataAgendamento = {
-      medico: selectedMedico,
-      data: selectedDate.toISOString().split('T')[0],
-      horario: selectedTime
-    };
-
-    fetch('/agendar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dataAgendamento)
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert('Agendamento realizado com sucesso!');
-          medicoModal.style.display = 'none';
-
-          selectedDate = null;
-          selectedMedico = null;
-          selectedTime = null;
-
-          const calendarGrid = document.getElementById('calendarGrid');
-          Array.from(calendarGrid.children).forEach(div => div.classList.remove('selected'));
-        } else {
-          alert('Erro: ' + (data.message || 'Tente novamente'));
-        }
-      })
-      .catch(err => {
-        alert('Erro ao conectar com servidor.');
-        console.error(err);
-      });
-  });
-  function showStep() {
-  // Pega todos os passos e esconde todos
-  const steps = document.querySelectorAll('.step');
-  steps.forEach(step => step.classList.remove('active'));
-
-  // Mostra o passo atual
-  const currentStepElement = document.getElementById(`step${currentStep}`);
-  if (currentStepElement) {
-    currentStepElement.classList.add('active');
-  }
-
-  // Controla visibilidade dos botões voltar e próximo
-  document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'inline-block';
-  document.getElementById('nextBtn').style.display = currentStep === 3 ? 'none' : 'inline-block';
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("agendamentoModal");
-  const closeBtn = document.getElementById("closeAgendamentoModal");
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-  const submitBtn = document.getElementById("submitBtn");
-  const steps = document.querySelectorAll("#agendamentoModal .step");
-  let currentStep = 0; // índice dos steps: 0 a 3 (total 4 passos)
-
-  function showStep(index) {
-    steps.forEach((step, i) => {
-      step.style.display = i === index ? "block" : "none";
-    });
-
-    prevBtn.style.display = index === 0 ? "none" : "inline-block";
-    nextBtn.style.display = index === steps.length - 1 ? "none" : "inline-block";
-    submitBtn.style.display = index === steps.length - 1 ? "inline-block" : "none";
-
-    // Aqui você pode atualizar o título ou resumo se quiser
-  }
-
-  prevBtn.addEventListener("click", () => {
-    if (currentStep > 0) {
-      currentStep--;
-      showStep(currentStep);
-    }
-  });
-
-  nextBtn.addEventListener("click", () => {
-    // Opcional: validar campos antes de avançar
-    // Exemplo: checar se campo obrigatório está preenchido
-
-    // Para exemplo simples, apenas avança
-    if (currentStep < steps.length - 1) {
-      currentStep++;
-      showStep(currentStep);
-    }
-  });
-
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  // Função para abrir modal (chame quando clicar na data)
-  window.openAgendamentoModal = function() {
-    modal.style.display = "block";
-    currentStep = 0;
-    showStep(currentStep);
-  };
-
-  // Fecha o modal clicando fora da área dele
-  window.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  };
-
-  // Inicializa invisível
-  modal.style.display = "none";
-
-   //Exemplo para testar:
-   openAgendamentoModal();
-});
-</script>
-s</body>
+        window.horariosFuncionamentoGlobal = {{ horario_funcionamento | tojson | safe }};
+        window.agendamentosUsuarioLogadoGlobal = {{ agendamentos_usuario_logado_json | tojson | safe }};
+
+        console.log("HTML script: Horários de funcionamento carregados:", window.horariosFuncionamentoGlobal);
+        console.log("HTML script: Agendamentos do usuário logado carregados:", window.agendamentosUsuarioLogadoGlobal);
+    </script>
+
+    <script src="../static/js/calendar.js?v=1" defer></script>
+</body>
 </html>

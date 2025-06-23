@@ -7,6 +7,34 @@
 body {
     font-family: 'Open Sans', sans-serif;
 }
+
+#alertaSessaoExpirada {
+    background-color: #ffeeba; 
+    color: #b3742c; 
+    padding: 15px 30px; 
+    border: 1px solid #ffeeba; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    position: fixed; 
+    top: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 10000; 
+    width: fit-content; 
+    max-width: 90%; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    animation: 0.5s ease-in-out forwards; 
+}
+
+
+@keyframes fadeAviso {
+    from { opacity: 0; transform: translateY(-30px) translateX(-50%); } 
+    to { opacity: 1; transform: translateY(0) translateX(-50%); }
+}
+
+
 .container {
     display: flex;
     justify-content: center;
@@ -567,4 +595,28 @@ img#w3-image-preview {
 .w3-modal h2 {
     color: #2c7edb;
     margin-bottom: 10px;
+}
+
+/*erros*/
+.error-message-server {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+
+.error-message-server.error-login {
+    font-weight: bold;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 8px;
+    display: block;
+    height: auto;
+    padding: 0;
 }
