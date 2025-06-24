@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Exames</title>
-  <link rel="stylesheet" href="../static/css/exames.css">
+  <link rel="stylesheet" href="../static/css/doutores.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="../static/script.js?v=1" defer></script>
 </head>
@@ -13,7 +13,11 @@
 <header>
   <nav class="navigation">
     <div style="display: flex; flex-direction: row; align-items: center;">
-      <form action="/home" method="get" id="voltarForm">
+      {% if request.session.get("papel") == 3 %}
+        <form action="/home" method="get" id="voltarForm">
+      {% else %}
+        <form action="/homeMedico" method="get" id="voltarForm">
+      {% endif %}
         <span onclick="document.getElementById('voltarForm').submit();"  style="cursor: pointer; font-size: 3rem; color: white; padding-right: 20px;">‹</span>
       </form>
       <h1>Hospital Santa Luzia - Exames</h1>
@@ -126,12 +130,7 @@
 </header>
 
 <section class="search-filter">
-  <input type="text" id="searchInput" placeholder="Pesquisar exame..." />
-
-  
-  {% if request.session.get("papel") == 2 %}
-    <a id="openModalAddExame" class="btn">Adicionar exame</a>
-  {% endif %}
+  <input type="text" id="searchInput" placeholder="Pesquisar médico..." />
 
   {% set errorStatus = request.session.pop("errorStatusAddExames", None) %}
   {% set error = request.session.pop("errorAddExames", None) %}
@@ -140,102 +139,30 @@
   <p style="color: red;">{{ errorAddExames }}</p>
   {% endif %}
 
-    
-  <div id="EditExameModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" id="closeModalEditExame">&times;</span> <h2>Editar Exame</h2> <form id="editExameForm" action="/editarExame" method="post" enctype="multipart/form-data">
-            <label for="fotoInputEditExame" style="cursor: pointer;" id="imagePreviewLabelEditExame">
-                <img src="../static/img/padraoexame.png"
-                    alt="Imagem Atual"
-                    id="previewImageEditExame"
-                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
-            </label>
-            <input type="file" id="fotoInputEditExame" name="imagem" accept="image/*" style="display: block;">
 
-            <div class="input-edit">
-                <div class="form-row">
-                    <input type="text" id="editExameName" name="nome" placeholder="Nome">
-                </div>
-
-                <div class="form-row">
-                    <input type="text" id="editExameDescricao" name="descricao" placeholder="Descrição">
-                </div>
-
-                <input type="hidden" id="editExameId" name="ID_exame"> </div>
-
-            <div class="form-actions">
-                <button type="submit" class="submit-btn">Salvar Alterações</button>
-            </div>
-        </form>
-
-    </div>
-  </div>
-
-
-  <div id="AddExameModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" id="closeModalAddExame">&times;</span>
-        <h2>Adicionar Exames</h2>
-
-        <form id="exameForm" action="/addExame" method="post" enctype="multipart/form-data">
-            <label for="fotoInputAddExame" style="cursor: pointer; display: none;" id="imagePreviewLabelAddExame"> <img src=""
-                    alt="Imagem Atual"
-                    id="previewImageAddExame" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
-            </label>
-            <input type="file" id="fotoInputAddExame" name="imagem" accept="image/*" style="display: block;"> <div class="input-edit">
-                <div class="form-row">
-                    <input type="text" id="nameExame" name="nome" placeholder="Nome"> </div>
-
-                <div class="form-row">
-                    <input type="text" id="descricaoExame" name="descricao" placeholder="Descrição"> </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit"  class="submit-btn">Adicionar</button>
-            </div>
-        </form>
-
-    </div>
-  </div>
 </section>
 
 
 <section class="cards-container" id="cardsContainer">
-  {% for ex in exames %}
+  {% if doutores|length > 0 %}
+    {% for doc in doutores %}
+    <div class="card" data-title='{{doc.Nome}}' data-category='{{doc.Categoria}}'>
 
-    {% if ex.Imagem is not none %}
-    <img class="w3-circle w3-margin-top"
-    src="data:image/png;base64,{{ ex.Imagem }}" alt="Foto" width="50">
-    {% else %}
-    <img class="w3-circle w3-margin-top"
-    src="../static/img/padraoexame.png" alt="Sem foto" width="50">
-    {% endif %}
-
-    <div class="card-content">
-      <h2>{{ ex.Nome }}</h2>
-      <div class="buttons">
-        {% if request.session.get("papel") == 3 %}
-          <form class="agendamentos" action="/agendamentos" method="get">
-            <button>Agendar Exame</button>
-          </form>
-        {% else %}
-          <button class="btn-edit-exame"
-                  data-id="{{ ex.ID_exame }}"
-                  data-nome="{{ ex.Nome }}"
-                  data-descricao="{{ ex.Descricao }}"
-                  data-imagem-base64="{% if ex.Imagem is not none %}{{ ex.Imagem }}{% endif %}">
-              Editar Exame
-          </button>
-        {% endif %}
-
-        <form class="agendamentos" action="/excluirExame" method="post">
-          <button>Excluir Exame</button>
-          <input style="display: none;" type="text" name="excluirID" value="{{ex.ID_exame}}">
-        </form>
+      {% if doc.Imagem is not none %}
+      <img class="w3-circle w3-margin-top"
+      src="data:image/png;base64,{{ doc.Imagem }}" alt="Foto" width="50">
+      {% endif %}
+      
+      <div class="card-content">
+        <h2>{{ doc.Nome }} {{ doc.Sobrenome }}</h2>
+        <p>{{ doc.Email }}</p>
+        <p>{{ doc.Telefone }}</p>
       </div>
     </div>
-  </div>
-  {% endfor %}
+    {% endfor %}
+  {% else %}
+    <p>Não existem doutores</p>
+  {% endif %}
 </section>
 
 
@@ -259,6 +186,8 @@
   searchInput.addEventListener('input', filterCards);
 
   // --- Funções para os Modais ---
+  
+
 
   // Modal "Editar Informações"
   document.getElementById("openModal").addEventListener("click", function(event) {
@@ -268,45 +197,14 @@
   document.getElementById("closeModal").addEventListener("click", function() {
     document.getElementById("editModal").style.display = "none";
   });
-  // Event listener para o input de arquivo do modal de EDIÇÃO (ID: fotoInputEdit)
+
   document.getElementById("fotoInputEdit").addEventListener("change", function(event) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      document.getElementById("previewImageEdit").src = e.target.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById("previewImageEdit").src = e.target.result;
+  };
+  reader.readAsDataURL(event.target.files[0]);
   });
-
-  // Modal "Adicionar Exames" (Ajustado)
-  document.getElementById("openModalAddExame").addEventListener("click", function() {
-    document.getElementById("AddExameModal").style.display = "block";
-  });
-  document.getElementById("closeModalAddExame").addEventListener("click", function() {
-    document.getElementById("AddExameModal").style.display = "none";
-    // Opcional: limpar a pré-visualização e esconder a label ao fechar o modal
-    document.getElementById("previewImageAddExame").src = "";
-    document.getElementById("imagePreviewLabelAddExame").style.display = "none";
-  });
-
-  // Novo event listener para o input de arquivo do modal "Adicionar Exames"
-  document.getElementById('fotoInputAddExame').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const previewImage = document.getElementById('previewImageAddExame');
-    const imagePreviewLabel = document.getElementById('imagePreviewLabelAddExame');
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        previewImage.src = e.target.result;
-        imagePreviewLabel.style.display = 'block'; // Mostra a label quando uma imagem é selecionada
-      };
-      reader.readAsDataURL(file);
-    } else {
-      imagePreviewLabel.style.display = 'none'; // Esconde a label se nenhum arquivo for selecionado
-      previewImage.src = ''; // Limpa a pré-visualização
-    }
-  });
-
 
   // Modal "Excluir Conta"
   document.getElementById("opendeleteModal").addEventListener("click", function(event) {
@@ -326,171 +224,6 @@
     document.getElementById("logoutModal").style.display = "none";
   });
 
-  // Fechar modais ao clicar fora (geral para todos os modais)
-  window.addEventListener("click", function(event) {
-    if (event.target.classList.contains('modal')) {
-      event.target.style.display = "none";
-      // Opcional: Limpar pré-visualização do AddExameModal se ele for fechado clicando fora
-      if (event.target.id === "AddExameModal") {
-        document.getElementById("previewImageAddExame").src = "";
-        document.getElementById("imagePreviewLabelAddExame").style.display = "none";
-      }
-    }
-  });
-
-
-  document.addEventListener('DOMContentLoaded', function() {
-    // ... (Seu código JavaScript existente para outros modais e funcionalidades) ...
-
-    // --- Lógica para o Modal "Adicionar Exames" (certifique-se de que este está correto com os IDs ajustados) ---
-    const openModalAddExameBtn = document.getElementById('openModalAddExame');
-    const AddExameModal = document.getElementById('AddExameModal'); // O modal de adicionar
-    const closeModalAddExameBtn = document.getElementById('closeModalAddExame'); // O botão de fechar do modal de adicionar
-
-    if (openModalAddExameBtn) {
-        openModalAddExameBtn.addEventListener('click', function() {
-            AddExameModal.style.display = 'block';
-            // Opcional: Limpar campos do modal de adição ao abrir
-            document.getElementById('exameForm').reset();
-            document.getElementById('previewImageAddExame').src = '';
-            document.getElementById('imagePreviewLabelAddExame').style.display = 'none';
-        });
-    }
-
-    if (closeModalAddExameBtn) {
-        closeModalAddExameBtn.addEventListener('click', function() {
-            AddExameModal.style.display = 'none';
-        });
-    }
-
-    // Listener para pré-visualização da imagem no modal de ADICIONAR
-    const fotoInputAddExame = document.getElementById('fotoInputAddExame');
-    const previewImageAddExame = document.getElementById('previewImageAddExame');
-    const imagePreviewLabelAddExame = document.getElementById('imagePreviewLabelAddExame');
-
-    if (fotoInputAddExame) {
-        fotoInputAddExame.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImageAddExame.src = e.target.result;
-                    imagePreviewLabelAddExame.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                imagePreviewLabelAddExame.style.display = 'none';
-                previewImageAddExame.src = '';
-            }
-        });
-    }
-
-
-   const editExameButtons = document.querySelectorAll('.btn-edit-exame');
-    const editExameModal = document.getElementById('EditExameModal');
-    const closeModalEditExameBtn = document.getElementById('closeModalEditExame');
-
-    const editExameIdInput = document.getElementById('editExameId');
-    const editExameNameInput = document.getElementById('editExameName');
-    const editExameDescricaoInput = document.getElementById('editExameDescricao');
-    const fotoInputEditExame = document.getElementById('fotoInputEditExame');
-    const previewImageEditExame = document.getElementById('previewImageEditExame');
-    const imagePreviewLabelEditExame = document.getElementById('imagePreviewLabelEditExame');
-
-    // Event listener para cada botão "Editar Exame"
-    editExameButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const nome = this.dataset.nome;
-            const descricao = this.dataset.descricao;
-            const imagemBase64 = this.dataset.imagemBase64;
-
-            // Preenche os campos do modal
-            editExameIdInput.value = id;
-            editExameNameInput.value = nome;
-            editExameDescricaoInput.value = descricao;
-
-            // Exibe o modal de edição
-            editExameModal.style.display = 'block';
-        });
-    });
-    // Fechar o modal de edição
-    if (closeModalEditExameBtn) {
-        closeModalEditExameBtn.addEventListener('click', function() {
-            editExameModal.style.display = 'none';
-        });
-    }
-
-    // Listener para pré-visualização da imagem no modal de EDIÇÃO
-    if (fotoInputEditExame) {
-        fotoInputEditExame.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImageEditExame.src = e.target.result;
-                    imagePreviewLabelEditExame.style.display = 'block'; // Mostra a label
-                };
-                reader.readAsDataURL(file);
-            } else {
-                // Se o usuário limpar o input de arquivo, volte para a imagem atual (se houver) ou padrão
-                const imagemBase64Atual = editExameButtons[0].dataset.imagemBase64; // Isso é um hack, melhor pegar o dado inicial do exame
-                if (imagemBase64Atual) {
-                     previewImageEditExame.src = `data:image/png;base64,${imagemBase64Atual}`;
-                } else {
-                     previewImageEditExame.src = '../static/img/padraoexame.png';
-                }
-                imagePreviewLabelEditExame.style.display = 'block'; // Mantém a label visível
-            }
-        });
-    }
-
-    // Fechar modais ao clicar fora (geral para todos os modais)
-    window.addEventListener("click", function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
-            // Lógica para limpar e esconder elementos se o modal de adição for fechado
-            if (event.target.id === "AddExameModal") {
-                document.getElementById('exameForm').reset();
-                document.getElementById("previewImageAddExame").src = "";
-                document.getElementById("imagePreviewLabelAddExame").style.display = "none";
-            }
-            // Não limpe o modal de edição automaticamente ao fechar fora, pois ele guarda os dados
-        }
-    });
-
-    // ... (Seu código Swiper e outros listeners de modais como logout, delete user) ...
-});
-
-</script>
-
-</body>
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        // Swiper (mantido, pois não interfere na lógica principal)
-        var swiper = new Swiper(".mySwiperservicos", {
-          slidesPerView: 1,
-          spaceBetween: 10,
-          pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-          breakpoints: {
-            700: {
-              slidesPerView: 2,
-              spaceBetween: 40,
-            },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 20,
-            },
-        },
-        });
 </script>
 
 </html>

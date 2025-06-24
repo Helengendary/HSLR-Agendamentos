@@ -9,7 +9,11 @@
 <header>
     <nav class="navigation">
         <div style="display: flex; flex-direction: row; align-items: center;">
-            <form action="/home" method="get" id="voltarForm">
+            {% if request.session.get("papel") == 3 %}
+                <form action="/home" method="get" id="voltarForm">
+            {% else %}
+                <form action="/homeMedico" method="get" id="voltarForm">
+            {% endif %}
                 <span onclick="document.getElementById('voltarForm').submit();" style="cursor: pointer; font-size: 3rem; color: white; padding-right: 20px;">‹</span>
             </form>
             <h1 style="color: rgb(202, 138, 86);">Hospital Santa Luzia - Agenda</h1>

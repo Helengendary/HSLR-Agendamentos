@@ -7,8 +7,6 @@
 # Rodar o backend:
 # python -m uvicorn app:app --app-dir ./src
 
-
-import json
 from tempfile import template
 import pymysql
 import base64
@@ -63,8 +61,9 @@ def index(req: Request, db=Depends(get_db)):
     if not req.session.get("nome_usuario"):
         req.session["expirado"] = True  # Marcar que expirou
         return RedirectResponse(url="/login", status_code=303)
+    if req.session.get("papel") != 3:
+        return RedirectResponse(url="/homeMedico", status_code=303)
 
-    dicionario_horarios = {}
     agendamentos_json_para_frontend = []
     horarios = ["09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "11:30:00", "13:00:00", "13:30:00", "14:00:00", "14:30:00", "15:00:00", "15:30:00", "16:00:00", "16:30:00", "17:00:00", "17:30:00"]
 
@@ -182,6 +181,115 @@ def index(req: Request, db=Depends(get_db)):
             'medicos': medicos,
             'horario_funcionamento': horarios,
             'agendamentos_usuario_logado_json': agendamentos_json_para_frontend
+        }
+    )
+
+@app.get('/agenda')
+def index(req: Request, db=Depends(get_db)):
+    if not req.session.get("nome_usuario"):
+        req.session["expirado"] = True  # Marcar que expirou
+        return RedirectResponse(url="/login", status_code=303)
+    if req.session.get("papel") != 2:
+        return RedirectResponse(url="/home", status_code=303)
+
+    agendamentos_para_frontend = {}
+
+    try:
+        with db.cursor(pymysql.cursors.DictCursor) as cursor:
+            cursor.execute("""
+                SELECT DISTINCT C.DataConsulta 
+                FROM Consulta C 
+                WHERE ID_medico = %s
+                ORDER BY C.DataConsulta;
+            """, (req.session.get("ID_usuario"),))
+            agendamentos_usuario_logado = cursor.fetchall()
+
+            cursor.execute("""
+                SELECT C.Hora AS Hora ,
+                C.ID_consulta AS ID_consulta,
+                C.DataConsulta AS DataConsulta,
+                U.Nome AS NomePaciente,
+                U.Sobrenome AS SobrenomePaciente,
+                E.Nome AS NomeExame
+                FROM Consulta C 
+                INNER JOIN Usuario U ON U.ID_usuario = C.ID_paciente
+                INNER JOIN Exame E ON E.ID_exame = C.ID_exame
+                WHERE ID_medico = %s;
+            """, (req.session.get("ID_usuario"),))
+            consultas = cursor.fetchall()
+
+            for ag in agendamentos_usuario_logado:
+                consultas_current = []
+                for conCurrent in consultas:
+                    if ag['DataConsulta'] == conCurrent['DataConsulta']:
+
+                        hora_formatada = None
+                        hora_obj = conCurrent['Hora']
+                        if isinstance(hora_obj, time):
+                            hora_formatada = hora_obj.strftime('%H:%M')
+                        elif isinstance(hora_obj, timedelta):
+                            total_seconds = int(hora_obj.total_seconds())
+                            hours = total_seconds // 3600
+                            minutes = (total_seconds % 3600) // 60
+                            hora_formatada = f"{hours:02}:{minutes:02}" 
+                        elif isinstance(hora_obj, datetime):
+                            hora_formatada = hora_obj.strftime('%H:%M')
+                        elif isinstance(hora_obj, str):
+                            try:
+                                hora_formatada = datetime.strptime(hora_obj, '%H:%M:%S').strftime('%H:%M')
+                            except ValueError:
+                                try:
+                                    hora_formatada = datetime.strptime(hora_obj, '%H:%M').strftime('%H:%M')
+                                except ValueError:
+                                    print(f"DEBUG HORA: Formato de hora em string inesperado: {hora_obj}")
+                                    hora_formatada = None 
+
+
+                        consultas_current.append({'Hora': hora_formatada, 'NomePaciente': f'{conCurrent['NomePaciente']} {conCurrent['SobrenomePaciente']}', 'NomeExame': conCurrent['NomeExame'], 'ID_consulta': conCurrent['ID_consulta']})
+
+                data_formatada = None
+                if ag['DataConsulta']:
+                    if isinstance(ag['DataConsulta'], date):
+                        data_formatada = ag['DataConsulta'].strftime('%d-%m-%Y')
+                    else: 
+                        try:
+                            data_formatada = date.fromisoformat(str(ag['DataConsulta'])).strftime('%d-%m-%Y')
+                        except ValueError:
+                            print(f"DEBUG: Data inválida para formatação: {ag['DataConsulta']}")
+                
+                agendamentos_para_frontend.update({data_formatada:consultas_current})
+
+
+    except pymysql.MySQLError as e:
+        print(f"ERRO MySQL na rota /agendamentos: {e}")
+        req.session["mensagem_header"] = "Erro no Banco de Dados"
+        req.session["mensagem"] = "Não foi possível carregar agendamentos. Tente novamente."
+        return pages.TemplateResponse(
+            'agendamento.html',
+            {
+                'request': req,
+                'agendamentos_usuario_logado_json': {}
+            }
+        )
+    except Exception as e:
+        print(f"ERRO INESPERADO na rota /agendamentos: {e}")
+        req.session["mensagem_header"] = "Erro Inesperado"
+        req.session["mensagem"] = "Ocorreu um erro ao carregar a página de agendamentos."
+        return pages.TemplateResponse(
+            'agendamento.html',
+            {
+                'request': req,
+                'agendamentos_usuario_logado_json': {}
+            }
+        )
+    finally:
+        db.close()
+
+    return pages.TemplateResponse(
+        'agendaMedico.html',
+        {
+            'request': req,
+            'exames': agendamentos_para_frontend
         }
     )
 
@@ -370,20 +478,14 @@ def login(req: Request):
     expirado = req.session.pop("expirado", False)
     return pages.TemplateResponse(name='login.html', context={"expirado": expirado, "request": req})
 
-@app.get('/calendario')
-def login(req: Request):
-    req.session.clear()
-
-    expirado = req.session.pop("expirado", False)
-    return pages.TemplateResponse(request=req, name='agendamento.html', context={"expirado": expirado})
-
 #quando a sessao expira, nome_usuario vira None, redirecionando para a pagina de login
 @app.get('/home')
 def home(req: Request, db=Depends(get_db)):
     if not req.session.get("nome_usuario"):
         req.session["expirado"] = True  # Marcar que expirou
         return RedirectResponse(url="/login", status_code=303)
-    
+    if req.session.get("papel") != 3:
+        return RedirectResponse(url="/homeMedico", status_code=303)
 
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:               
@@ -428,6 +530,25 @@ def homeMedico(req: Request, db=Depends(get_db)):
 
             foto = cursor.fetchone()
             foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
+            
+            sql = """
+                SELECT COUNT(ID_medico) AS TotalConsulta 
+                FROM Consulta C 
+                WHERE ID_medico = %s;
+            """
+            cursor.execute(sql, (req.session.get("ID_usuario")))
+            total = cursor.fetchone()
+           
+            sql = """
+              SELECT C.Hora AS Hora, U.Nome AS Nome 
+              FROM Consulta C 
+              INNER JOIN Usuario U ON U.ID_usuario = C.ID_paciente 
+              WHERE C.ID_medico = %s
+              ORDER BY C.DataConsulta, C.Hora 
+              LIMIT 1;
+            """
+            cursor.execute(sql, (req.session.get("ID_usuario")))
+            proxima = cursor.fetchone()
     finally:
         db.close()
 
@@ -435,7 +556,9 @@ def homeMedico(req: Request, db=Depends(get_db)):
         'homeMedico.html',
         {
             'request': req,
-            'foto': foto,     
+            'foto': foto,
+            'totalConsulta' : total,     
+            'proximaConsulta' : proxima,     
         }
     )
 
@@ -444,6 +567,7 @@ def exames(req: Request, cate: str = Query(default=None), db=Depends(get_db)):
     if not req.session.get("nome_usuario"):
         req.session["expirado"] = True  # Marcar que expirou
         return RedirectResponse(url="/login", status_code=303)
+    
 
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -501,13 +625,11 @@ def achar(req: Request, db=Depends(get_db)):
     if not req.session.get("nome_usuario"):
         req.session["expirado"] = True  # Marcar que expirou
         return RedirectResponse(url="/login", status_code=303)
+    if req.session.get("papel") != 3:
+        return RedirectResponse(url="/homeMedico", status_code=303)
 
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
-
-            #categorias para selecionar
-            cursor.execute("SELECT * FROM CategoriaExame")
-            categorias = cursor.fetchall()
 
             #busca img do usario
             sql = " SELECT Imagem FROM Usuario WHERE ID_usuario = %s"
@@ -516,15 +638,15 @@ def achar(req: Request, db=Depends(get_db)):
             foto['Imagem'] = base64.b64encode(foto['Imagem']).decode('utf-8')
                                     
             sql = """
-                SELECT E.ID_exame, E.Nome, E.Descricao, E.Imagem, C.Nome AS Categoria
-                FROM Exame E
-                INNER JOIN CategoriaExame C ON C.ID_categoriaExame = E.ID_categoria;
+                SELECT Nome, Sobrenome, Email, Telefone, Imagem 
+                FROM Usuario 
+                WHERE Email LIKE '%hslr.saude.br';
             """
 
             cursor.execute(sql)
 
-            exames = cursor.fetchall()
-            for ex in exames:
+            doctores = cursor.fetchall()
+            for ex in doctores:
                 if ex['Imagem']:
                     ex['Imagem'] = base64.b64encode(ex['Imagem']).decode('utf-8')
 
@@ -536,8 +658,7 @@ def achar(req: Request, db=Depends(get_db)):
         'doutores.html',
         {
             'request': req,
-            'categorias': categorias,
-            'exames': exames,
+            'doutores': doctores,
             'foto': foto       
         }
     )
@@ -726,19 +847,6 @@ async def cancel_appointment(
 
     try:
         with db.cursor(pymysql.cursors.DictCursor) as cursor:
-            cursor.execute("""
-                SELECT ID_paciente FROM Consulta
-                WHERE ID_consulta = %s;
-            """, (appointment_id,))
-            appointment_owner = cursor.fetchone()
-
-            if not appointment_owner:
-                db.rollback()
-                return JSONResponse(status_code=404, content={"success": False, "message": "Agendamento não encontrado."})
-
-            if appointment_owner['ID_paciente'] != user_id:
-                db.rollback()
-                return JSONResponse(status_code=403, content={"success": False, "message": "Você não tem permissão para cancelar este agendamento."})
 
             cursor.execute("""
                 DELETE FROM Consulta

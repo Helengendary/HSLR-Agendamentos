@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exames</title>
+  <link rel="stylesheet" href="../static/css/agenda.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="../static/script.js?v=1" defer></script>
+</head>
+
+
+<header>
+  <nav class="navigation">
+    <div style="display: flex; flex-direction: row; align-items: center;">
+      {% if request.session.get("papel") == 3 %}
+        <form action="/home" method="get" id="voltarForm">
+      {% else %}
+        <form action="/homeMedico" method="get" id="voltarForm">
+      {% endif %}
+        <span onclick="document.getElementById('voltarForm').submit();"  style="cursor: pointer; font-size: 3rem; color: white; padding-right: 20px;">‹</span>
+      </form>
+      <h1>Hospital Santa Luzia - Exames</h1>
+    </div>
+
+    <div style="display: flex;">
+      <h1>Olá, {{request.session.get("nome_usuario")}}!</h1>
+  </div>
+
+  </nav>
+</header>
+
+<body>
+  {% if exames|length > 0%}
+    {% for ex in exames %}
+    <div class="card">
+      <h1>{{ex}}</h1>
+
+      <div class="itens">
+      {% for con in exames.get(ex) %}
+        <div class="itens-content">
+
+          <p><strong>{{con['NomeExame']}}</strong> - {{con['Hora']}}</p>
+
+          <p>Paciente: <strong>{{con['NomePaciente']}}</strong></p>
+
+          <input value="{{con['ID_consulta']}}" type="hidden" id="excluirID">
+    
+          <button class="btn" onclick="cancelAppointment()">Cancelar exame</button>
+        </div>
+        
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p>Não tem exames marcados</p>
+  {% endif %}
+
+</body>
+
+<script>
+  async function cancelAppointment() {
+    try {
+      
+
+      const response = await fetch(`/api/agendamentos/${document.getElementById('excluirID').value}`, {
+          method: 'DELETE', // Usar o método HTTP DELETE
+          headers: {
+              'Content-Type': 'application/json' // Opcional, mas boa prática para DELETE
+          }
+      });
+    } catch (error) {
+        alert('Erro ao conectar com o servidor para cancelar agendamento. Verifique o console.');
+        console.error('Erro de fetch no cancelamento:', error);
+    }
+
+    location.reload()
+}
+    
+
+</script>
+
+</html>

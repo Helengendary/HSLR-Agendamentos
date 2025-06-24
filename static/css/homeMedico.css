@@ -193,6 +193,7 @@ ul{
 .appo-search-box{
     width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     background-color: #f5ebd6;
     padding: 15px;

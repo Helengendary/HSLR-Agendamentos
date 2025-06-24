@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Hospital Santa Luzia</title>
-    <link rel="stylesheet" href="/static/css/homestyle.css?v=1.0.3">
+    <link rel="stylesheet" href="/static/css/homestyle.css?v=7">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
       integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -33,37 +33,33 @@
         <div class="hero-text">
             <h1>Consultas ginecológicas com agendamento simples e rápido</h1>
             <p>Cuidando da mulher em todas as fases da vida</p>
-            <div class="hero-text-btns">
-                <button onclick="window.location.href='/login'" href="#">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Achar doutor
-                </button>
-                <button onclick="window.location.href='/login'" href="#">
-                    <i class="fa-solid fa-check"></i>
-                    Agendar consulta
-                </button>
-            </div>
         </div>
         <div class="hero-img">
             <img src="../static/img/hero-image.png" alt="">
         </div>
         </div>
-    </section> <div class="appointment-search-container">
-        <h3>Ache o melhor médico para você</h3>
-        <div class="appointment-search">
-            <div class="appo-search-box">
-                <i class="fa-solid fa-user-doctor"></i>
-                <input type="text" placeholder="Procurar médicos" id="#">
-            </div>
-            <div class="appo-search-box">
-                <i class="fa-solid fa-location-dot"></i>
-                <input type="text" placeholder="Coloque sua localização" id="#">
-            </div>
-            <button onclick="window.location.href='/login'">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+    </section> 
+
+    <!--procurar-->
+    <div class="appointment-search-container">
+        <div class="appointment-search"> 
+            <form action="/login" method="get">
+                <button class="appo-search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i> 
+                    <span>Quem são nossos médicos</span>
+                </button>
+            </form>
+
+            <form action="/login" method="get">
+                <button class="appo-search-box">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Agende sua consulta</span>
+                </button>
+            </form>
         </div>
-    </div><section class="info">
+    </div>
+
+    <section class="info">
         <div class="w-info-box w-info-box1">
             <div class="w-info-icon">
                 <i class="fa-solid fa-file-lines"></i>
@@ -91,7 +87,8 @@
                 <p>Cuidamos de você com empatia, respeito e atenção individual.</p>
             </div>
         </div>
-    </section><section id="quem-somos">
+    </section>
+    <section id="quem-somos">
         <div class="quem-somos-img">
             <img src="../static/img/quem-somos-img.png" alt="">
         </div>
@@ -110,7 +107,8 @@
             </div>
         </div>
         </div>
-    </section><section id="servicos">
+    </section>
+    <section id="servicos">
         <div class="servicos-heading">
             <div class="servicos-heading-text">
                 <strong>Serviços</strong>
