@@ -43,7 +43,7 @@ app.add_middleware(
     SessionMiddleware,
     secret_key="hslr",
     session_cookie="clinica_session",
-    max_age = 1000,  #sessao expira apos 30s
+    max_age = 10,  #sessao expira apos 30s
     same_site="lax",
     https_only=False
 )
@@ -1058,7 +1058,7 @@ async def excluir_exe(request: Request, ID_Usuario: int = Form(...), db=Depends(
 @app.post("/atualizarUser")
 async def atualizar_usuario(
     req: Request,
-    ID_Usuario: int = Form(...),
+    ID_Usuario: str = Form(...),
     name: str = Form(...),
     email: str = Form(...),
     imagem: UploadFile = File(...),
